@@ -1,5 +1,8 @@
 import fetch from '../config/fetch'
-import {getStore} from '../config/mUtils'
+import { getStore } from '../config/mUtils'
+import { baseUrl } from '../config/env'
+import axios from 'axios'
+axios.defaults.baseURL = baseUrl;
 
 /**
  * 获取新闻列表
@@ -7,11 +10,18 @@ import {getStore} from '../config/mUtils'
 
 export const newList = () => fetch('/api/news', {}, 'GET');
 
-export const searchTopic = () => fetch('/topic/seachTopic', {
+/*export const searchTopic = () => fetch('/topic/seachTopic', {
 	'currentPage': '1',
 	'pageSize': '6',
-},'get');
-
+}, 'get');
+*/
+export const searchTopic = () => axios.get('/topic/seachTopic', {
+	params: {
+		currentPage: '1',
+		pageSize: '6',
+	}
+})
+ 
 export const queryArticle = (topicId) => fetch('/topic/quaryArticle', {
 	'currentPage': '1',
 	'pageSize': '6',

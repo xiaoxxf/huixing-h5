@@ -97,16 +97,15 @@ export default {
     mounted(){
 		//查找热门
 		searchTopic().then(res => {
-			this.searchTopic = res.datas;
-			if(res.datas.length>0){
-				this.topicActive = res.datas[0].id;
+			this.searchTopic = res.data.datas;
+			if(this.searchTopic.length>0){
+				this.topicActive = this.searchTopic[0].id;
 			}
 			
         }).then(() => {
 			//初始化better-scroll
 				const remWidth = window.screen.width/375*24;
 				let wrapperW = this.searchTopic.length*remWidth*3.6
-				console.log("this.topicActive",this.topicActive)
                 this.$refs.warpperMune.style.width=wrapperW+'px';
                 this.$nextTick(()=>{
                     if (!this.scroll) {
