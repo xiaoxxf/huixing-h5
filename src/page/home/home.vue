@@ -1,15 +1,19 @@
 <template>
     <div>
     	<head-top signin-up='msite'>
-    		<router-link :to="'/search/geohash'" class="link_search" slot="search">
-	    		<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
-	    			<circle cx="8" cy="8" r="7" stroke="rgb(170,170,170)" stroke-width="1" fill="none"/>
-	    			<line x1="14" y1="14" x2="20" y2="20" style="stroke:rgb(170,170,170);stroke-width:2"/>
-	    		</svg>
-    		</router-link>
-			<router-link to="/home" slot="msite-title" class="msite_title">
-				<span class="title_text ellipsis">{{msiteTitle}}</span>
+			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
+					<span class="title_text ellipsis">
+						<svg class="head_search_icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+						</svg>
+						{{msiteTitle}}
+				</span>
 			</router-link>
+			<router-link :to="'/search/geohash'" class="link_search" slot="search">
+	    		<svg class="head_search_icon">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+				</svg>
+    		</router-link>
     	</head-top>
     	<nav class="msite_nav">
     		<div class="swiper-container" v-if="fakeBanner.length">
@@ -29,10 +33,20 @@
     	</nav>
 		<section class="change_link_nav">
 				<div class="sort_type_wrap">
-					<span class="sort_type">分类</span>
+					<span class="sort_type">
+						<svg class="sort_type_icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
+						</svg>
+						分类
+					</span>
 				</div>
 				<div>
-					<span class="code_rank">排行</span>
+					<span class="code_rank">
+						<svg class="sort_type_icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
+						</svg>
+						排行
+					</span>
 				</div>
 		</section>
 		<nav class="search_nav_wrapper">
@@ -81,7 +95,7 @@ export default {
 	data(){
         return {
         	geohash: '', // city页面传递过来的地址geohash
-            msiteTitle: '请选择地址...', // msite页面头部标题
+            msiteTitle: '搜索彗星内容', // msite页面头部标题
 			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
 			fakeBanner:[], //首页banner图
 			searchTopic:[],
@@ -177,20 +191,30 @@ export default {
 <style lang="scss" scoped>
     @import 'src/style/mixin';
 	.link_search{
-		left: .8rem;
-		@include wh(.9rem, .9rem);
+		right: .8rem;
+		@include wh(.8rem, .8rem);
 		@include ct;
+		.head_search_icon{
+			@include wh(.8rem, .8rem);
+			vertical-align: top;
+		}
 	}
 	.msite_title{
 		@include center;
-        width: 50%;
-        color: #fff;
+        width: 60%;
+        color: #999;
         text-align: center;
-        margin-left: -0.5rem;
         .title_text{
-            @include sc(0.8rem, #fff);
+            @include sc(0.55rem, #999);
             text-align: center;
             display: block;
+			padding:.1rem 0;
+			border: 1px solid #ddd;
+			@include borderRadius(1rem);
+			.head_search_icon{
+				@include wh(.7rem, .7rem);
+				vertical-align: bottom;
+			}
         }
 	}
 	.msite_nav{
@@ -250,6 +274,12 @@ export default {
                 color: #3190e8;
                 border-color: #3190e8;
             }
+			.sort_type_icon{
+				width: 0.8rem;
+				height: 0.8rem;
+				vertical-align: top;
+				margin-right: 0.2rem;
+			}
         }
 	}
 	.search_nav_wrapper{
