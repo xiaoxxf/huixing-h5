@@ -123,9 +123,10 @@ export default {
 	},
 	// 记录用户信息
 	[RECORD_USERINFO](state, info) {
+		console.log("info===?",info)
 		state.userInfo = info;
 		state.login = true;
-		setStore('user_id', info.user_id);
+		setStore('user_id', info.id);
 	},
 	//获取用户信息存入vuex
 	[GET_USERINFO](state, info) {
