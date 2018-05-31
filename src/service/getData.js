@@ -15,18 +15,38 @@ export const newList = () => fetch('/api/news', {}, 'GET');
 	'pageSize': '6',
 }, 'get');
 */
+// 获取专题列表
 export const searchTopic = () => axios.get('/topic/seachTopic', {
 	params: {
 		currentPage: '1',
 		pageSize: '6',
 	}
 })
- 
+
+ // 获取专题下的文章
 export const queryArticle = (topicId) => fetch('/topic/quaryArticle', {
 	'currentPage': '1',
 	'pageSize': '6',
 	'topicId':topicId
 });
+
+
+// 获取项目的分类列表
+export const getProjectCategory = () => axios.get('blockchain/quary', {
+	params: {
+		parentId: 1
+	}
+})
+
+// 获取项目信息（列表）
+export const queryProjectByType = (projectType) => axios.get('blockchain/quaryProjetList', {
+	params: {
+		'currentPage': '1',
+		'pageSize': '12',
+		'projectType': projectType,
+		// 'order': 3 //排序 不传->评论数  2->评分（评价） 3->时间
+	}
+})
 
 /**
  * 获取首页默认地址

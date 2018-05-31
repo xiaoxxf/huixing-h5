@@ -1,6 +1,9 @@
 import App from '../App'
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+const chain_index = r => require.ensure([], () => r(require('../page/chain/chain_index')), 'chain_index')
+
+// 原项目
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 const news = r => require.ensure([], () => r(require('../page/news/news')), 'news')
 const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
@@ -66,6 +69,13 @@ export default [{
             path: '/home',
             component: home
         },
+
+        // 链库首页
+        {
+            path: '/chain/chain_index',
+            component: chain_index
+        },
+
         //当前选择城市页
         {
             path: '/city/:cityid',

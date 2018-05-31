@@ -12,8 +12,8 @@
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-				</svg>
-    		</router-link>
+				  </svg>
+    	</router-link>
     	</head-top>
     	<nav class="msite_nav">
     		<div class="swiper-container" v-if="fakeBanner.length">
@@ -28,18 +28,20 @@
 		        </div>
 		        <div class="swiper-pagination"></div>
 		    </div>
-			
+
 		    <img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
     	</nav>
 		<section class="change_link_nav">
-				<div class="sort_type_wrap">
-					<span class="sort_type">
-						<svg class="sort_type_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
-						</svg>
-						分类
-					</span>
-				</div>
+  				<div class="sort_type_wrap">
+            <router-link :to="'/chain/chain_index'">
+    					<span class="sort_type">
+    						<svg class="sort_type_icon">
+    							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
+    						</svg>
+    						分类
+    					</span>
+            </router-link>
+  				</div>
 				<div>
 					<span class="code_rank">
 						<svg class="sort_type_icon">
@@ -76,8 +78,8 @@
 			</a>
 		</section>
 		<span class="fake_container"></span>
-    	<foot-guide></foot-guide>
-    </div>    
+    <foot-guide></foot-guide>
+  </div>
 </template>
 
 <script>
@@ -93,18 +95,18 @@ import BScroll from 'better-scroll'
 
 export default {
 	data(){
-        return {
-        	geohash: '', // city页面传递过来的地址geohash
-            msiteTitle: '搜索彗星内容', // msite页面头部标题
-			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
-			fakeBanner:[], //首页banner图
-			searchTopic:[],
-			topicActive:'',//热门选择栏目
-			topicActiveData:[],//选择栏目数据
-        }
+      return {
+        geohash: '', // city页面传递过来的地址geohash
+        msiteTitle: '搜索彗星内容', // msite页面头部标题
+  			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+  			fakeBanner:[], //首页banner图
+  			searchTopic:[],
+  			topicActive:'',//热门选择栏目
+  			topicActiveData:[],//选择栏目数据
+      }
     },
     async beforeMount(){
-		
+
 	},
 	created(){
 	},
@@ -115,7 +117,7 @@ export default {
 			if(this.searchTopic.length>0){
 				this.topicActive = this.searchTopic[0].id;
 			}
-			
+
         }).then(() => {
 			//初始化better-scroll
 				const remWidth = window.screen.width/375*24;
@@ -136,7 +138,7 @@ export default {
                 });
 		})
 		//模拟请求延时
-	
+
         //获取导航食品类型列表
        	msiteFoodTypes().then(res => {
        		this.fakeBanner = [
@@ -147,7 +149,7 @@ export default {
 				new Swiper('.swiper-container', {
 					pagination: '.swiper-pagination',
 					loop: true,
-					autoplay: 2000, 
+					autoplay: 2000,
 				});
 		})
 
@@ -182,7 +184,7 @@ export default {
 			if(value != ''){
 				this.getArticleByType();
 			}
-		}	
+		}
     }
 }
 
@@ -232,7 +234,7 @@ export default {
 			@include wh(100%, 100%);
 		}
 	}
-	
+
 	.food_types_container{
 		display:flex;
 		flex-wrap: wrap;
@@ -252,7 +254,7 @@ export default {
 			}
 		}
 	}
-	
+
 	.change_link_nav{
 		display: flex;
         background-color: #fff;
@@ -307,7 +309,7 @@ export default {
 				}
 			}
 		}
-	
+
 	}
 	.hot_review_region{
 		padding: 0.2rem 0.4rem;
@@ -361,13 +363,13 @@ export default {
 		.hot_review_item:last-child{
 			border-bottom: none;
 		}
-		
+
 	}
 	.fake_container{
 		display: block;
 		width: 100%;
 		height: 2rem;
 	}
-	
+
 
 </style>
