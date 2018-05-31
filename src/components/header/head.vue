@@ -95,7 +95,7 @@
         color: #aaaaaa;
         text-align: center;
         .title_text{
-            @include sc(0.8rem, black);
+            @include sc(0.8rem, #383737);
             text-align: center;
             font-weight: bold;
         }

@@ -39,10 +39,10 @@ export const getProjectCategory = () => axios.get('blockchain/quary', {
 })
 
 // 获取项目信息（列表）
-export const queryProjectByType = (projectType) => axios.get('blockchain/quaryProjetList', {
+export const queryProjectByType = (projectType,currentPage = 1,pageSize = 24) => axios.get('blockchain/quaryProjetList', {
 	params: {
-		'currentPage': '1',
-		'pageSize': '12',
+		'currentPage': currentPage,
+		'pageSize': pageSize,
 		'projectType': projectType,
 		// 'order': 3 //排序 不传->评论数  2->评分（评价） 3->时间
 	}

@@ -22,12 +22,14 @@
       </nav>
     </head-top>
 
-
     <section class="project_list">
-      <div class="" v-for="(item, index) in projectList" :key="index" class="project_item">
-        <img :src="item.projectLogo" alt="">
-        <p>{{item.projectBigName}}</p>
-      </div>
+      <router-link :to="{ name: '', params: {} }"  v-for="(item, index) in projectList" :key="index"
+          :class="{'project_item': true, 'border': (index+1)%3 != 0, }">
+        <div>
+          <img :src="item.projectLogo" alt="">
+          <p class="project_big_name">{{item.projectBigName}}</p>
+        </div>
+      </router-link>
     </section>
 
 
@@ -41,6 +43,8 @@ import {mapMutations} from 'vuex'
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
+// import loadMore from 'src/config/mUtils.js'
+import {loadMore} from 'src/components/common/mixin'
 import {getProjectCategory, queryProjectByType} from 'src/service/getData'
 import 'src/plugins/swiper.min.js'
 import 'src/style/swiper.min.css'
@@ -52,7 +56,12 @@ export default {
       headTitle: '链库',
       chainType: [],
       typeActive: '', //选中的项目类型
-      projectList: []
+      projectList: [],
+      preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
+			touchend: false, //没有更多数据
+      showLoading: true, //显示加载动画
+      currentPage: 1,
+      pageSize: 6
     }
   },
 
@@ -60,6 +69,7 @@ export default {
     footGuide,
     headTop
   },
+  mixins: [loadMore],
 
   mounted(){
     // 项目类型
@@ -87,34 +97,71 @@ export default {
       });
     })
 
+    // 渲染所有项目数据
     queryProjectByType().then(res => {
       this.projectList = res.data.datas
+    }).catch(err => {
+      console.log(err)
     })
 
-    // 项目数据
 
   },
 
   methods: {
+
+    // 改变选中的项目类型
     changeActive(e){
       this.typeActive = e
     },
 
+    // 根据项目类型项目列表
     async getProjectByType(){
-      var projectType = this.typeActive
-      queryProjectByType(projectType).then(res => {
-        this.projectList = res.data.datas
-      });
+      // 重置
+      this.currentPage = 1;
+      this.touchend = false;
+      // this.preventRepeatReuqest = false;
 
-    }
+      var projectType = this.typeActive;
+      var currentPage = this.currentPage;
+      var pageSize = this.pageSize;
+      queryProjectByType(projectType,currentPage,pageSize).then(res => {
+        this.projectList = res.data.datas
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    //到达底部加载更多数据
+		async loaderMore(){
+			if (this.touchend) {
+				return
+			}
+			//防止重复请求
+			if (this.preventRepeatReuqest) {
+				return
+			}
+			this.preventRepeatReuqest = true;
+
+      this.currentPage ++;
+      queryProjectByType(this.typeActive,this.currentPage,this.pageSize).then(res => {
+        this.projectList = [...this.projectList, ...res.data.datas];
+        //当获取数据小于20，说明没有更多数据，不需要再次请求数据
+        if (res.data.datas.length < this.pageSize) {
+          this.touchend = true;
+        }
+      })
+			// this.hideLoading();
+
+			this.preventRepeatReuqest = false;
+		}
+
   },
 
   watch: {
     //typeActive 改变时渲染不同类型的项目
     typeActive:function(value){
-      // if(value != ''){
-        this.getProjectByType();
-      }
+      this.getProjectByType();
+    }
   }
 
 }
@@ -137,7 +184,7 @@ export default {
   // 分类
   .project_type_nav_wrapper{
     // position: fixed;
-    padding: 0.8rem 0.4rem 0 0.4rem;
+    padding: 1.5rem 0.4rem 0 0.4rem;
     background-color: #fff;
     border-bottom:0.025rem solid $bc;
 
@@ -166,12 +213,33 @@ export default {
 
   // 项目列表
   .project_list{
-    // @include fj($type: column);
-    padding-top: 4.4rem;
+    @include fj($type: column);
+    padding: 4.0rem 0 2.0rem 0;
+    // width:100%;
+    // overflow: hidden;
+    flex-wrap: wrap;
+    .border{
+      border-right:  0.01rem solid #E2E1E1;
+    }
+    .div_bottom{
+      margin-bottom: 30px;
+    }
     .project_item{
+      // border: 0.01rem solid grey;
+      border-bottom:  0.01rem solid #E2E1E1;
+
+      background-color: white;
+      width: 33.33%;
+      padding: 0.4rem 1.3rem;
       img{
-        width: 2.4rem;
-        height: 2.4rem;
+        @include wh(2.4rem,2.4rem);
+        text-align: center;
+      }
+
+      .project_big_name{
+        color: #383737;
+        // padding-left: 0.3rem;
+        text-align: center;
       }
     }
   }
