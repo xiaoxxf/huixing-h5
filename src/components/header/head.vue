@@ -5,7 +5,7 @@
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
             </svg>
              <svg class="user_avatar" v-else>
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
             </svg>
             <!--<span class="login_span user_default" v-else>登录|注册</span>-->
         </router-link>
@@ -41,6 +41,9 @@
             // this.getUserInfo();
 
         },
+         created(){
+            this.consoleInfo();
+        },
         props: ['signinUp', 'headTitle', 'goBack'],
         computed: {
             ...mapState([
@@ -51,6 +54,9 @@
             ...mapActions([
                 'getUserInfo'
             ]),
+            consoleInfo(){
+                console.log(this.userInfo)
+            },
         },
 
     }

@@ -693,6 +693,7 @@
                                 this.ratingScroll.refresh();
                             }
                         })
+                        
                     })
                 }
             }

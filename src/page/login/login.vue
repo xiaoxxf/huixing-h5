@@ -26,6 +26,7 @@
                     <span>...</span>
                 </div>
             </section>
+            <!--
             <section class="input_container captcha_code_container">
                 <input type="text" placeholder="验证码" maxlength="4" v-model="codeNumber">
                 <div class="img_change_img">
@@ -36,6 +37,7 @@
                     </div>
                 </div>
             </section>
+            -->
         </form>
         <p class="login_tips">
             温馨提示：未注册过的账号，登录时将自动注册
@@ -158,21 +160,27 @@
                         this.showAlert = true;
                         this.alertText = '请输入密码';
                         return
-                    }else if(!this.codeNumber){
+                    }
+                    /* else if(!this.codeNumber){
                         this.showAlert = true;
                         this.alertText = '请输入验证码';
                         return
-                    }
+                    }*/
                     //用户名登录
-                    this.userInfo = await accountLogin(this.userAccount, this.passWord, this.codeNumber);
+                    /*accountLogin(this.userAccount, this.passWord).then(res => {
+                        //console.log(res.data.datas)
+                        this.userInfo = res.data.datas;
+                    })*/
+                    this.userInfo = await accountLogin(this.userAccount, this.passWord);
+                    console.log("this.userInfo==>",this.userInfo)
                 }
                 //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
-                if (!this.userInfo.user_id) {
+                if (this.userInfo.data.code !== 0) {
                     this.showAlert = true;
                     this.alertText = this.userInfo.message;
-                    if (!this.loginWay) this.getCaptchaCode();
+                    //if (!this.loginWay) this.getCaptchaCode();
                 }else{
-                    this.RECORD_USERINFO(this.userInfo);
+                    this.RECORD_USERINFO(this.userInfo.data.datas);
                     this.$router.go(-1);
 
                 }

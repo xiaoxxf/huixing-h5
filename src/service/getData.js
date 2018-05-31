@@ -2,6 +2,7 @@ import fetch from '../config/fetch'
 import { getStore } from '../config/mUtils'
 import { baseUrl } from '../config/env'
 import axios from 'axios'
+import md5 from 'js-md5' //md5对用户密码进行加密传送
 axios.defaults.baseURL = baseUrl;
 
 /**
@@ -23,11 +24,32 @@ export const searchTopic = () => axios.get('/topic/seachTopic', {
 	}
 })
 
- // 获取专题下的文章
-export const queryArticle = (topicId) => fetch('/topic/quaryArticle', {
-	'currentPage': '1',
-	'pageSize': '6',
-	'topicId':topicId
+export const queryArticle = (topicId) => axios.get('/topic/quaryArticle', {
+	params: {
+		'currentPage': '1',
+		'pageSize': '6',
+		'topicId': topicId
+	}
+}).then(function(res){
+	return res.data.datas;
+})
+.catch(function(err){
+	console.log(err);
+});
+
+/**
+ * 账号密码登录
+ */
+export const accountLogin = (userName, userPwd) => axios.get('/news/login', {
+	params: {
+		userName,
+		userPwd:md5.hex(userName+userPwd)
+	}
+}).then(function(res){
+	return res;
+})
+.catch(function(err){
+	console.log(err);
 });
 
 
@@ -48,6 +70,15 @@ export const queryProjectByType = (projectType,currentPage = 1,pageSize = 24) =>
 	}
 })
 
+/**
+ * 获取用户信息
+ */
+
+export const getUser = () => axios.get('/news/quaryusers', {
+	params: {
+		userId: getStore('user_id')
+	}
+});
 /**
  * 获取首页默认地址
  */
@@ -445,9 +476,9 @@ export const exChangeHongbao = (id, exchange_code, captcha_code) => fetch('/v1/u
 /**
  * 获取用户信息
  */
-
+/*
 export const getUser = () => fetch('/v1/user', {user_id: getStore('user_id')});
-
+*/
 
 /**
  * 手机号登录
@@ -503,7 +534,7 @@ export const deleteAddress = (userid, addressid) => fetch( '/v1/users/' + userid
 /**
  * 账号密码登录
  */
-export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {username, password, captcha_code}, 'POST');
+// export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {username, password, captcha_code}, 'POST');
 
 
 /**
