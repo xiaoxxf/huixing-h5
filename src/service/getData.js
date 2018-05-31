@@ -68,7 +68,12 @@ export const queryProjectByType = (projectType,currentPage = 1,pageSize = 24) =>
 		'projectType': projectType,
 		// 'order': 3 //排序 不传->评论数  2->评分（评价） 3->时间
 	}
+}).then(function(res){
+	return res.data.datas;
 })
+.catch(function(err){
+	console.log(err);
+});
 
 /**
  * 获取用户信息

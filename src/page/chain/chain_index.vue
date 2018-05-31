@@ -98,16 +98,14 @@ export default {
     })
 
     // 渲染所有项目数据
-    queryProjectByType().then(res => {
-      this.projectList = res.data.datas
-    }).catch(err => {
-      console.log(err)
-    })
-
+    this.initData();
 
   },
 
   methods: {
+    async initData(){
+      this.projectList =  await queryProjectByType();
+    },
 
     // 改变选中的项目类型
     changeActive(e){
@@ -122,13 +120,9 @@ export default {
       // this.preventRepeatReuqest = false;
 
       var projectType = this.typeActive;
-      var currentPage = this.currentPage;
-      var pageSize = this.pageSize;
-      queryProjectByType(projectType,currentPage,pageSize).then(res => {
-        this.projectList = res.data.datas
-      }).catch(err => {
-        console.log(err)
-      })
+      // var currentPage = this.currentPage;
+      // var pageSize = this.pageSize;
+      this.projectList =  await queryProjectByType(projectType);
     },
 
     //到达底部加载更多数据

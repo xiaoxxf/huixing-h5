@@ -12,8 +12,8 @@
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-				  </svg>
-    	</router-link>
+				</svg>
+    		</router-link>
     	</head-top>
     	<nav class="msite_nav">
     		<div class="swiper-container" v-if="fakeBanner.length">
@@ -32,16 +32,16 @@
 		    <img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
     	</nav>
 		<section class="change_link_nav">
-  				<div class="sort_type_wrap">
-            <router-link :to="'/chain/chain_index'">
-    					<span class="sort_type">
-    						<svg class="sort_type_icon">
-    							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
-    						</svg>
-    						分类
-    					</span>
-            </router-link>
-  				</div>
+				<div class="sort_type_wrap">
+          <router-link :to="'/chain/chain_index'">
+					<span class="sort_type">
+						<svg class="sort_type_icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
+						</svg>
+						分类
+					</span>
+          </router-link>
+				</div>
 				<div>
 					<span class="code_rank">
 						<svg class="sort_type_icon">
@@ -82,8 +82,8 @@
 			</section>
 		</section>
 		<span class="fake_container"></span>
-    <foot-guide></foot-guide>
-  </div>
+    	<foot-guide></foot-guide>
+    </div>
 </template>
 
 <script>
@@ -97,7 +97,6 @@ import {msiteAddress, msiteFoodTypes, searchTopic, queryArticle} from 'src/servi
 import 'src/plugins/swiper.min.js'
 import 'src/style/swiper.min.css'
 import BScroll from 'better-scroll'
-
 export default {
 	data(){
     return {
@@ -112,13 +111,12 @@ export default {
       topicActiveScroll: null, //选择栏目文章Scroll
     }
   },
-    async beforeMount(){
+  async beforeMount(){
 
 	},
 	created(){
-
 	},
-    mounted(){
+  mounted(){
 		this.initData();
 		//查找热门
 		searchTopic().then(res => {
@@ -161,7 +159,6 @@ export default {
 					autoplay: 2000,
 				});
 		})
-
 	},
 	mixins: [loadMore],
     components: {
@@ -170,7 +167,6 @@ export default {
     	footGuide,
     },
     computed: {
-
     },
     methods: {
     	...mapMutations([
@@ -206,12 +202,6 @@ export default {
     watch: {
 		//topicActive 改变时则出发栏目文章查找方法
 		topicActive:function(value){
-<<<<<<< HEAD
-			if(value != ''){
-				this.getArticleByType();
-			}
-		}
-=======
 			this.$nextTick(() => {
 				console.log(111111111111111)
 				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
@@ -231,10 +221,8 @@ export default {
 				console.log(this.topicActiveScroll)
 			})
 		}
->>>>>>> fd0b95030acc4329b0469a133a8a867e507bad51
     }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -420,6 +408,5 @@ export default {
 		width: 100%;
 		height: 2rem;
 	}
-
 
 </style>
