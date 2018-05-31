@@ -23,12 +23,14 @@ export const searchTopic = () => axios.get('/topic/seachTopic', {
 	}
 })
  
-export const queryArticle = (topicId) => fetch('/topic/quaryArticle', {
-	'currentPage': '1',
-	'pageSize': '6',
-	'topicId':topicId
+export const queryArticle = (topicId) => axios.get('/topic/quaryArticle', {
+	params: {
+		'currentPage': '1',
+		'pageSize': '6',
+		'topicId': topicId
+	}
 }).then(function(res){
-	return res;
+	return res.data.datas;
 })
 .catch(function(err){
 	console.log(err);
@@ -47,7 +49,7 @@ export const accountLogin = (userName, userPwd) => axios.get('/news/login', {
 })
 .catch(function(err){
 	console.log(err);
-	});
+});
 
 /**
  * 获取用户信息

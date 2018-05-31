@@ -58,22 +58,26 @@
 				</div>
 			</div>
 		</nav>
-		<section class="hot_review_region">
-			<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
-					<div class="review_item_left">
-						<h2 class="review_title">{{item.textTitle}}</h2>
-						<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
-						<div class="author_info">
-							<span class="author_pic">
-								<img :src="item.userPic" alt="">
-							</span>
-							<span class="author_name">{{item.realName}}</span>
+		<section class="hot_review_region" id="hotReviewContainer" >
+			 <section v-load-more="getArticleByType">
+				 <section>
+					<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
+						<div class="review_item_left">
+							<h2 class="review_title">{{item.textTitle}}</h2>
+							<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
+							<div class="author_info">
+								<span class="author_pic">
+									<img :src="item.userPic" alt="">
+								</span>
+								<span class="author_name">{{item.realName}}</span>
+							</div>
 						</div>
-					</div>
-					<div class="review_item_right">
-							<img src="http://www.huixing.io/img/1519917063959.jpg" alt="">
-					</div>
-			</a>
+						<div class="review_item_right">
+								<img src="http://www.huixing.io/img/1519917063959.jpg" alt="">
+						</div>
+					</a>
+				 </section>
+			</section>
 		</section>
 		<span class="fake_container"></span>
     	<foot-guide></foot-guide>
@@ -86,6 +90,7 @@ import {mapMutations} from 'vuex'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import shopList from 'src/components/common/shoplist'
+import {loadMore} from 'src/components/common/mixin'
 import {msiteAddress, msiteFoodTypes, searchTopic, queryArticle} from 'src/service/getData'
 import 'src/plugins/swiper.min.js'
 import 'src/style/swiper.min.css'
@@ -99,16 +104,20 @@ export default {
 			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
 			fakeBanner:[], //首页banner图
 			searchTopic:[],
-			topicActive:'',//热门选择栏目
+			topicActive:12,//热门选择栏目
+			topicScroll: null, //栏目Scroll
 			topicActiveData:[],//选择栏目数据
+			topicActiveScroll: null, //选择栏目文章Scroll
         }
     },
     async beforeMount(){
 		
 	},
 	created(){
+
 	},
     mounted(){
+		this.initData();
 		//查找热门
 		searchTopic().then(res => {
 			this.searchTopic = res.data.datas;
@@ -122,8 +131,8 @@ export default {
 				let wrapperW = this.searchTopic.length*remWidth*3.6
                 this.$refs.warpperMune.style.width=wrapperW+'px';
                 this.$nextTick(()=>{
-                    if (!this.scroll) {
-                        this.scroll=new BScroll(this.$refs.searchWrapper, {
+                    if (!this.topicScroll) {
+                        this.topicScroll=new BScroll(this.$refs.searchWrapper, {
                             startX:0,
                             click:true,
                             scrollX:true,
@@ -131,7 +140,7 @@ export default {
                             eventPassthrough:'vertical'
                         })
                     }else{
-                        this.scroll.refresh();
+                        this.topicScroll.refresh();
                     }
                 });
 		})
@@ -151,7 +160,8 @@ export default {
 				});
 		})
 
-    },
+	},
+	mixins: [loadMore],
     components: {
     	headTop,
     	shopList,
@@ -164,24 +174,54 @@ export default {
     	...mapMutations([
     		'RECORD_ADDRESS', 'SAVE_GEOHASH'
 		]),
+		async initData(){
+			this.topicActiveData = await queryArticle(this.topicActive);
+			console.log(this.topicActive)
+		},
 		changeActice(id){
 			this.topicActive = id;
 		},
 		async getArticleByType(){
-			queryArticle(this.topicActive).then(res => {
+			this.topicActiveData= await queryArticle(this.topicActive);
+			this.$nextTick(() => {
+				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
+					probeType: 3,
+					deceleration: 0.003,
+					bounce: false,
+					swipeTime: 2000,
+					click: true,
+				});
+			})
+			/*
+			then(res => {
 				if(res.code === 0){
 					this.topicActiveData = res.datas;
 				}
 				console.log(res)
-			})
+			})*/
 		},
     },
     watch: {
 		//topicActive 改变时则出发栏目文章查找方法
 		topicActive:function(value){
-			if(value != ''){
-				this.getArticleByType();
-			}
+			this.$nextTick(() => {
+				console.log(111111111111111)
+				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
+					probeType: 3,
+					deceleration: 0.003,
+					bounce: false,
+					swipeTime: 2000,
+					click: true,
+				});
+				this.topicActiveScroll.on('scroll', (pos) => {
+					if (Math.abs(Math.round(pos.y)) >=  Math.abs(Math.round(this.topicActiveScroll.maxScrollY))) {
+						console.log("hotReviewScrollhotReviewScroll");
+						this.getArticleByType();
+						this.topicActiveScroll.refresh();
+					}
+				})
+				console.log(this.topicActiveScroll)
+			})
 		}	
     }
 }
@@ -312,6 +352,9 @@ export default {
 	.hot_review_region{
 		padding: 0.2rem 0.4rem;
 		background-color: #fff;
+		flex: 1;
+        overflow-y: hidden;
+        flex-direction: column;
 		.hot_review_item{
 			display: flex;
 			flex: 1;
