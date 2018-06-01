@@ -9,12 +9,49 @@
     </head-top>
 
     <!-- 项目基础信息 -->
-    <section>
+    <section class="project_basis_info">
+      <!-- 图片、名字、类型、评分 -->
+      <div class="project_basis_info_part_one">
+        <div class="project_logo">
+          <img :src="this.projectInfo.projectLogo" alt="" >
+        </div>
+        <div class="project_name_type_score">
+          <p>{{this.projectInfo.projectBigName}}</p>
+          <div class="">
+            <span class="score">评分:{{this.projectInfo.score}}分</span>
+            <span class="type">{{this.projectType}}</span>
+          </div>
+        </div>
+        <div class="follow_btn">
+          <button type="button" name="button" class="btn">关注</button>
+        </div>
+      </div>
+      <!-- 时间、流通量、总量 -->
+      <div class="project_basis_info_part_tow">
+        <div>
+          <p class="value">{{this.projectInfo.fundraisingTime ? this.projectInfo.fundraisingTime.split(' ')[0] : '暂无'}}</p>
+          <p class="title">募资时间</p>
+
+        </div>
+        <div>
+          <p class="value">{{this.projectInfo.currencyCirculation ? this.projectInfo.currencyCirculation : '暂无'}}</p>
+          <p class="title">流通量</p>
+        </div>
+        <div>
+          <p class="value">{{this.projectInfo.currencyCount ? this.projectInfo.currencyCount : '暂无'}}</p>
+          <p class="title">代币总量</p>
+        </div>
+      </div>
+      <!-- 白皮书 -->
+      <div class="project_basis_info_part_three">
+        <!-- <p>下载白皮书了解更多</p> -->
+      </div>
 
     </section>
 
     <!-- 项目简介 -->
     <section>
+      <!-- <h1>{{this.projectInfo.projectBigName}}</h1> -->
 
     </section>
 
@@ -43,16 +80,23 @@ import {mapMutations} from 'vuex'
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-import {queryProjectInfo} from 'src/service/getData'
+import {queryProjectInfo, getProjectCategory, queryCommentByProject} from 'src/service/getData'
 import BScroll from 'better-scroll'
 
 export default {
   data(){
     return{
       projectInfo: {},
+      projectType: '', //类型中文名
       projectId: '',
       currentPage: 1,
-      pageSize: 6
+      pageSize: 6,
+      shortCommentList: [],
+      longCommentList: [],
+      short_comment_list_current_page: 1,
+      short_comment_list_page_size: 3,
+      long_comment_list_current_page: 1,
+      long_comment_list_page_size: 3,
     }
   },
 
@@ -72,6 +116,25 @@ export default {
     async initData(){
       this.projectId = this.$route.params.projectId;
       this.projectInfo =  await queryProjectInfo(this.projectId);
+
+      // 查询类型中文名
+      getProjectCategory()
+      .then(res => {
+        var projectType_list = res.data.datas;
+        for (let type of projectType_list) {
+          if (type.dicType == this.projectInfo.projectType) {
+            this.projectType = type.dicValue;
+          }
+        }
+      })
+
+      // 查询短评
+      this.shortCommentList =
+      queryCommentByProject(this.$route.params.projectId,this.short_comment_list_current_page,this.short_comment_list_page_size,1);
+      // 查询长评
+      this.LongCommentList =
+      queryCommentByProject(this.$route.params.projectId,this.long_comment_list_current_page,this.long_comment_list_page_size,2);
+
     },
 
 
@@ -128,37 +191,69 @@ export default {
     }
   }
 
-  // 项目列表
-  .project_list{
-    @include fj($type: column);
-    padding: 4.0rem 0 2.0rem 0;
-    // width:100%;
-    // overflow: hidden;
-    flex-wrap: wrap;
-    .border{
-      border-right:  0.01rem solid #E2E1E1;
-    }
-    .div_bottom{
-      margin-bottom: 30px;
-    }
-    .project_item{
-      // border: 0.01rem solid grey;
-      border-bottom:  0.01rem solid #E2E1E1;
-
-      background-color: white;
-      width: 33.33%;
-      padding: 0.4rem 1.3rem;
-      img{
-        @include wh(2.4rem,2.4rem);
-        text-align: center;
+  // 项目基础
+  .project_basis_info{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    padding: 0.8rem;
+    border-bottom: 1px solid #87888A;
+    .project_basis_info_part_one{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 1.0rem;
+      .project_logo{
+        width: 30%;
+        img{
+          @include wh(2.4rem,2.4rem);
+        }
+      }
+      .project_name_type_score{
+        width: 50%;
+        .score{
+          color: grey;
+          font-size: 0.64rem;
+        }
+        .type{
+          color: grey;
+          font-size: 0.64rem;
+        }
+      }
+      .follow_btn{
+        width: 20%;
+        button{
+          background: #3C5CC6;
+          color: white;
+          width: 100%;
+          height: 1.2rem;
+          border-radius: 0.2rem;
+          margin-top: 0.7rem;
+        }
       }
 
-      .project_big_name{
-        color: #383737;
-        // padding-left: 0.3rem;
-        text-align: center;
+    }
+    .project_basis_info_part_tow{
+
+      .title{
+        color: #7C7C7C;
+        font-size: 0.6rem;
+      }
+      .value{
+        color:#161515;
+        margin-bottom: 0.4rem;
+        font-size: 0.6rem;
+      }
+      display: flex;
+      flex-direction: row;
+      div{
+        width: 33.33%;
+        margin-left: 0.8rem;
       }
     }
+    .project_basis_info_part_three{
+
+    }
+
   }
 
 </style>

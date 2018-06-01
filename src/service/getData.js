@@ -97,9 +97,24 @@ export const queryProjectInfo = (projectId) => axios.get('blockchain/detail',{
 }).then(function(res){
 	return res.data.datas
 }).catch(function(err){
-	console.log(err)
+	console.log('获取项目信息错误:' + err)
 })
 
+// 获取项目下的评论 type=1为短评 type=2为长评
+export const queryCommentByProject = (projectId,currentPage=1,pageSize=2,type) => axios.get('blockchain/quaryReview',{
+	params: {
+		'projectId': projectId,
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'type': type
+	}
+}).then(function(res){
+	return res.data.datas
+}).catch(function(err){
+	console.log('获取项目评论错误:' + err)
+})
+
+// 获取项目下的长评
 
 // 原项目
 /**

@@ -85,6 +85,10 @@
         	 <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>
             <span>发帖</span>
         </section>
+        <section @click = "gotoAddress({path: '/article'})" class="guide_item">
+          <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>
+           <span>播报</span>
+       </section>
         <section @click = "gotoAddress('/mine')" class="guide_item">
         	<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('mine') !== -1? '#mineActive' : '#mine'"></use>
@@ -99,14 +103,14 @@
     export default {
     	data(){
             return{
-                
+
             }
         },
         created(){
-           
+
         },
         mounted(){
-            
+
         },
         computed: {
             ...mapState([
@@ -155,5 +159,5 @@
 			@include sc(.45rem, #666);
 		}
     }
-   
+
 </style>

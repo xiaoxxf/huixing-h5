@@ -43,7 +43,6 @@ import {mapMutations} from 'vuex'
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-// import loadMore from 'src/config/mUtils.js'
 import {loadMore} from 'src/components/common/mixin'
 import {getProjectCategory, queryProjectByType} from 'src/service/getData'
 import 'src/plugins/swiper.min.js'
@@ -83,22 +82,36 @@ export default {
       let wrapperW = this.chainType.length*remWidth*3.6;
       this.$refs.warpperMune.style.width=wrapperW+'px';
       this.$nextTick(()=>{
-          if (!this.scroll) {
-              this.scroll=new BScroll(this.$refs.searchWrapper, {
-                  startX:0,
-                  click:true,
-                  scrollX:true,
-                  scrollY:false,
-                  eventPassthrough:'vertical'
-              })
-          }else{
-              this.scroll.refresh();
-          }
+        this.menu_scroll = new BScroll(this.$refs.searchWrapper, {
+            startX:0,
+            click:true,
+            scrollX:true,
+            scrollY:false,
+            eventPassthrough:'vertical'
+        })
       });
     })
 
     // 渲染所有项目数据
-    this.initData();
+    this.initData().then(() => {
+      this.$nextTick(() => {
+        this.project_list_scroll = new BScroll('.project_list', {
+          probeType: 3,
+					deceleration: 0.003,
+					bounce: false,
+					swipeTime: 2000,
+					click: true,
+        });
+        console.log(this.project_list_scroll)
+        this.project_list_scroll.on('scroll', (pos) => {
+          if (Math.abs(Math.round(pos.y)) >=  Math.abs(Math.round(this.project_list_scroll.maxScrollY))) {
+            console.log("hotReviewScrollhotReviewScroll");
+            this.loaderMore();
+            // this.topicActiveScroll.refresh();
+          }
+        })
+      })
+    })
 
   },
 
@@ -137,13 +150,7 @@ export default {
 			this.preventRepeatReuqest = true;
 
       this.currentPage ++;
-      queryProjectByType(this.typeActive,this.currentPage,this.pageSize).then(res => {
-        this.projectList = [...this.projectList, ...res.data.datas];
-        //当获取数据小于20，说明没有更多数据，不需要再次请求数据
-        if (res.data.datas.length < this.pageSize) {
-          this.touchend = true;
-        }
-      })
+      this.projectList = [...this.projectList, ...queryProjectByType(this.typeActive,this.currentPage,this.pageSize)]
 			// this.hideLoading();
 
 			this.preventRepeatReuqest = false;
@@ -155,6 +162,7 @@ export default {
     //typeActive 改变时渲染不同类型的项目
     typeActive:function(value){
       this.getProjectByType();
+      this.project_list_scroll.refresh();
     }
   }
 
@@ -208,6 +216,7 @@ export default {
   // 项目列表
   .project_list{
     @include fj($type: column);
+    // height: 100%;
     padding: 4.0rem 0 2.0rem 0;
     // width:100%;
     // overflow: hidden;

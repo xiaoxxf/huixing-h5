@@ -61,7 +61,7 @@
 			</div>
 		</nav>
 		<section class="hot_review_region" id="hotReviewContainer" ref="hotReviewContainer">
-			 <section v-load-more="getArticleByType">
+			 <section>
 				 <section>
 					<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
 						<div class="review_item_left">
@@ -219,18 +219,23 @@ export default {
 			this.currentPage ++;
 			let activeDate = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
 			this.topicActiveData = [...this.topicActiveData,...activeDate];
-			 if (activeDate.length >= this.pageSize) {
-                    this.preventRepeatRequest = false;
-                }
-			this.$nextTick(() => {
-				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
-					probeType: 3,
-					deceleration: 0.003,
-					bounce: false,
-					swipeTime: 2000,
-					click: true,
-				});
-			})
+			if (activeDate.length >= this.pageSize) {
+        this.preventRepeatRequest = false;
+      }
+      if (this.topicActiveScroll) {
+        this.topicActiveScroll.refresh();
+      }else{
+        this.$nextTick(() => {
+          this.topicActiveScroll = new BScroll('#hotReviewContainer', {
+            probeType: 3,
+            deceleration: 0.003,
+            bounce: false,
+            swipeTime: 2000,
+            click: true,
+          });
+        })
+      }
+
 			/*
 			then(res => {
 				if(res.code === 0){
@@ -251,11 +256,12 @@ export default {
 					swipeTime: 2000,
 					click: true,
 				});
+        console.log(this.topicActiveScroll)
 				this.topicActiveScroll.on('scroll', (pos) => {
 					if (Math.abs(Math.round(pos.y)) >=  Math.abs(Math.round(this.topicActiveScroll.maxScrollY))) {
 						console.log("hotReviewScrollhotReviewScroll");
 						this.getArticleByType();
-						this.topicActiveScroll.refresh();
+						// this.topicActiveScroll.refresh();
 					}
 				})
 			})
@@ -389,8 +395,8 @@ export default {
 		padding: 0.2rem 0.4rem;
 		background-color: #fff;
 		flex: 1;
-        overflow-y: hidden;
-        flex-direction: column;
+    overflow-y: hidden;
+    flex-direction: column;
 		.hot_review_item{
 			display: flex;
 			flex: 1;
