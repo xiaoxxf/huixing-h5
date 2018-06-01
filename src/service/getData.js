@@ -28,11 +28,11 @@ export const searchTopic = () => axios.get('/topic/seachTopic', {
 	console.log(err);
 });
  
-export const queryArticle = (topicId) => axios.get('/topic/quaryArticle', {
+export const queryArticle = (topicId,currentPage,pageSize) => axios.get('/topic/quaryArticle', {
 	params: {
-		'currentPage': '1',
-		'pageSize': '6',
-		'topicId': topicId
+		currentPage,
+		pageSize,
+		topicId,
 	}
 }).then(function(res){
 	return res.data.datas;

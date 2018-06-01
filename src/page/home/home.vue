@@ -108,6 +108,9 @@ export default {
 			topicScroll: null, //栏目Scroll
 			topicActiveData:[],//选择栏目数据
 			topicActiveScroll: null, //选择栏目文章Scroll
+			currentPage:1,
+			pageSize:6,
+			preventRepeatRequest:false,// 防止多次触发数据请求
         }
     },
     async beforeMount(){
@@ -199,15 +202,25 @@ export default {
 					this.topicScroll.refresh();
 				}
 			});
-			this.topicActiveData = await queryArticle(this.topicActive);
+			this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
 			console.log(this.topicActive)
 		},
 		changeActice(id){
 			this.topicActive = id;
+			this.getArticleByType();
 		},
 		async getArticleByType(){
-			console.log("getArticleByType")
-			this.topicActiveData= await queryArticle(this.topicActive);
+			console.log("getArticleByType",this.currentPage)
+			 if (this.preventRepeatRequest) {
+                    return
+			}
+			this.preventRepeatRequest = true;
+			this.currentPage ++;
+			let activeDate = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
+			this.topicActiveData = [...this.topicActiveData,...activeDate];
+			 if (activeDate.length >= this.pageSize) {
+                    this.preventRepeatRequest = false;
+                }
 			this.$nextTick(() => {
 				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
 					probeType: 3,
@@ -230,7 +243,6 @@ export default {
 		//topicActive 改变时则出发栏目文章查找方法
 		topicActive:function(value){
 			this.$nextTick(() => {
-				console.log(111111111111111)
 				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
 					probeType: 3,
 					deceleration: 0.003,
