@@ -58,7 +58,7 @@
 				</div>
 			</div>
 		</nav>
-		<section class="hot_review_region" id="hotReviewContainer" >
+		<section class="hot_review_region" id="hotReviewContainer" ref="hotReviewContainer">
 			 <section v-load-more="getArticleByType">
 				 <section>
 					<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
@@ -104,7 +104,7 @@ export default {
 			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
 			fakeBanner:[], //首页banner图
 			searchTopic:[],
-			topicActive:12,//热门选择栏目
+			topicActive:'',//热门选择栏目
 			topicScroll: null, //栏目Scroll
 			topicActiveData:[],//选择栏目数据
 			topicActiveScroll: null, //选择栏目文章Scroll
@@ -118,8 +118,9 @@ export default {
 	},
     mounted(){
 		this.initData();
+		this.windowHeight = window.innerHeight;
 		//查找热门
-		searchTopic().then(res => {
+		/* searchTopic().then(res => {
 			this.searchTopic = res.data.datas;
 			if(this.searchTopic.length>0){
 				this.topicActive = this.searchTopic[0].id;
@@ -144,6 +145,7 @@ export default {
                     }
                 });
 		})
+		*/
 		//模拟请求延时
 	
         //获取导航食品类型列表
@@ -175,6 +177,28 @@ export default {
     		'RECORD_ADDRESS', 'SAVE_GEOHASH'
 		]),
 		async initData(){
+			this.searchTopic = await searchTopic();
+			//获取除可滑动区域的高度
+			var pageH = document.querySelector(".msite_nav").offsetHeight + document.querySelector(".change_link_nav").offsetHeight + document.querySelector(".search_nav_wrapper").offsetHeight + document.querySelector("#foot_guide").offsetHeight
+			console.log("sss",pageH)
+			this.$refs.hotReviewContainer.style.height = pageH+"px";
+			this.topicActive = this.searchTopic[0].id;
+			const remWidth = window.screen.width/375*24;
+			let wrapperW = this.searchTopic.length*remWidth*3.6
+			this.$refs.warpperMune.style.width=wrapperW+'px';
+			this.$nextTick(()=>{
+				if (!this.topicScroll) {
+					this.topicScroll=new BScroll(this.$refs.searchWrapper, {
+						startX:0,
+						click:true,
+						scrollX:true,
+						scrollY:false,
+						eventPassthrough:'vertical'
+					})
+				}else{
+					this.topicScroll.refresh();
+				}
+			});
 			this.topicActiveData = await queryArticle(this.topicActive);
 			console.log(this.topicActive)
 		},
@@ -182,6 +206,7 @@ export default {
 			this.topicActive = id;
 		},
 		async getArticleByType(){
+			console.log("getArticleByType")
 			this.topicActiveData= await queryArticle(this.topicActive);
 			this.$nextTick(() => {
 				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
@@ -220,7 +245,6 @@ export default {
 						this.topicActiveScroll.refresh();
 					}
 				})
-				console.log(this.topicActiveScroll)
 			})
 		}	
     }
