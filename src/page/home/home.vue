@@ -207,6 +207,9 @@ export default {
 		},
 		changeActice(id){
 			this.topicActive = id;
+			this.currentPage = 0;
+			this.preventRepeatRequest = false;
+			this.topicActiveData = [];
 			this.getArticleByType();
 		},
 		async getArticleByType(){
