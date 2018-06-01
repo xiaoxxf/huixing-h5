@@ -52,6 +52,15 @@ export const accountLogin = (userName, userPwd) => axios.get('/news/login', {
 	console.log(err);
 });
 
+/**
+ * 获取用户信息
+ */
+
+export const getUser = () => axios.get('/news/quaryusers', {
+	params: {
+		userId: getStore('user_id')
+	}
+});
 
 // 获取项目的分类列表
 export const getProjectCategory = () => axios.get('blockchain/quary', {
@@ -75,15 +84,19 @@ export const queryProjectByType = (projectType,currentPage = 1,pageSize = 24) =>
 	console.log(err);
 });
 
-/**
- * 获取用户信息
- */
-
-export const getUser = () => axios.get('/news/quaryusers', {
+// 获取项目信息（详情）
+export const queryProjectInfo = (projectId) => axios.get('blockchain/detail',{
 	params: {
-		userId: getStore('user_id')
+		'projectId': projectId
 	}
-});
+}).then(function(res){
+	return res.data.datas
+}).catch(function(err){
+	console.log(err)
+})
+
+
+// 原项目
 /**
  * 获取首页默认地址
  */

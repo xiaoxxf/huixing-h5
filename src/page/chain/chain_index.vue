@@ -23,7 +23,7 @@
     </head-top>
 
     <section class="project_list">
-      <router-link :to="{ name: '', params: {} }"  v-for="(item, index) in projectList" :key="index"
+      <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
           :class="{'project_item': true, 'border': (index+1)%3 != 0, }">
         <div>
           <img :src="item.projectLogo" alt="">
