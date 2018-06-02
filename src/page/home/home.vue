@@ -1,6 +1,6 @@
 <template>
     <div>
-    	<head-top signin-up='msite'>
+    	<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
 			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
 					<span class="title_text ellipsis">
 						<svg class="head_search_icon">
@@ -15,23 +15,21 @@
 				</svg>
     		</router-link>
     	</head-top>
-		<transition name="fade">
-			<nav class="msite_nav">
-				<div class="swiper-container" v-if="fakeBanner.length">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
-							<router-link :to="{path: '/food'}" class="link_to_food">
-								<figure>
-									<img :src="item" />
-								</figure>
-							</router-link>
-						</div>
+		<nav class="msite_nav">
+			<div class="swiper-container" v-if="fakeBanner.length">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
+						<router-link :to="{path: '/food'}" class="link_to_food">
+							<figure>
+								<img :src="item" />
+							</figure>
+						</router-link>
 					</div>
-					<div class="swiper-pagination"></div>
 				</div>
-				<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
-			</nav>
-		</transition>
+				<div class="swiper-pagination"></div>
+			</div>
+			<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
+		</nav>
 		<section class="change_link_nav">
 				<div class="sort_type_wrap">
 					<span class="sort_type">
@@ -50,15 +48,18 @@
 					</span>
 				</div>
 		</section>
-		<nav class="search_nav_wrapper">
-			<div class="search_topic_wrapper">
-				<div class="type_list_container" id="wrapper_menu"  ref="searchWrapper" >
-					<ul class="article_type_wrap" ref="warpperMune">
-						<li v-for="(item, index) in searchTopic" :key="index" :class="{topic_active: item.id == topicActive}" :data-topicid="item.id" @click="changeActice(item.id)">{{item.topic}}</li>
-					</ul>
+		<div id="topic_nav_wrapper">
+			<nav class="search_nav_wrapper" :class="topicBarFixed == true ? 'isFixed' :''">
+				<div class="search_topic_wrapper">
+					<div class="type_list_container" id="wrapper_menu"  ref="searchWrapper" >
+						<ul class="article_type_wrap" ref="warpperMune">
+							<li v-for="(item, index) in searchTopic" :key="index" :class="{topic_active: item.id == topicActive}" :data-topicid="item.id" @click.stop.prevent="changeActice(item.id)">{{item.topic}}</li>
+						</ul>
+					</div>
 				</div>
-			</div>
-		</nav>
+			</nav>
+				<topic-list v-if="hasTopicData" :topicActive="topicActive" :topicBarFixed="topicBarFixed"></topic-list>
+		</div>
 		<!--<section class="hot_review_region" id="hotReviewContainer">
 			 <section v-load-more="getArticleByType">
 				<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
@@ -79,7 +80,7 @@
 			</section>
 		</section>
 		-->
-		<topic-list v-if="hasTopicData" :topicActive="topicActive"></topic-list>
+		
 		<span class="fake_container"></span>
     	<foot-guide></foot-guide>
     </div>    
@@ -113,7 +114,8 @@ export default {
 			currentPage:1,
 			pageSize:6,
 			preventRepeatRequest:false,// 防止多次触发数据请求
-			hasTopicData:false
+			hasTopicData:false,
+			topicBarFixed:false,
         }
     },
     async beforeMount(){
@@ -122,38 +124,13 @@ export default {
 	created(){
 
 	},
+	destroyed () {
+		window.removeEventListener('scroll', this.handleScroll)
+	},
     mounted(){
+		window.addEventListener('scroll', this.handleScroll)
 		this.initData();
 		this.windowHeight = window.innerHeight;
-		//查找热门
-		/* searchTopic().then(res => {
-			this.searchTopic = res.data.datas;
-			if(this.searchTopic.length>0){
-				this.topicActive = this.searchTopic[0].id;
-			}
-			
-        }).then(() => {
-			//初始化better-scroll
-				const remWidth = window.screen.width/375*24;
-				let wrapperW = this.searchTopic.length*remWidth*3.6
-                this.$refs.warpperMune.style.width=wrapperW+'px';
-                this.$nextTick(()=>{
-                    if (!this.topicScroll) {
-                        this.topicScroll=new BScroll(this.$refs.searchWrapper, {
-                            startX:0,
-                            click:true,
-                            scrollX:true,
-                            scrollY:false,
-                            eventPassthrough:'vertical'
-                        })
-                    }else{
-                        this.topicScroll.refresh();
-                    }
-                });
-		})
-		*/
-		//模拟请求延时
-	
         //获取导航食品类型列表
        	msiteFoodTypes().then(res => {
        		this.fakeBanner = [
@@ -184,10 +161,6 @@ export default {
 		]),
 		async initData(){
 			this.searchTopic = await searchTopic();
-			//计算可滑动区域的高度
-			//var pageH = this.windowHeight - (document.querySelector("#head_top").offsetHeight + document.querySelector(".change_link_nav").offsetHeight + document.querySelector(".search_nav_wrapper").offsetHeight + document.querySelector("#foot_guide").offsetHeight);
-			//console.log("sss",document.querySelector(".msite_nav").offsetHeight)
-			//this.$refs.hotReviewContainer.style.height = pageH+"px";
 			this.topicActive = this.searchTopic[0].id;
 			this.hasTopicData = true;
 			const remWidth = window.screen.width/320*21;
@@ -206,35 +179,27 @@ export default {
 					this.topicScroll.refresh();
 				}
 			});
-			this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
-			console.log(this.topicActive)
+			//this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
 		},
 		changeActice(id){
+			
 			this.topicActive = id;
 			this.currentPage = 0;
-			this.preventRepeatRequest = false;
-			this.topicActiveData = [];
-			this.getArticleByType();
 		},
-		async getArticleByType(){
-			this.showBanner = true;
-			console.log("getArticleByType",this.currentPage)
-			 if (this.preventRepeatRequest) {
-                    return
+		handleScroll () {
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+			var offsetTop = document.querySelector('#topic_nav_wrapper').offsetTop - document.querySelector('#head_top').offsetHeight;
+			console.log("this.topicBarFixed",scrollTop > offsetTop)
+			if (scrollTop > offsetTop) {
+				this.topicBarFixed = true
+			} else {
+				this.topicBarFixed = false
 			}
-			this.preventRepeatRequest = true;
-			this.currentPage ++;
-			let activeDate = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
-			this.topicActiveData = [...this.topicActiveData,...activeDate];
-			 if (activeDate.length >= this.pageSize) {
-                    this.preventRepeatRequest = false;
-                }
 		},
-    },
+	},
     watch: {
 		//topicActive 改变时则出发栏目文章查找方法
 		topicActive:function(value){
-			this.getArticleByType();
 		}	
     }
 }
@@ -285,7 +250,6 @@ export default {
 			@include wh(100%, 100%);
 		}
 	}
-	
 	.food_types_container{
 		display:flex;
 		flex-wrap: wrap;
@@ -335,7 +299,20 @@ export default {
 			}
         }
 	}
+	.isFixed{
+		position:fixed;
+		-webkit-transform: translateZ(0);
+		top:1.95rem;
+		z-index:999;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		margin-top: 0 !important;
+		transform: translate3d(0, -2rem, 0);
+	}
+	.headFadeOut{
+		transform: translate3d(0, -2rem, 0);
+	}
 	.search_nav_wrapper{
+		transition: all 1s;
 		padding: 0.4rem 0.4rem 0 0.4rem;
 		background-color: #fff;
 		margin-top: 0.4rem;

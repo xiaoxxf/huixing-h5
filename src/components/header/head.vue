@@ -40,7 +40,6 @@
 
         },
          created(){
-            this.consoleInfo();
         },
         props: ['signinUp', 'headTitle', 'goBack'],
         computed: {
@@ -52,9 +51,6 @@
             ...mapActions([
                 'getUserInfo'
             ]),
-            consoleInfo(){
-                console.log(this.userInfo)
-            },
         },
 
     }
@@ -71,7 +67,8 @@
         left: 0;
         top: 0;
         @include wh(100%, 1.95rem);
-        @include boxshadeBottom(0,0,10px,rgba(0,0,0,.5))
+        @include boxshadeBottom(0,0,10px,rgba(0,0,0,.5));
+        transition: all 1s;
     }
     .head_goback{
         left: 0.4rem;

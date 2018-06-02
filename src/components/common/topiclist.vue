@@ -1,5 +1,5 @@
 <template>
-	<section class="hot_review_region" id="hotReviewContainer">
+	<section class="hot_review_region" id="hotReviewContainer" :class="topicBarFixed == true ? 'containerFixed' :''">
 			 <section v-load-more="getArticleByType">
 				<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
 					<div class="review_item_left">
@@ -17,6 +17,9 @@
 					</div>
 				</a>
 			</section>
+			<transition name="loading">
+				<loading v-show="showLoading"></loading>
+			</transition>
 		</section>
 </template>
 <script>
@@ -45,12 +48,11 @@ export default {
 	},
 	mounted(){
 		this.initData();
-		console.log("mounted",this.topicActive)
 	},
 	components: {
 		loading,
 	},
-	props: ['topicActive'],
+	props: ['topicActive','topicBarFixed'],
 	mixins: [loadMore, getImgPath],
 	computed: {
 	},
@@ -60,8 +62,9 @@ export default {
 	methods: {
 		async initData(){
 			//获取数据
+			this.showLoading = true;
 			this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
-			if (res.topicActiveData < this.pageSize) {
+			if (this.topicActiveData < this.pageSize) {
 				this.touchend = true;
 			}
 			this.hideLoading();
@@ -81,7 +84,6 @@ export default {
 			this.preventRepeatRequest = false;
 			this.topicActiveData = [];
 			this.getArticleByType();
-			this.hideLoading();
 			//考虑到本地模拟数据是引用类型，所以返回一个新的数组
 		},
 		//开发环境与编译环境loading隐藏方式不同
@@ -89,13 +91,15 @@ export default {
 			this.showLoading = false;
 		},
 		async getArticleByType(){
-			 if (this.preventRepeatRequest) {
+			if (this.preventRepeatRequest) {
                     return
 			}
+			this.showLoading = true;
 			this.preventRepeatRequest = true;
 			this.currentPage ++;
 			let activeDate = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
 			this.topicActiveData = [...this.topicActiveData,...activeDate];
+			this.hideLoading();
 			 if (activeDate.length >= this.pageSize) {
                     this.preventRepeatRequest = false;
                 }
@@ -137,9 +141,12 @@ export default {
 	.loading-enter, .loading-leave-active {
 		opacity: 0
 	}
-
+	.containerFixed{
+		padding-top: 1.95rem;	
+	}
 	.hot_review_region{
 		padding: 0.2rem 0.4rem;
+		min-height: 25rem;
 		background-color: #fff;
 		flex: 1;
         overflow-y: hidden;
@@ -192,6 +199,12 @@ export default {
 		}
 		.hot_review_item:last-child{
 			border-bottom: none;
+		}
+		.loading-enter-active, .loading-leave-active {
+			transition: opacity 1s
+		}
+		.loading-enter, .loading-leave-active {
+			opacity: 0
 		}
 		
 	}
