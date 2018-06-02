@@ -85,6 +85,9 @@ export default {
 			imgBaseUrl,
 		}
 	},
+	async beforeMount(){
+
+	},
 	mounted(){
 		this.initData();
 	},
