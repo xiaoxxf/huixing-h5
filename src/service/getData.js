@@ -82,13 +82,7 @@ export const queryProjectByType = (projectType,currentPage = 1,pageSize = 24) =>
 		'projectType': projectType,
 		// 'order': 3 //排序 不传->评论数  2->评分（评价） 3->时间
 	}
-}).then(function(res){
-	return res.data.datas;
 })
-.catch(function(err){
-	console.log(err);
-});
-
 // 获取项目信息（详情）
 export const queryProjectInfo = (projectId) => axios.get('blockchain/detail',{
 	params: {
@@ -108,10 +102,6 @@ export const queryCommentByProject = (projectId,currentPage=1,pageSize=2,type) =
 		'pageSize': pageSize,
 		'type': type
 	}
-}).then(function(res){
-	return res.data.datas
-}).catch(function(err){
-	console.log('获取项目评论错误:' + err)
 })
 
 // 获取项目下的长评

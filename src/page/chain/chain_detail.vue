@@ -115,10 +115,17 @@ export default {
   methods: {
     async initData(){
       this.projectId = this.$route.params.projectId;
-      this.projectInfo =  await queryProjectInfo(this.projectId);
+      // 查询项目基础信息
+      await queryProjectInfo(this.projectId)
+            .then(res => {
+              this.projectInfo = res;
+            })
+            .catch(err => {
+              console.log('获取长评错误:' + err);
+            });
 
       // 查询类型中文名
-      getProjectCategory()
+      await getProjectCategory()
       .then(res => {
         var projectType_list = res.data.datas;
         for (let type of projectType_list) {
@@ -127,14 +134,25 @@ export default {
           }
         }
       })
-
+      .catch(res => {
+        console.log('查询类型中文名错误:' + err)
+      });
       // 查询短评
-      this.shortCommentList =
-      queryCommentByProject(this.$route.params.projectId,this.short_comment_list_current_page,this.short_comment_list_page_size,1);
+      await queryCommentByProject(this.$route.params.projectId,this.short_comment_list_current_page,this.short_comment_list_page_size,1)
+            .then(res => {
+              this.shortCommentList = res.data.datas;
+            })
+            .catch(err => {
+              console.log('获取短评错误:' + err);
+            });
       // 查询长评
-      this.LongCommentList =
-      queryCommentByProject(this.$route.params.projectId,this.long_comment_list_current_page,this.long_comment_list_page_size,2);
-
+      await queryCommentByProject(this.$route.params.projectId,this.long_comment_list_current_page,this.long_comment_list_page_size,2)
+            .then(res => {
+              this.longCommentList = res.data.datas;
+            })
+            .catch(err => {
+              console.log('获取长评错误:' + err);
+            });
     },
 
 
