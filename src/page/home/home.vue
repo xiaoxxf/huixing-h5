@@ -1,6 +1,6 @@
 <template>
     <div>
-    	<head-top signin-up='msite'>
+    	<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
 			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
 					<span class="title_text ellipsis">
 						<svg class="head_search_icon">
@@ -15,22 +15,21 @@
 				</svg>
     		</router-link>
     	</head-top>
-    	<nav class="msite_nav">
-    		<div class="swiper-container" v-if="fakeBanner.length">
-		        <div class="swiper-wrapper">
-		            <div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
-	            		<router-link :to="{path: '/food'}" class="link_to_food">
-	            			<figure>
-	            				<img :src="item" />
-	            			</figure>
-	            		</router-link>
-		            </div>
-		        </div>
-		        <div class="swiper-pagination"></div>
-		    </div>
-
-		    <img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
-    	</nav>
+		<nav class="msite_nav">
+			<div class="swiper-container" v-if="fakeBanner.length">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
+						<router-link :to="{path: '/food'}" class="link_to_food">
+							<figure>
+								<img :src="item" />
+							</figure>
+						</router-link>
+					</div>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+			<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
+		</nav>
 		<section class="change_link_nav">
 				<div class="sort_type_wrap">
           <router-link :to="'/chain/chain_index'">
@@ -51,36 +50,39 @@
 					</span>
 				</div>
 		</section>
-		<nav class="search_nav_wrapper">
-			<div class="search_topic_wrapper">
-				<div class="type_list_container" id="wrapper_menu"  ref="searchWrapper" >
-					<ul class="article_type_wrap" ref="warpperMune">
-						<li v-for="(item, index) in searchTopic" :key="index" :class="{topic_active: item.id == topicActive}" :data-topicid="item.id" @click="changeActice(item.id)">{{item.topic}}</li>
-					</ul>
+		<div id="topic_nav_wrapper">
+			<nav class="search_nav_wrapper" :class="topicBarFixed == true ? 'isFixed' :''">
+				<div class="search_topic_wrapper">
+					<div class="type_list_container" id="wrapper_menu"  ref="searchWrapper" >
+						<ul class="article_type_wrap" ref="warpperMune">
+							<li v-for="(item, index) in searchTopic" :key="index" :class="{topic_active: item.id == topicActive}" :data-topicid="item.id" @click.stop.prevent="changeActice(item.id)">{{item.topic}}</li>
+						</ul>
+					</div>
 				</div>
-			</div>
-		</nav>
-		<section class="hot_review_region" id="hotReviewContainer" ref="hotReviewContainer">
-			 <section>
-				 <section>
-					<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
-						<div class="review_item_left">
-							<h2 class="review_title">{{item.textTitle}}</h2>
-							<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
-							<div class="author_info">
-								<span class="author_pic">
-									<img :src="item.userPic" alt="">
-								</span>
-								<span class="author_name">{{item.realName}}</span>
-							</div>
+			</nav>
+				<topic-list v-if="hasTopicData" :topicActive="topicActive" :topicBarFixed="topicBarFixed"></topic-list>
+		</div>
+		<!--<section class="hot_review_region" id="hotReviewContainer">
+			 <section v-load-more="getArticleByType">
+				<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
+					<div class="review_item_left">
+						<h2 class="review_title">{{item.textTitle}}</h2>
+						<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
+						<div class="author_info">
+							<span class="author_pic">
+								<img :src="item.userPic" alt="">
+							</span>
+							<span class="author_name">{{item.realName}}</span>
 						</div>
-						<div class="review_item_right">
-								<img src="http://www.huixing.io/img/1519917063959.jpg" alt="">
-						</div>
-					</a>
-				 </section>
+					</div>
+					<div class="review_item_right">
+							<img src="http://www.huixing.io/img/1519917063959.jpg" alt="">
+					</div>
+				</a>
 			</section>
 		</section>
+		-->
+
 		<span class="fake_container"></span>
     	<foot-guide></foot-guide>
     </div>
@@ -91,7 +93,7 @@ import {mapMutations} from 'vuex'
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-import shopList from 'src/components/common/shoplist'
+import topicList from 'src/components/common/topiclist'
 import {loadMore} from 'src/components/common/mixin'
 import {msiteAddress, msiteFoodTypes, searchTopic, queryArticle} from 'src/service/getData'
 import 'src/plugins/swiper.min.js'
@@ -105,6 +107,7 @@ export default {
 			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
 			fakeBanner:[], //首页banner图
 			searchTopic:[],
+			showBanner: true, //是否显示banner
 			topicActive:'',//热门选择栏目
 			topicScroll: null, //栏目Scroll
 			topicActiveData:[],//选择栏目数据
@@ -112,6 +115,8 @@ export default {
 			currentPage:1,
 			pageSize:6,
 			preventRepeatRequest:false,// 防止多次触发数据请求
+			hasTopicData:false,
+			topicBarFixed:false,
         }
     },
     async beforeMount(){
@@ -119,38 +124,13 @@ export default {
 	},
 	created(){
 	},
-  mounted(){
+	destroyed () {
+		window.removeEventListener('scroll', this.handleScroll)
+	},
+    mounted(){
+		window.addEventListener('scroll', this.handleScroll)
 		this.initData();
 		this.windowHeight = window.innerHeight;
-		//查找热门
-		/* searchTopic().then(res => {
-			this.searchTopic = res.data.datas;
-			if(this.searchTopic.length>0){
-				this.topicActive = this.searchTopic[0].id;
-			}
-
-        }).then(() => {
-			//初始化better-scroll
-				const remWidth = window.screen.width/375*24;
-				let wrapperW = this.searchTopic.length*remWidth*3.6
-                this.$refs.warpperMune.style.width=wrapperW+'px';
-                this.$nextTick(()=>{
-                    if (!this.topicScroll) {
-                        this.topicScroll=new BScroll(this.$refs.searchWrapper, {
-                            startX:0,
-                            click:true,
-                            scrollX:true,
-                            scrollY:false,
-                            eventPassthrough:'vertical'
-                        })
-                    }else{
-                        this.topicScroll.refresh();
-                    }
-                });
-		})
-		*/
-		//模拟请求延时
-
         //获取导航食品类型列表
        	msiteFoodTypes().then(res => {
        		this.fakeBanner = [
@@ -168,7 +148,7 @@ export default {
 	mixins: [loadMore],
     components: {
     	headTop,
-    	shopList,
+    	topicList,
     	footGuide,
     },
     computed: {
@@ -179,12 +159,9 @@ export default {
 		]),
 		async initData(){
 			this.searchTopic = await searchTopic();
-			//获取除可滑动区域的高度
-			var pageH = document.querySelector(".msite_nav").offsetHeight + document.querySelector(".change_link_nav").offsetHeight + document.querySelector(".search_nav_wrapper").offsetHeight + document.querySelector("#foot_guide").offsetHeight
-			console.log("sss",pageH)
-			this.$refs.hotReviewContainer.style.height = pageH+"px";
 			this.topicActive = this.searchTopic[0].id;
-			const remWidth = window.screen.width/375*24;
+			this.hasTopicData = true;
+			const remWidth = window.screen.width/320*21;
 			let wrapperW = this.searchTopic.length*remWidth*3.6
 			this.$refs.warpperMune.style.width=wrapperW+'px';
 			this.$nextTick(()=>{
@@ -200,71 +177,27 @@ export default {
 					this.topicScroll.refresh();
 				}
 			});
-			this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
-			console.log(this.topicActive)
+			//this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
 		},
 		changeActice(id){
+
 			this.topicActive = id;
 			this.currentPage = 0;
-			this.preventRepeatRequest = false;
-			this.topicActiveData = [];
-			this.getArticleByType();
 		},
-		async getArticleByType(){
-			console.log("getArticleByType",this.currentPage)
-			 if (this.preventRepeatRequest) {
-                    return
+		handleScroll () {
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+			var offsetTop = document.querySelector('#topic_nav_wrapper').offsetTop - document.querySelector('#head_top').offsetHeight;
+			console.log("this.topicBarFixed",scrollTop > offsetTop)
+			if (scrollTop > offsetTop) {
+				this.topicBarFixed = true
+			} else {
+				this.topicBarFixed = false
 			}
-			this.preventRepeatRequest = true;
-			this.currentPage ++;
-			let activeDate = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
-			this.topicActiveData = [...this.topicActiveData,...activeDate];
-			if (activeDate.length >= this.pageSize) {
-        this.preventRepeatRequest = false;
-      }
-      if (this.topicActiveScroll) {
-        this.topicActiveScroll.refresh();
-      }else{
-        this.$nextTick(() => {
-          this.topicActiveScroll = new BScroll('#hotReviewContainer', {
-            probeType: 3,
-            deceleration: 0.003,
-            bounce: false,
-            swipeTime: 2000,
-            click: true,
-          });
-        })
-      }
-
-			/*
-			then(res => {
-				if(res.code === 0){
-					this.topicActiveData = res.datas;
-				}
-				console.log(res)
-			})*/
 		},
-    },
+	},
     watch: {
 		//topicActive 改变时则出发栏目文章查找方法
 		topicActive:function(value){
-			this.$nextTick(() => {
-				this.topicActiveScroll = new BScroll('#hotReviewContainer', {
-					probeType: 3,
-					deceleration: 0.003,
-					bounce: false,
-					swipeTime: 2000,
-					click: true,
-				});
-        console.log(this.topicActiveScroll)
-				this.topicActiveScroll.on('scroll', (pos) => {
-					if (Math.abs(Math.round(pos.y)) >=  Math.abs(Math.round(this.topicActiveScroll.maxScrollY))) {
-						console.log("hotReviewScrollhotReviewScroll");
-						this.getArticleByType();
-						// this.topicActiveScroll.refresh();
-					}
-				})
-			})
 		}
     }
 }
@@ -314,7 +247,6 @@ export default {
 			@include wh(100%, 100%);
 		}
 	}
-
 	.food_types_container{
 		display:flex;
 		flex-wrap: wrap;
@@ -364,7 +296,20 @@ export default {
 			}
         }
 	}
+	.isFixed{
+		position:fixed;
+		-webkit-transform: translateZ(0);
+		top:1.95rem;
+		z-index:999;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		margin-top: 0 !important;
+		transform: translate3d(0, -2rem, 0);
+	}
+	.headFadeOut{
+		transform: translate3d(0, -2rem, 0);
+	}
 	.search_nav_wrapper{
+		transition: all 1s;
 		padding: 0.4rem 0.4rem 0 0.4rem;
 		background-color: #fff;
 		margin-top: 0.4rem;
@@ -391,67 +336,19 @@ export default {
 		}
 
 	}
-	.hot_review_region{
-		padding: 0.2rem 0.4rem;
-		background-color: #fff;
-		flex: 1;
-    overflow-y: hidden;
-    flex-direction: column;
-		.hot_review_item{
-			display: flex;
-			flex: 1;
-			border-bottom: 0.025rem solid #e4e4e4;
-			.review_item_left{
-				flex: 4;
-				.review_title{
-					@include sc(0.65rem,#000);
-					padding: .5rem 0;
-					line-height: 1rem
-				}
-				.review_content{
-					@include sc(0.6rem,#999);
-					line-height: 0.8rem;
-				}
-				.author_info{
-					height: 1rem;
-					line-height: 1rem;
-					margin: .5rem 0;
-					.author_pic{
-						display: inline-block;
-						img{
-							width: .7rem;
-							height: .7rem;
-							@include borderRadius(50%);
-						}
-					}
-					.author_name{
-						@include sc(0.55rem,#666666);
-						vertical-align: top;
-					}
-				}
-			}
-			.review_item_right{
-				width: 4rem;
-				vertical-align: super;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				img{
-					width: 3.5rem;
-					margin-top: -1rem;
-					@include borderRadius(50%)
-				}
-			}
-		}
-		.hot_review_item:last-child{
-			border-bottom: none;
-		}
-
-	}
 	.fake_container{
 		display: block;
 		width: 100%;
 		height: 2rem;
 	}
+
+	.fade-enter-active, .fade-leave-active {
+		transition: all 1s;
+		transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-active {
+        transform: translate3d(0, -3rem, 0);
+  		opacity: 0;
+    }
 
 </style>
