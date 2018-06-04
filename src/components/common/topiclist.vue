@@ -7,13 +7,13 @@
 						<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
 						<div class="author_info">
 							<span class="author_pic">
-								<img :src="item.userPic" alt="">
+								<img  v-lazy="item.userPic" alt="">
 							</span>
 							<span class="author_name">{{item.realName}}</span>
 						</div>
 					</div>
 					<div class="review_item_right">
-							<img src="http://www.huixing.io/img/1519917063959.jpg" alt="">
+							<img src="../../images/default.png"  v-lazy="item.userPic" alt="">
 					</div>
 				</a>
 			</section>
@@ -191,8 +191,9 @@ export default {
 				justify-content: center;
 				align-items: center;
 				img{
-					width: 3.5rem;
-					margin-top: -1rem;
+					width: 3.2rem;
+					height: 3.2rem;
+					margin-top: -1.5rem;
 					@include borderRadius(50%)
 				}
 			}

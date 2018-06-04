@@ -187,7 +187,6 @@ export default {
 		handleScroll () {
 			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
 			var offsetTop = document.querySelector('#topic_nav_wrapper').offsetTop - document.querySelector('#head_top').offsetHeight;
-			console.log("this.topicBarFixed",scrollTop > offsetTop)
 			if (scrollTop > offsetTop) {
 				this.topicBarFixed = true
 			} else {

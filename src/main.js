@@ -5,7 +5,7 @@ import store from './store/'
 import {routerMode} from './config/env'
 import './config/rem'
 import FastClick from 'fastclick'
-
+import VueLazyLoad from 'vue-lazyload'
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -13,9 +13,12 @@ if ('addEventListener' in document) {
     }, false);
 }
 
-Vue.filter('subStrArticle', function (value) { 
-	
+Vue.use(VueLazyLoad,{
+    error:'./static/loading.png',
+    loading:'./static/loading.png'
 })
+
+//文章字符截取前40个字符显示 
 Vue.prototype.subStrArticle = function (value) {
 	let retValue = value.replace(/<[^>]+>/g,"")
 	return retValue.substring(0,40)+"..."
