@@ -1,8 +1,8 @@
 import App from '../App'
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+const article = r => require.ensure([], () => r(require('../page/article/article')), 'article')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
-const news = r => require.ensure([], () => r(require('../page/news/news')), 'news')
 const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
 //const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
@@ -61,10 +61,16 @@ export default [{
             path: '',
             redirect: '/home'
         },
+       
         //首页城市列表页
         {
             path: '/home',
             component: home
+        },
+         //编写文章
+         {
+            path:'/article',
+            component: article
         },
         //当前选择城市页
         {
@@ -75,14 +81,8 @@ export default [{
             path: '/newsDetail',
             component: newsDetail
         },
-           //新闻列表首页
-        {
-        path: '/news',
-        component: news,
-        meta: { keepAlive: true },
-        },
            //项目列表
-           {
+        {
             path: '/project',
             component: project,
             meta: { keepAlive: true },
