@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-top goBack='true' headTitle='链库'>
+    <head-top goBack='true' :headTitle='chain'>
       <router-link :to="'/search/geohash'" class="link_search" slot="search">
           <svg class="head_search_icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
@@ -33,7 +33,7 @@
         </router-link>
       </section>
     </section>
-    
+
     <transition name="loading">
       <loading v-show="showLoading"></loading>
     </transition>
@@ -69,6 +69,7 @@ export default {
       currentPage: 1,
       pageSize: 6,
       showLoading: true, //显示加载动画
+      chain:'asd'
     }
   },
 
@@ -107,6 +108,9 @@ export default {
   },
 
   methods: {
+    test(){
+      this.chain="zhuzi"
+    },
     async initData(){
       await queryProjectByType().then(res => {
         this.projectList = res.data.datas;

@@ -69,7 +69,7 @@
         left: 0;
         top: 0;
         @include wh(100%, 1.95rem);
-        @include boxshadeBottom(0,0,10px,rgba(0,0,0,.5));
+        @include boxshadeBottom(0,0,1px,rgba(0,0,0,.5));
         transition: all 1s;
     }
     .head_goback{
