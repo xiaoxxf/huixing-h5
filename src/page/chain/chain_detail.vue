@@ -2,9 +2,9 @@
   <div>
     <head-top goBack='true' :headTitle='this.projectInfo.projectName'>
       <router-link :to="'/search/geohash'" class="link_search" slot="search">
-          <svg class="head_search_icon">
+          <!-- <svg class="head_search_icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-          </svg>
+          </svg> -->
       </router-link>
     </head-top>
 
@@ -61,9 +61,9 @@
     <!-- 项目简介 -->
     <section class="project_intro_section">
       <h3 class="project_content_title">
-        <svg class="sort_type_icon">
+        <!-- <svg class="sort_type_icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
-        </svg>
+        </svg> -->
         项目简介
       </h3>
       <div class="project_content" v-if="showShortContent">
@@ -93,8 +93,14 @@
 
     <!-- 短评 -->
     <section class="project_short_comment_section"  v-if='shortCommentList.length != 0'>
-      <span class="block_span"></span>
-      <h3 class="short_comment_slogan">短评</h3>
+      <div class="project_short_comment_head">
+        <span class="block_span"></span>
+        <h3 class="short_comment_slogan">短评</h3>
+        <router-link :to="{ name: '', params: {} }" class="write_short_comment" v-if="userInfo">
+          <button type="button" name="button">+写短评</button>
+        </router-link>
+      </div>
+
       <div class="short_comment_list">
         <div class="short_comment_item" v-for="(item, index) in shortCommentList" :key="index">
           <!-- 名称、评分 -->
@@ -120,8 +126,14 @@
 
     <!-- 长评 -->
     <section class="project_long_comment_section"  v-if='longCommentList.length != 0'>
-      <span class="block_span"></span>
-      <h3 class="long_comment_slogan">长评</h3>
+      <div class="project_long_comment_head">
+        <span class="block_span"></span>
+        <h3 class="long_comment_slogan">长评</h3>
+        <router-link :to="{ name: '', params: {} }" class="write_long_comment" v-if="userInfo">
+          <button type="button" name="button">+写长评</button>
+        </router-link>
+      </div>
+
       <div class="long_comment_list">
         <div class="long_comment_item" v-for="(item, index) in longCommentList" :key="index">
           <!-- 名称、评分 -->
@@ -184,15 +196,14 @@ export default {
   },
 
   components: {
-    ...mapState([
-        'userInfo'
-    ]),
     footGuide,
     headTop
   },
 
   computed: {
-
+      ...mapState([
+          'userInfo'
+      ]),
   },
 
   mounted(){
@@ -279,10 +290,10 @@ export default {
     changeShowContentType(){
       this.showShortContent = !this.showShortContent;
     },
-    // 关注项目
+    // // 关注项目
     functionProject(){
       if (this.userinfo) {
-        debugger
+
       }
     }
 
@@ -466,20 +477,37 @@ export default {
     margin-bottom: 1.5rem;
     background-color: white;
     padding: 0.8rem;
-    .block_span{
-      position: relative;
-      // margin-top: 5px;
-      float: left;
-      width: 0.2rem;
-      height: 0.8rem;
-      margin-right: 0.3rem;
-      background-color: #006bb3;
+    .project_short_comment_head{
+      display: flex;
+      flex-direction: row;
+      .block_span{
+        position: relative;
+        // margin-top: 5px;
+        float: left;
+        width: 0.2rem;
+        height: 0.8rem;
+        margin-right: 0.3rem;
+        background-color: #006bb3;
+      }
+      .short_comment_slogan{
+        color:#151616;
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+      .write_short_comment{
+        padding: 0 0.4rem;
+        background: white;
+        font-size: 0.6rem;
+        border: solid 1px #006bb3;
+        margin-left: 65%;
+        border-radius: 0.2rem;
+        button{
+          color: #006bb3;
+          background: white;
+        }
+      }
     }
-    .short_comment_slogan{
-      color:#151616;
-      font-size: 0.65rem;
-      font-weight: 700;
-    }
+
     // 短评列表
     .short_comment_list{
       margin-top: 0.4rem;
@@ -534,20 +562,37 @@ export default {
     margin-bottom: 2rem;
     background-color: white;
     padding: 0.8rem;
-    .block_span{
-      position: relative;
-      // margin-top: 5px;
-      float: left;
-      width: 0.2rem;
-      height: 0.8rem;
-      margin-right: 0.3rem;
-      background-color: #006bb3;
+    .project_long_comment_head{
+      display: flex;
+      flex: row;
+      .write_long_comment{
+        padding: 0 0.4rem;
+        background: white;
+        font-size: 0.6rem;
+        border: solid 1px #006bb3;
+        margin-left: 65%;
+        border-radius: 0.2rem;
+        button{
+          color: #006bb3;
+          background: white;
+        }
+      }
+      .block_span{
+        position: relative;
+        // margin-top: 5px;
+        float: left;
+        width: 0.2rem;
+        height: 0.8rem;
+        margin-right: 0.3rem;
+        background-color: #006bb3;
+      }
+      .long_comment_slogan{
+        color:#151616;
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
     }
-    .long_comment_slogan{
-      color:#151616;
-      font-size: 0.65rem;
-      font-weight: 700;
-    }
+
     // 长评列表
     .long_comment_list{
       margin-top: 0.4rem;
