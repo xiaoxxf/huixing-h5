@@ -14,8 +14,8 @@ if ('addEventListener' in document) {
 }
 
 Vue.use(VueLazyLoad,{
-    error:'./static/weixin.png',
-    loading:'./static/weixin.png'
+    error:'./static/loading.png',
+    loading:'./static/loading.png'
 })
 
 //文章字符截取前40个字符显示 

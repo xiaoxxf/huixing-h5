@@ -13,7 +13,7 @@
 						</div>
 					</div>
 					<div class="review_item_right">
-							<img v-lazy="item.userPic" alt="">
+							<img src="../../images/default.png"  v-lazy="item.userPic" alt="">
 					</div>
 				</a>
 			</section>
@@ -191,9 +191,9 @@ export default {
 				justify-content: center;
 				align-items: center;
 				img{
-					width: 3.5rem;
-					height: 3.5rem;
-					margin-top: -1rem;
+					width: 3.2rem;
+					height: 3.2rem;
+					margin-top: -1.5rem;
 					@include borderRadius(50%)
 				}
 			}
