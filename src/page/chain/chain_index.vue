@@ -22,16 +22,21 @@
       </nav>
     </head-top>
 
-    <section class="project_list">
-      <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
-          :class="{'project_item': true, 'border': (index+1)%3 != 0, }">
-        <div>
-          <img :src="item.projectLogo" alt="">
-          <p class="project_big_name">{{item.projectBigName}}</p>
-        </div>
-      </router-link>
+    <section>
+      <section class="project_list" v-load-more="loaderMore">
+        <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
+            :class="{'project_item': true, 'border': (index+1)%3 != 0, }">
+          <div>
+            <img v-lazy="item.projectLogo" alt="">
+            <p class="project_big_name">{{item.projectBigName}}</p>
+          </div>
+        </router-link>
+      </section>
     </section>
-
+    
+    <transition name="loading">
+      <loading v-show="showLoading"></loading>
+    </transition>
 
 	  <span class="fake_container"></span>
   	<foot-guide></foot-guide>
@@ -44,9 +49,11 @@ import {mapMutations} from 'vuex'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import {loadMore} from 'src/components/common/mixin'
+import {showBack, animate} from 'src/config/mUtils'
 import {getProjectCategory, queryProjectByType} from 'src/service/getData'
-import 'src/plugins/swiper.min.js'
-import 'src/style/swiper.min.css'
+import loading from 'src/components/common/loading'
+// import 'src/plugins/swiper.min.js'
+// import 'src/style/swiper.min.css'
 import BScroll from 'better-scroll'
 
 export default {
@@ -60,13 +67,15 @@ export default {
 			touchend: false, //没有更多数据
       showLoading: true, //显示加载动画
       currentPage: 1,
-      pageSize: 6
+      pageSize: 6,
+      showLoading: true, //显示加载动画
     }
   },
 
   components: {
     footGuide,
-    headTop
+    headTop,
+    loading,
   },
   mixins: [loadMore],
 
@@ -93,31 +102,16 @@ export default {
     })
 
     // 渲染所有项目数据
-    this.initData().then(() => {
-      this.$nextTick(() => {
-        this.project_list_scroll = new BScroll('.project_list', {
-          probeType: 3,
-					deceleration: 0.003,
-					bounce: false,
-					swipeTime: 2000,
-					click: true,
-        });
-        console.log(this.project_list_scroll)
-        this.project_list_scroll.on('scroll', (pos) => {
-          if (Math.abs(Math.round(pos.y)) >=  Math.abs(Math.round(this.project_list_scroll.maxScrollY))) {
-            console.log("hotReviewScrollhotReviewScroll");
-            this.loaderMore();
-            // this.topicActiveScroll.refresh();
-          }
-        })
-      })
-    })
+    this.initData()
 
   },
 
   methods: {
     async initData(){
-      this.projectList =  await queryProjectByType();
+      await queryProjectByType().then(res => {
+        this.projectList = res.data.datas;
+        this.showLoading = false;
+      });
     },
 
     // 改变选中的项目类型
@@ -130,12 +124,17 @@ export default {
       // 重置
       this.currentPage = 1;
       this.touchend = false;
-      // this.preventRepeatReuqest = false;
-
       var projectType = this.typeActive;
       // var currentPage = this.currentPage;
       // var pageSize = this.pageSize;
-      this.projectList =  await queryProjectByType(projectType);
+      this.projectList = [];
+      this.showLoading = true;
+      await queryProjectByType(projectType).then(res => {
+        this.projectList = res.data.datas
+        this.showLoading = false;
+      }).catch(err => {
+        console.log('加载项目列表错误:' + err);
+      });
     },
 
     //到达底部加载更多数据
@@ -150,7 +149,12 @@ export default {
 			this.preventRepeatReuqest = true;
 
       this.currentPage ++;
-      this.projectList = [...this.projectList, ...queryProjectByType(this.typeActive,this.currentPage,this.pageSize)]
+      var more_project_list = [];
+      await queryProjectByType(this.typeActive,this.currentPage,this.pageSize).then(res => {
+        more_project_list = res.data.datas
+      })
+      debugger
+      this.projectList = [...this.projectList, ...more_project_list]
 			// this.hideLoading();
 
 			this.preventRepeatReuqest = false;
