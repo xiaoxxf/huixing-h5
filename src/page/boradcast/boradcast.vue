@@ -1,21 +1,21 @@
 <template>
 	<div>
-    	<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
-			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
-					<span class="title_text ellipsis">
-						<svg class="head_search_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-						</svg>
-						{{msiteTitle}}
-				</span>
+		<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
+		<router-link :to="'/search/geohash'" slot="search" class="msite_title">
+				<span class="title_text ellipsis">
+					<svg class="head_search_icon">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+					</svg>
+					{{msiteTitle}}
+			</span>
+		</router-link>
+		<router-link :to="'/search/geohash'" class="link_search" slot="search">
+				<svg class="head_search_icon">
+				<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+			</svg>
 			</router-link>
-			<router-link :to="'/search/geohash'" class="link_search" slot="search">
-	    		<svg class="head_search_icon">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-				</svg>
-    		</router-link>
-    	</head-top>	
-    	<!--关注-->
+		</head-top>
+    <!--关注-->
 		<section class="broadcast_wrapper">
 			<div class="broadcast_wrapper_top">
 				<ul class="broadcast_wrapper_top_list">
@@ -34,7 +34,7 @@
 					<span class="user_attention_btn">关注</span>
 					<!--转发-->
 					<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
-					
+
 				</div>
 				<div class="botton_list_user_content">
 					<p class="user_content_info">我们常常使用let来声明一个值会被改变的变量，可以称之为常量。当值为基础数据类型时，那么这里的值，就是指值本身
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 		</section>
-		
+
 		<!--点评-->
 		<section class="write_comment">
 			<div class="write_comment_list">
@@ -83,7 +83,7 @@
 					<div class="write_user_comment_info">
 						<p class="write_comment_title">我们常常使用let来声明</p>
 						<p class="write_comment_score">这里的值，就是指值本身而当值对应的为引用数据类型时</p>
-						
+
 					</div>
 				</div>
 				<div class="write_bottom_list_user_flow">
@@ -124,7 +124,7 @@
 				</div>
 			</div>
 		</section>
-		
+
 		<!--转发评论-->
 		<section class="send_comment">
 			<div class="send_comment_list">
@@ -147,7 +147,7 @@
 					<div class="send_user_comment_info">
 						<p class="send_comment_title">我们常常使用let来声明</p>
 						<p class="send_comment_score">这里的值，就是指值本身而当值对应的为引用数据类型时</p>
-						
+
 					</div>
 				</div>
 				<div class="send_bottom_list_user_flow">
@@ -184,7 +184,7 @@
 					<div class="publish_article_info">
 						<p class="publish_article_title">我们常常使用let来声明</p>
 						<p class="publish_article_score">这里的值，就是指值本身而当值对应的为引用数据类型时</p>
-						
+
 					</div>
 				</div>
 				<div class="publish_article_bottom_list_user_flow">
@@ -200,7 +200,7 @@
 				</div>
 			</div>
 		</section>
-    	<foot-guide></foot-guide>
+    <foot-guide></foot-guide>
 	</div>
 </template>
 
@@ -210,14 +210,16 @@
     export default {
     	data(){
             return{
-                
+							msiteTitle: '搜索彗星内容', // msite页面头部标题
+							topicBarFixed:false,
+
             }
        },
         created(){
-           
+
         },
         mounted(){
-            
+
         },
 	    components: {
 	    	headTop,
@@ -299,9 +301,9 @@
 					color: #007fcc;
 			    	border-bottom: solid 1px #007fcc;
 			    	.attention_item{
-			    		color: #007fcc; 
+			    		color: #007fcc;
 			    	}
-			    	
+
 				}
 			}
 			.broadcast_wrapper_bottom_list{
@@ -335,13 +337,13 @@
 						    padding: 0.1rem;
 						    border-radius: 0.1rem;
 						    font-size: 0.1rem;
-							
+
 						}
 						.send_icon{
 							float: right;
     						margin-top: -1.2rem;
 						}
-						
+
 					}
 					.botton_list_user_content{
 							.user_content_info{
@@ -349,7 +351,7 @@
 					}
 					.bottom_list_user_comment{
 						margin-top: 0.4rem;
-					    background-color: #c3c8c85c;
+					    background-color: #f1f5f7;
 					    padding: 0.5rem;
 						border-radius: 0.1rem;
 						.comment_user_icon{
@@ -375,9 +377,9 @@
 							padding-left: 2rem;
 						}
 					}
-					
+
 			}
-			
+
 	}
 	/*关注底部转发评论点赞*/
 	.flow_send_icon,.flow_comment_icon,.flow_heart_icon{
@@ -386,7 +388,7 @@
 		padding: 0.5rem 0rem;
 		color: #999;
 	}
-	
+
 	.sort_type_icon{
 		width: 0.8rem;
 	    height: 0.8rem;
@@ -394,7 +396,7 @@
 	    margin-right: 0.2rem;
 	}
 
-	
+
 	/*点评*/
 	.write_comment{
 		.write_comment_list{
@@ -428,27 +430,27 @@
 				    padding: 0.1rem;
 				    border-radius: 0.1rem;
 			    	font-size: 0.1rem;
-					                                                                
+
 				}
 				.send_icon{
 					float: right;
-				}                                                     
-				
+				}
+
 			}
 			.comment_botton_list_user_content {
 				.comment_user_content_info{
 					/*padding: 0rem 0.6rem;*/
 				}
-				
+
 			}
 			.comment_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #c3c8c85c;
+			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
-				
+
 			}
-			
+
 		}
 	}
 	/*点评写评论项目图片*/
@@ -464,7 +466,7 @@
 	/*点评底部转发评论点赞*/
 	.write_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
-		
+
 	}
 	.write_flow_send_icon,.write_flow_comment_icon,.write_flow_heart_icon{
 		width: 32%;
@@ -506,11 +508,11 @@
 	    		width: 30%;
     			margin-left: 2rem;
 	    	}
-	    	
+
 	    }
 	}
 	.short_comment_content{
-	    	
+
 	   }
 	.short_bottom_list_user_flow{
     	border-bottom: solid 1px gainsboro;
@@ -525,7 +527,7 @@
 	}
 	.short_flow_comment_icon{
 		padding-left: 1.2rem;
-	} 
+	}
 	.short_flow_heart_icon{
 		padding-left: 2rem;
 	}
@@ -535,8 +537,8 @@
 	    vertical-align: top;
 	    margin-right: 0.2rem;
 	}
-	
-	
+
+
 	/*转发*/
 	.send_comment{
 		.send_comment_list{
@@ -574,24 +576,24 @@
 				.send_icon{
 					float: right;
 				}
-				
+
 			}
 			.send_comment_botton_list_user_content {
 				.send_comment_user_content_info{
 					padding: 0rem 0.2rem;
 				}
-				
+
 			}
 			.send_comment_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #c3c8c85c;
+			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
 				.send_author{
 					margin-bottom: 0.3rem;
 				}
 			}
-			
+
 		}
 	}
 	/*点评写评论项目图片*/
@@ -615,7 +617,7 @@
 	/*点评底部转发评论点赞*/
 	.send_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
-		
+
 	}
 	.send_flow_send_icon,.send_flow_comment_icon,.send_flow_heart_icon{
 		width: 32%;
@@ -635,7 +637,7 @@
 	    vertical-align: top;
 	    margin-right: 0.2rem;
 	}
-	 
+
 	 /*发表文章*/
 	.publish_article{
 		.publish_article_list{
@@ -670,27 +672,27 @@
 				    padding: 0.1rem;
 				    border-radius: 0.1rem;
 			    	font-size: 0.1rem;
-					
+
 				}
 				.send_icon{
 					float: right;
 				}
-				
+
 			}
 			.publish_article_botton_list_user_content {
 				.publish_article_content_info{
 					/*padding: 0rem 0.6rem;*/
 				}
-				
+
 			}
 			.publish_article_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #c3c8c85c;
+			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
-				
+
 			}
-			
+
 		}
 	}
 	/*点评写评论项目图片*/
@@ -706,7 +708,7 @@
 	/*点评底部转发评论点赞*/
 	.publish_article_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
-		
+
 	}
 	.publish_article_flow_send_icon,
 	.publish_article_flow_comment_icon,
@@ -727,5 +729,5 @@
 	    height: 0.8rem;
 	    vertical-align: top;
 	    margin-right: 0.2rem;
-	}  
+	}
 </style>
