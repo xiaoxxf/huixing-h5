@@ -13,7 +13,7 @@
 						</div>
 					</div>
 					<div class="review_item_right">
-							<img src="../../images/default.png"  v-lazy="item.userPic" alt="">
+							<img  v-lazy="item.userPic" alt="">
 					</div>
 				</a>
 			</section>
@@ -142,7 +142,7 @@ export default {
 		opacity: 0
 	}
 	.containerFixed{
-		padding-top: 1.95rem;	
+		padding-top: 1.95rem;
 	}
 	.hot_review_region{
 		padding: 0.2rem 0.4rem;
@@ -207,6 +207,6 @@ export default {
 		.loading-enter, .loading-leave-active {
 			opacity: 0
 		}
-		
+
 	}
 </style>

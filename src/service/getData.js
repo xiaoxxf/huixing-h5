@@ -16,6 +16,7 @@ export const newList = () => fetch('/api/news', {}, 'GET');
 	'pageSize': '6',
 }, 'get');
 */
+// 获取专题列表
 export const searchTopic = () => axios.get('/topic/seachTopic', {
 	params: {
 		currentPage: '1',
@@ -27,7 +28,7 @@ export const searchTopic = () => axios.get('/topic/seachTopic', {
 .catch(function(err){
 	console.log(err);
 });
- 
+
 export const queryArticle = (topicId,currentPage,pageSize) => axios.get('/topic/quaryArticle', {
 	params: {
 		currentPage,
@@ -65,6 +66,72 @@ export const getUser = () => axios.get('/news/quaryusers', {
 		userId: getStore('user_id')
 	}
 });
+
+// 获取项目的分类列表
+export const getProjectCategory = () => axios.get('blockchain/quary', {
+	params: {
+		parentId: 1
+	}
+})
+
+// 获取项目信息（列表）
+export const queryProjectByType = (projectType,currentPage = 1,pageSize = 24) => axios.get('blockchain/quaryProjetList', {
+	params: {
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'projectType': projectType,
+		// 'order': 3 //排序 不传->评论数  2->评分（评价） 3->时间
+	}
+})
+// 获取项目信息（详情）
+export const queryProjectInfo = (projectId) => axios.get('blockchain/detail',{
+	params: {
+		'projectId': projectId
+	}
+}).then(function(res){
+	return res.data.datas
+}).catch(function(err){
+	console.log('获取项目信息错误:' + err)
+})
+
+// 获取项目下的评论 type=1为短评 type=2为长评
+export const queryCommentByProject = (projectId,currentPage=1,pageSize=2,type) => axios.get('blockchain/quaryReview',{
+	params: {
+		'projectId': projectId,
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'type': type
+	}
+})
+
+// 点赞评论（文章） likes = 1点赞， likes = 0取消点赞
+export const addLikeToArticle = (reviewId,userId,likes) => axios.get('blockchain/addLike',{
+	params: {
+		'reviewId': reviewId,
+		'userId': userId,
+		'likes': likes
+	}
+})
+
+
+/**
+	关注类型
+	type
+	1-我关注的人
+	2-关注专题
+	3-关注项目
+	4-关注我的人
+**/
+export const follow = (attentionId,creator,password,type) => axios.get('attention/attent',{
+	params: {
+		'attentionId': attentionId, //关注的对象Id
+		'creator': creator, // 关注动作发起者
+		'password': password,
+		'type': type // 关注类型
+	}
+})
+
+// 原项目
 /**
  * 获取首页默认地址
  */
