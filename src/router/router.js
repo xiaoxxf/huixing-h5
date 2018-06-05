@@ -94,7 +94,7 @@ export default [{
         {
         	path:'/mine',
         	component:mine
-
+        },
          //编写文章
          {
             path:'/article',
