@@ -6,6 +6,9 @@ import {routerMode} from './config/env'
 import './config/rem'
 import FastClick from 'fastclick'
 import VueLazyLoad from 'vue-lazyload'
+import 'font-awesome.css/css/font-awesome.css'
+import initRichText from './utils/editor'  
+ 
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -17,6 +20,8 @@ Vue.use(VueLazyLoad,{
     error:'./static/loading.png',
     loading:'./static/loading.png'
 })
+
+initRichText();  
 
 //文章字符截取前40个字符显示 
 Vue.prototype.subStrArticle = function (value) {

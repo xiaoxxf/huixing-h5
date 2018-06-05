@@ -1,12 +1,17 @@
 import App from '../App'
-
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
-const chain_index = r => require.ensure([], () => r(require('../page/chain/chain_index')), 'chain_index')
-const chain_detail = r => require.ensure([], () => r(require('../page/chain/chain_detail')), 'chain_detail')
 
-// 原项目
+// 项目列表
+const chain_index = r => require.ensure([], () => r(require('../page/chain/chain_index')), 'chain_index')
+// 项目详情
+const chain_detail = r => require.ensure([], () => r(require('../page/chain/chain_detail')), 'chain_detail')
+//广播
+const boradcast = r => require.ensure([], () => r(require('../page/boradcast/boradcast')), 'boradcast')
+// 个人主页
+const mine = r => require.ensure([], () => r(require('../page/mine/mine')), 'mine')
+const article = r => require.ensure([], () => r(require('../page/article/article')), 'article')
+
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
-const news = r => require.ensure([], () => r(require('../page/news/news')), 'news')
 const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
 //const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
@@ -53,9 +58,6 @@ const questionDetail = r => require.ensure([], () => r(require('../page/service/
 const find = r => require.ensure([], () => r(require('../page/find/find')), 'find')
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
 
-
-
-
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -65,7 +67,6 @@ export default [{
             path: '',
             redirect: '/home'
         },
-        //首页
         {
             path: '/home',
             component: home
@@ -84,7 +85,21 @@ export default [{
           component: chain_detail
         },
 
-// 原项目
+        //广播列表页
+        {
+        	path:'/boradcast',
+        	component:boradcast
+        },
+       	//我的列表页
+        {
+        	path:'/mine',
+        	component:mine
+
+         //编写文章
+         {
+            path:'/article',
+            component: article
+        },
         //当前选择城市页
         {
             path: '/city/:cityid',
@@ -94,14 +109,8 @@ export default [{
             path: '/newsDetail',
             component: newsDetail
         },
-           //新闻列表首页
-        {
-        path: '/news',
-        component: news,
-        meta: { keepAlive: true },
-        },
            //项目列表
-           {
+        {
             path: '/project',
             component: project,
             meta: { keepAlive: true },
