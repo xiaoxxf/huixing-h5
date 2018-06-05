@@ -131,6 +131,20 @@ export const follow = (attentionId,creator,password,type) => axios.get('attentio
 	}
 })
 
+/**
+	获取广播列表数据
+	like = 1 按点赞数加载（推荐）
+**/
+export const getBoradcastData = (currentPage,pageSize,like,loginUser) => axios.get('blockchain/quaryReviewByUser',{
+	params: {
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'like': like,
+		'loginUser': loginUser
+	}
+})
+
+
 // 原项目
 /**
  * 获取首页默认地址

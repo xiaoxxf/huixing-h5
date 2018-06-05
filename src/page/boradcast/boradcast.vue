@@ -1,56 +1,59 @@
 <template>
 	<div>
-    	<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
-			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
-					<span class="title_text ellipsis">
-						<svg class="head_search_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-						</svg>
-						{{msiteTitle}}
-				</span>
+		<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
+		<router-link :to="'/search/geohash'" slot="search" class="msite_title">
+				<span class="title_text ellipsis">
+					<svg class="head_search_icon">
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+					</svg>
+					{{msiteTitle}}
+			</span>
+		</router-link>
+		<router-link :to="'/search/geohash'" class="link_search" slot="search">
+				<svg class="head_search_icon">
+				<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+			</svg>
 			</router-link>
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 				</svg>
     		</router-link>
-    	</head-top>	
+    	</head-top>
     	<!--切换项-->
 		<section class="broadcast_wrapper">
 			<div class="broadcast_wrapper_top">
 				<ul class="broadcast_wrapper_top_list">
-					<li class="attention_icon"><a href="" class="attention_item">关注</a></li>
-					<li><a href="" class="comment_item">推荐</a></li>
-					<li><a href="#/news">播报</a></li>
+					<li :class="{attention_icon: like == ''}" @click='changeLike(0)'>关注</li>
+					<li :class="{attention_icon: like == 1}" @click='changeLike(1)'>推荐</li>
 				</ul>
 			</div>
 		</section>
-		
+
 		<!--所有动态-->
-		<section class="all_dynamic">
-	    	<!--关注-->
-			<section class="broadcast_wrapper_bottom">
+		<section class="all_dynamic"  v-for="(item, index) in dataList" :key="index" v-load-more="loaderMore">
+	    <!-- 短评 -->
+			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
 				<div class="broadcast_wrapper_bottom_list">
 					<div class="bottom_list_user_info">
 						<img src="../../images/elmlogo.jpeg" class="user_icon" />
 						<div class="user_name_time">
-							<p class="user_name">子不语</p>
-							<p class="user_time">12分钟前</p>
+							<p class="user_name">{{item.realName}}</p>
+							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
 						<span class="user_attention_btn">关注</span>
-						<!--转发-->
 						<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
-						
+
 					</div>
 					<div class="botton_list_user_content">
-						<p class="user_content_info">我们常常使用let来声明一个值会被改变的变量，可以称之为常量。当值为基础数据类型时，那么这里的值，就是指值本身
-							而当值对应的为引用数据类型时，那么我这里说的值
+						<p class="user_content_info">
+							{{item.textTitle}}
 						</p>
 					</div>
 					<div class="bottom_list_user_comment">
 						<img src="../../images/fenxiang.png" class="comment_user_icon"/>
 						<div class="user_comment_info">
-							<p class="comment_title">decentraland</p>
+							<p class="comment_title">{{item.projectBigName}}</p>
 							<p class="comment_score">评分</p>
 						</div>
 					</div>
@@ -67,177 +70,184 @@
 					</div>
 				</div>
 			</section>
-	
-			<!--点评-->
-			<section class="write_comment">
+
+			<!--长评-->
+			<section class="write_comment" v-if='item.type == 2'>
 				<div class="write_comment_list">
 					<div class="write_comment_list_info">
 						<img src="../../images/elmlogo.jpeg" class="comment_list_user_icon" />
 						<div class="comment_user_name_time">
-							<p class="comment_user_name">子不语</p>
-							<p class="comment_user_time">12分钟前</p>
+							<p class="comment_user_name">{{item.realName}}</p>
+							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
-						<!--<span class="comment_user_attention_btn">关注</span>-->
-						<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
+						<span class="comment_user_attention_btn">关注</span>
+						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
 					</div>
 					<div class="comment_botton_list_user_content">
-						<p class="comment_user_content_info">写了xxx的点评
+						<p class="comment_user_content_info">写了{{item.projectBigName}}的点评
 						</p>
 					</div>
 					<div class="comment_bottom_list_user_comment">
 						<img src="../../images/fenxiang.png" class="comments_user_icon"/>
 						<div class="write_user_comment_info">
-							<p class="write_comment_title">我们常常使用let来声明</p>
-							<p class="write_comment_score">这里的值，就是指值本身而当值对应的为引用数据类型时</p>
-							
+							<p class="write_comment_title">{{item.textTitle}}</p>
+							<p class="write_comment_score">{{item.textContent}}</p>
 						</div>
 					</div>
 					<div class="write_bottom_list_user_flow">
-						<div class="write_flow_send_icon">
+						<!-- <div class="write_flow_send_icon">
 							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div>
+						</div> -->
 						<div class="write_flow_comment_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>
+							{{item.review}}
 						</div>
 						<div class="write_flow_heart_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
+							{{item.likes}}
 						</div>
 					</div>
 				</div>
 			</section>
-			<!--发短评-->
-			<section class="short_comment">
-				<div class="short_comment_list_info">
-					<img src="../../images/elmlogo.jpeg" class="short_comment_list_user_icon" />
-					<div class="short_comment_user_name_time">
-						<p class="short_comment_user_name">子不语</p>
-						<p class="short_comment_time">12分钟前</p>
-					</div>
-					<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
-				</div>
-				<p class="short_comment_content">
-					彗星项目很棒！
-				</p>
-				<div class="short_bottom_list_user_flow">
-					<div class="short_flow_send_icon">
-						<span><svg data-v-17048857="" class="short_sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-					</div>
-					<div class="short_flow_comment_icon">
-						<span><svg data-v-17048857="" class="short_sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-					</div>
-					<div class="short_flow_heart_icon">
-						<span><svg data-v-17048857="" class="short_sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
-					</div>
-				</div>
-			</section>
-			
-			<!--转发评论-->
-			<section class="send_comment">
-				<div class="send_comment_list">
-					<div class="send_comment_list_info">
-						<img src="../../images/elmlogo.jpeg" class="send_comment_list_user_icon" />
-						<div class="send_comment_user_name_time">
-							<p class="send_comment_user_name">子不语</p>
-							<p class="send_comment_user_time">12分钟前</p>
-						</div>
-						<!--<span class="send_comment_user_attention_btn">关注</span>-->
-						<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
-					</div>
-					<div class="send_comment_botton_list_user_content">
-						<p class="send_comment_user_content_info">转发比特币
-						</p>
-					</div>
-					<div class="send_comment_bottom_list_user_comment">
-						<p class="send_author">自瑜：写了评论</p>
-						<img src="../../images/fenxiang.png" class="send_comments_user_icon"/>
-						<div class="send_user_comment_info">
-							<p class="send_comment_title">我们常常使用let来声明</p>
-							<p class="send_comment_score">这里的值，就是指值本身而当值对应的为引用数据类型时</p>
-							
-						</div>
-					</div>
-					<div class="send_bottom_list_user_flow">
-						<div class="send_flow_send_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div>
-						<div class="send_flow_comment_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div>
-						<div class="send_flow_heart_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
-						</div>
-					</div>
-				</div>
-			</section>
+
 			<!--发表文章-->
-			<section class="publish_article">
+			<section class="publish_article" v-if='item.type == 4'>
 				<div class="publish_article_list">
 					<div class="publish_article_list_info">
 						<img src="../../images/elmlogo.jpeg" class="publish_article_user_icon" />
 						<div class="publish_article_name_time">
-							<p class="publish_article_name">子不语</p>
-							<p class="publish_article_time">12分钟前</p>
+							<p class="publish_article_name">{{item.realName}}</p>
+							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
-						<!--<span class="publish_article_attention_btn">关注</span>-->
-						<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
+						<span class="publish_article_attention_btn">关注</span>
+						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
 					</div>
 					<div class="publish_article_botton_list_user_content">
 						<p class="publish_article_content_info">发表了文章
 						</p>
 					</div>
 					<div class="publish_article_bottom_list_user_comment">
-						<img src="../../images/fenxiang.png" class="publish_article_icon"/>
+						<!-- <img src="../../images/fenxiang.png" class="publish_article_icon"/> -->
 						<div class="publish_article_info">
-							<p class="publish_article_title">我们常常使用let来声明</p>
-							<p class="publish_article_score">这里的值，就是指值本身而当值对应的为引用数据类型时</p>
-							
+							<p class="publish_article_title">{{item.textTitle}}</p>
+							<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
 						</div>
 					</div>
 					<div class="publish_article_bottom_list_user_flow">
 						<div class="publish_article_flow_send_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
+							<span>
+								<svg data-v-17048857="" class="sort_type_icon">
+									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use>
+								</svg>
+							</span>
+							{{item.review}}
 						</div>
-						<div class="publish_article_flow_comment_icon">
+						<!-- <div class="publish_article_flow_comment_icon">
 							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div>
+						</div> -->
 						<div class="publish_article_flow_heart_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
+							<span>
+								<svg data-v-17048857="" class="sort_type_icon">
+									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart">
+									</use>
+								</svg>
+							</span>
+							{{item.likes}}
 						</div>
 					</div>
 				</div>
 			</section>
+
 		</section>
-    	<foot-guide></foot-guide>
+    <foot-guide></foot-guide>
 	</div>
 </template>
 
 <script>
 	import headTop from 'src/components/header/head'
 	import footGuide from 'src/components/footer/footGuide'
-    export default {
-    	data(){
-            return{
-                
-            }
-       },
-        created(){
-           
-        },
-        mounted(){
-            
-        },
-	    components: {
-	    	headTop,
-	    	footGuide,
-	    },
-        computed: {
+	import {getBoradcastData} from 'src/service/getData'
+	import {getStore, setStore, removeStore} from 'src/config/mUtils'
+	import {loadMore} from 'src/components/common/mixin'
 
-        },
-        methods: {
-        	gotoAddress(path){
-        		this.$router.push(path)
-        	}
-        },
+    export default {
+			data(){
+				return{
+					msiteTitle: '搜索彗星内容', // msite页面头部标题
+					topicBarFixed:false,
+					dataList: [],
+					currentPage: 1,
+					pageSize: 12,
+					like: '',
+					loginUser: ''
+				}
+			},
+
+			created(){
+
+			},
+
+			mounted(){
+				this.$nextTick(()=>{
+					this.initData();
+				});
+			},
+
+			components: {
+				headTop,
+				footGuide,
+			},
+
+			computed: {
+
+			},
+
+			methods: {
+				initData(){
+					this.loginUser = getStore('user_id');
+					this.currentPage = 1;
+					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
+						this.dataList = res.data.datas;
+						// 去除HTML标签
+						for (var i = 0; i < this.dataList.length; i++) {
+							this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+						}
+					}).catch(err => {
+						console.log('获取列表数据错误:' + err)
+					})
+				},
+
+				// 加载关注or全部
+				changeLike(e){
+					if (e) {
+						this.like = 1
+					}else{
+						this.like = ''
+					}
+				},
+
+				// 加载更多
+				loaderMore(){
+					this.currentPage ++;
+					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
+						var temp_list = res.data.datas;
+						// 去除HTML标签
+						for (var i = 0; i < temp_list.length; i++) {
+							temp_list[i].textContent = temp_list[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+						}
+						this.dataList = [...temp_list,...res.data.datas];
+					}).catch(err => {
+						console.log('获取列表数据错误:' + err)
+					})
+				}
+			},
+
+			watch: {
+				like:function(value){
+					this.dataList = []
+					this.initData()
+				}
+			}
 
     }
 </script>
@@ -306,15 +316,15 @@
 					color: #007fcc;
 			    	border-bottom: solid 1px #007fcc;
 			    	.attention_item{
-			    		color: #007fcc; 
+			    		color: #007fcc;
 			    	}
-			    	
+
 				}
 			}
-			
-			
+
+
 	}
-	
+
 	/*导航栏分离*/
 	.all_dynamic{
 		.broadcast_wrapper_bottom{
@@ -349,13 +359,13 @@
 						    padding: 0.1rem;
 						    border-radius: 0.1rem;
 						    font-size: 0.1rem;
-							
+
 						}
 						.send_icon{
 							float: right;
     						margin-top: -1.2rem;
 						}
-						
+
 					}
 					.botton_list_user_content{
 							.user_content_info{
@@ -363,7 +373,7 @@
 					}
 					.bottom_list_user_comment{
 						margin-top: 0.4rem;
-					    background-color: #c3c8c85c;
+					    background-color: #f1f5f7;
 					    padding: 0.5rem;
 						border-radius: 0.1rem;
 						.comment_user_icon{
@@ -389,7 +399,7 @@
 							padding-left: 2rem;
 						}
 					}
-					
+
 			}
 	}
 	/*关注底部转发评论点赞*/
@@ -399,7 +409,7 @@
 		padding: 0.5rem 0rem;
 		color: #999;
 	}
-	
+
 	.sort_type_icon{
 		width: 0.8rem;
 	    height: 0.8rem;
@@ -407,8 +417,8 @@
 	    margin-right: 0.2rem;
 	}
 
-	
-	
+
+
 	/*点评*/
 	.write_comment{
 		.write_comment_list{
@@ -442,28 +452,28 @@
 				    padding: 0.1rem;
 				    border-radius: 0.1rem;
 			    	font-size: 0.1rem;
-					                                                                
+
 				}
 				.send_icon{
 					float: right;
 					margin-top: -1.2rem;
-				}                                                     
-				
+				}
+
 			}
 			.comment_botton_list_user_content {
 				.comment_user_content_info{
 					/*padding: 0rem 0.6rem;*/
 				}
-				
+
 			}
 			.comment_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #c3c8c85c;
+			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
-				
+
 			}
-			
+
 		}
 	}
 	/*点评写评论项目图片*/
@@ -479,7 +489,7 @@
 	/*点评底部转发评论点赞*/
 	.write_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
-		
+
 	}
 	.write_flow_send_icon,.write_flow_comment_icon,.write_flow_heart_icon{
 		width: 32%;
@@ -521,11 +531,11 @@
 	    		width: 30%;
     			margin-left: 2rem;
 	    	}
-	    	
+
 	    }
 	}
 	.short_comment_content{
-	    	
+
 	   }
 	.short_bottom_list_user_flow{
     	border-bottom: solid 1px gainsboro;
@@ -540,7 +550,7 @@
 	}
 	.short_flow_comment_icon{
 		padding-left: 1.2rem;
-	} 
+	}
 	.short_flow_heart_icon{
 		padding-left: 2rem;
 	}
@@ -550,8 +560,8 @@
 	    vertical-align: top;
 	    margin-right: 0.2rem;
 	}
-	
-	
+
+
 	/*转发*/
 	.send_comment{
 		.send_comment_list{
@@ -590,24 +600,24 @@
 					float: right;
 					margin-top: -1.2rem;
 				}
-				
+
 			}
 			.send_comment_botton_list_user_content {
 				.send_comment_user_content_info{
 					padding: 0rem 0.2rem;
 				}
-				
+
 			}
 			.send_comment_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #c3c8c85c;
+			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
 				.send_author{
 					margin-bottom: 0.3rem;
 				}
 			}
-			
+
 		}
 	}
 	/*点评写评论项目图片*/
@@ -631,7 +641,7 @@
 	/*点评底部转发评论点赞*/
 	.send_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
-		
+
 	}
 	.send_flow_send_icon,.send_flow_comment_icon,.send_flow_heart_icon{
 		width: 32%;
@@ -651,7 +661,7 @@
 	    vertical-align: top;
 	    margin-right: 0.2rem;
 	}
-	 
+
 	 /*发表文章*/
 	.publish_article{
 		.publish_article_list{
@@ -686,28 +696,28 @@
 				    padding: 0.1rem;
 				    border-radius: 0.1rem;
 			    	font-size: 0.1rem;
-					
+
 				}
 				.send_icon{
 					float: right;
 					margin-top: -1.2rem;
 				}
-				
+
 			}
 			.publish_article_botton_list_user_content {
 				.publish_article_content_info{
 					/*padding: 0rem 0.6rem;*/
 				}
-				
+
 			}
 			.publish_article_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #c3c8c85c;
+			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
-				
+
 			}
-			
+
 		}
 	}
 	/*点评写评论项目图片*/
@@ -723,7 +733,7 @@
 	/*点评底部转发评论点赞*/
 	.publish_article_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
-		
+
 	}
 	.publish_article_flow_send_icon,
 	.publish_article_flow_comment_icon,
@@ -744,7 +754,7 @@
 	    height: 0.8rem;
 	    vertical-align: top;
 	    margin-right: 0.2rem;
-	}  
 	}
-	
+	}
+
 </style>
