@@ -1,6 +1,8 @@
 import App from '../App'
-
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+//广播
+const boradcast = r => require.ensure([], () => r(require('../page/boradcast/boradcast')), 'boradcast')
+const mine = r => require.ensure([], () => r(require('../page/mine/mine')), 'mine')
 const article = r => require.ensure([], () => r(require('../page/article/article')), 'article')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
@@ -49,9 +51,6 @@ const questionDetail = r => require.ensure([], () => r(require('../page/service/
 const find = r => require.ensure([], () => r(require('../page/find/find')), 'find')
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
 
-
-
-
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -67,6 +66,17 @@ export default [{
             path: '/home',
             component: home
         },
+
+        //广播列表页
+        {
+        	path:'/boradcast',
+        	component:boradcast
+        },
+       	//我的列表页
+        {
+        	path:'/mine',
+        	component:mine
+
          //编写文章
          {
             path:'/article',
