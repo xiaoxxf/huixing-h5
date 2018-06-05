@@ -1,6 +1,6 @@
 <template>
     <div>
-		<div class="needsClick">    
+		<div class="">    
 			  <vue-html5-editor :content="content" :height="200" :z-index="100" :auto-height="true" :show-module-name="false" @click="focus" @change="updateData" ref="editor"></vue-html5-editor>
 		</div>   
     	<foot-guide></foot-guide>

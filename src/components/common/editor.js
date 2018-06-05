@@ -1,6 +1,6 @@
 /**
- * author: Run
- * creationDate: 2018/6/05
+ * author: Joker
+ * creationDate: 2018/1/22
  * usage:
  */
 import Vue from 'vue'
@@ -10,7 +10,7 @@ export default function () {
     // 全局组件名称，使用new VueHtml5Editor(options)时该选项无效
     name: "vue-html5-editor",
     // 是否显示模块名称，开启的话会在工具栏的图标后台直接显示名称
-    showModuleName: false,
+    showModuleName: true,
     // 自定义各个图标的class，默认使用的是font-awesome提供的图标
     icons: {
       text: "fa fa-pencil",
