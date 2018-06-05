@@ -2,9 +2,9 @@
   <div>
     <head-top goBack='true' :headTitle='this.projectInfo.projectName'>
       <router-link :to="'/search/geohash'" class="link_search" slot="search">
-          <!-- <svg class="head_search_icon">
+          <svg class="head_search_icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-          </svg> -->
+          </svg>
       </router-link>
     </head-top>
 
@@ -27,7 +27,7 @@
             <span class="type">{{this.projectType}}</span>
           </div>
         </div>
-        <div class="follow_btn">
+        <div class="follow_btn" v-if="userInfo">
           <button type="button" name="button" class="btn" @click='followProject()'>关注</button>
         </div>
       </div>
@@ -49,6 +49,9 @@
       </div>
       <!-- 白皮书 -->
       <div class="project_basis_info_part_three">
+        <svg class="book_icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#book'"></use>
+        </svg>
         <p class="white_paper_slogan">下载白皮书了解更多</p>
         <a :href="this.projectInfo.whitePaper" target="_blank" class="dowload_white_paper">
           <button type="button" name="button" class="btn">下载</button>
@@ -60,10 +63,11 @@
 
     <!-- 项目简介 -->
     <section class="project_intro_section">
+
       <h3 class="project_content_title">
-        <!-- <svg class="sort_type_icon">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
-        </svg> -->
+        <svg class="project_inro_icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#project_intro'"></use>
+        </svg>
         项目简介
       </h3>
       <div class="project_content" v-if="showShortContent">
@@ -81,7 +85,12 @@
 
     <!-- 项目团队 -->
     <section class="project_team_section">
-      <h3 class="project_team_slogan">团队</h3>
+      <h3 class="project_team_slogan">
+        <svg class="project_team_icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#team'"></use>
+        </svg>
+        团队
+      </h3>
       <div class="project_team_list" ref="teamWrapper">
         <div class="project_team_item" v-for="(item, index) in projectInfo.chainTeamList" :key="index">
           <img :src="item.picHref" alt="">
@@ -171,7 +180,7 @@ import {mapState, mapMutations} from 'vuex'
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-import {queryProjectInfo, getProjectCategory, queryCommentByProject} from 'src/service/getData'
+import {queryProjectInfo, getProjectCategory, queryCommentByProject, follow} from 'src/service/getData'
 import BScroll from 'better-scroll'
 
 export default {
@@ -291,9 +300,15 @@ export default {
       this.showShortContent = !this.showShortContent;
     },
     // // 关注项目
-    functionProject(){
+    followProject(){
       if (this.userinfo) {
-
+        follow(this.$route.params.projectId,this.userInfo.id,this.userInfo.userPwd,3)
+              .then(res => {
+                console.log(res)
+              })
+              .catch(err => {
+                console.log('关注错误:' + err);
+              })
       }
     }
 
@@ -389,15 +404,21 @@ export default {
       display: flex;
       flex-direction: row;
       // margin-top: 0.5rem;
-      padding: 0.8rem 0.8rem 0rem 0.4rem;
+      padding: 1.1rem 0.8rem 0rem 0.4rem;
+      .book_icon{
+        @include wh(.8rem, .8rem);
+        vertical-align: top;
+        padding-right: 0.2rem;
+        color: #006bb3;
+      }
       .white_paper_slogan{
-        font-size: 0.54rem;
-        font-weight: bold;
+        font-size: 0.57rem;
+        font-weight: bolder;
         color: #151616;
       }
       // 下载白皮书
       .dowload_white_paper{
-        margin-left: 40%;
+        margin-left: 30%;
         // width: 20%;
         margin-top: -0.5rem;
         button{
@@ -424,7 +445,13 @@ export default {
       font-size: 0.65rem;
       font-weight: 700;
       margin-bottom: 0.2rem;
+      .project_inro_icon{
+        @include wh(.8rem, .8rem);
+        vertical-align: top;
+        // padding-top: 0.5rem;
+      }
     }
+
     .project_content{
       font-size: 0.55rem;
       color: grey;
@@ -451,6 +478,10 @@ export default {
       font-size: 0.65rem;
       font-weight: 700;
       margin-bottom: 0.4rem;
+      .project_team_icon{
+        @include wh(1.0rem, 1.0rem);
+        vertical-align: top;
+      }
     }
     .project_team_list{
       display: flex;

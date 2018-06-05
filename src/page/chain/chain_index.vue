@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-top goBack='true' :headTitle='chain'>
+    <head-top goBack='true' :headTitle='title'>
       <router-link :to="'/search/geohash'" class="link_search" slot="search">
           <svg class="head_search_icon">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
@@ -69,7 +69,7 @@ export default {
       currentPage: 1,
       pageSize: 6,
       showLoading: true, //显示加载动画
-      chain:'asd'
+      title:'彗星链库'
     }
   },
 

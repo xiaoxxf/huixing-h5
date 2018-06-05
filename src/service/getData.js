@@ -104,7 +104,23 @@ export const queryCommentByProject = (projectId,currentPage=1,pageSize=2,type) =
 	}
 })
 
-// 获取项目下的长评
+
+/**
+	关注类型
+	type
+	1-我关注的人
+	2-关注专题
+	3-关注项目
+	4-关注我的人
+**/
+export const follow = (attentionId,creator,password,type) => axios.get('attention/attent',{
+	params: {
+		'attentionId': attentionId, //关注的对象Id
+		'creator': creator, // 关注动作发起者
+		'password': password,
+		'type': type // 关注类型
+	}
+})
 
 // 原项目
 /**
