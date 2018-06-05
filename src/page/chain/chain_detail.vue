@@ -125,6 +125,10 @@
           <!-- 时间 -->
           <div class="meta">
             <span class="created_time">{{item.createTime.split(' ')[0]}}</span>
+            <span class="comment_count">{{item.likes}}</span>
+            <svg class="like_icon" @click='addLike(item)'>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#likes_icon'"></use>
+            </svg>
           </div>
         </div>
       </div>
@@ -162,6 +166,20 @@
           <!-- 时间 -->
           <div class="meta">
             <span class="created_time">{{item.createTime.split(' ')[0]}}</span>
+            <!-- 评论数 -->
+            <router-link :to="{ name: '', params: {} }">
+              <span class="comment_count">{{item.review}}</span>
+              <svg class="like_icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#comment_icon'"></use>
+              </svg>
+            </router-link>
+
+            <!-- 点赞数 -->
+            <span class="like_count">{{item.likes}}</span>
+            <svg class="like_icon" @click='addLike(item)'>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#likes_icon'"></use>
+            </svg>
+
           </div>
         </div>
       </div>
@@ -180,7 +198,7 @@ import {mapState, mapMutations} from 'vuex'
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-import {queryProjectInfo, getProjectCategory, queryCommentByProject, follow} from 'src/service/getData'
+import {queryProjectInfo, getProjectCategory, queryCommentByProject, follow, addLikeToArticle} from 'src/service/getData'
 import BScroll from 'better-scroll'
 
 export default {
@@ -309,6 +327,19 @@ export default {
               .catch(err => {
                 console.log('关注错误:' + err);
               })
+      }
+    },
+
+    // 点赞
+    addLike(item){
+      if (this.userinfo) {
+        addLikeToArticle(item.reviewId,userInfo.id,1)
+                        .then(res => {
+                          console.log(res)
+                        })
+                        .catch(err => {
+                          console.log('关注错误:' + err);
+                        })
       }
     }
 
@@ -583,6 +614,13 @@ export default {
             font-size: 0.3rem;
             float: left;
           }
+          .comment_count,{
+            color: #7C7C7C;
+            font-size: 0.8rem;
+            float: right;
+            margin-top: -0.2rem;
+            // margin-right: 0.2rem;
+          }
         }
       }
     }
@@ -668,11 +706,25 @@ export default {
           padding: 0.1rem 0;
         }
         .meta{
-          margin-top: 0.2rem;
+          margin-top: 0.5rem;
           .created_time{
             color: #7C7C7C;
             font-size: 0.3rem;
             float: left;
+          }
+          .comment_count{
+            color: #7C7C7C;
+            font-size: 0.8rem;
+            float: right;
+            margin-top: -0.2rem;
+            // margin-right: 0.2rem;
+          }
+          .like_count{
+            color: #006bb3;
+            font-size: 0.8rem;
+            float: right;
+            margin-top: -0.2rem;
+            margin-right: 0.7rem;
           }
         }
       }
@@ -692,6 +744,17 @@ export default {
   .score_star{
     color: #75A8E2 !important;
     font-size: 0.44rem;
+  }
+  .comments_icon{
+    @include wh(.8rem, .8rem);
+    vertical-align: top;
+    float: right;
+  }
+  .like_icon{
+    @include wh(.8rem, .8rem);
+    vertical-align: top;
+    float: right;
+    margin-right: 0.4rem;
   }
 
 

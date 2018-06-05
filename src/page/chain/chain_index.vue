@@ -25,9 +25,9 @@
     <section>
       <section class="project_list" v-load-more="loaderMore">
         <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
-            :class="{'project_item': true, 'border': (index+1)%3 != 0, }">
+            :class="{'project_item': true, 'border': (index+1)%3 != 0, 'div_bottom': (index+1)%6 == 4 || (index+1)%6 == 5 || (index+1)%6 == 0}">
           <div>
-            <img v-lazy="item.projectLogo" alt="">
+            <img :src="item.projectLogo" alt="">
             <p class="project_big_name">{{item.projectBigName}}</p>
           </div>
         </router-link>
@@ -170,7 +170,7 @@ export default {
     //typeActive 改变时渲染不同类型的项目
     typeActive:function(value){
       this.getProjectByType();
-      this.project_list_scroll.refresh();
+      // this.project_list_scroll.refresh();
     }
   }
 

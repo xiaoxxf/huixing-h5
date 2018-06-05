@@ -104,6 +104,15 @@ export const queryCommentByProject = (projectId,currentPage=1,pageSize=2,type) =
 	}
 })
 
+// 点赞评论（文章） likes = 1点赞， likes = 0取消点赞
+export const addLikeToArticle = (reviewId,userId,likes) => axios.get('blockchain/addLike',{
+	params: {
+		'reviewId': reviewId,
+		'userId': userId,
+		'likes': likes
+	}
+})
+
 
 /**
 	关注类型
