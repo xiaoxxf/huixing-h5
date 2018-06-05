@@ -108,9 +108,7 @@ export default {
   },
 
   methods: {
-    test(){
-      this.chain="zhuzi"
-    },
+
     async initData(){
       await queryProjectByType().then(res => {
         this.projectList = res.data.datas;
