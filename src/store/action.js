@@ -6,6 +6,7 @@ import {
 	GET_USERINFO,
 	SAVE_ADDRESS
 } from './mutation-types.js'
+import { getStore } from '../config/mUtils'
 
 export default {
 

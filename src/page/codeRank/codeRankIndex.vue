@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <head-top goBack='true'>
       <router-link :to="'/search/geohash'" class="link_search" slot="search">
           <svg class="head_search_icon">
@@ -24,15 +24,15 @@
     </head-top>
 
     <!-- 代码 -->
-    <section class="code_rank_list_section" style="margin-top:5rem">
+
+    <section class="code_rank_list_section" v-load-more="loaderMore">
       <table>
-        <tr>
+        <tr class="tr_head">
           <td>排名</td>
           <td>代码提交次数</td>
           <td>贡献者</td>
         </tr>
-
-        <tr v-for="(item, index) in codeList" :key="index">
+        <tr v-for="(item, index) in codeList" :key="index" class="tr_content">
           <td>{{index}}{{item.token}}</td>
           <td>{{item.commits}}</td>
           <td>{{item.contributors}}</td>
@@ -55,8 +55,8 @@
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import {loadMore} from 'src/components/common/mixin'
-import {showBack, animate} from 'src/config/mUtils'
 import {getCodeRankData} from 'src/service/getData'
+import {showBack, animate} from 'src/config/mUtils'
 import loading from 'src/components/common/loading'
 // import 'src/plugins/swiper.min.js'
 // import 'src/style/swiper.min.css'
@@ -66,8 +66,8 @@ export default {
     return{
       order_active: 1, // 1->选择活跃榜， 2->人气榜
       date_active: 3, // 选择时间排行
-      // currentPage: 1,
-      // pageSize: 12,
+      currentPage: 1,
+      pageSize: 24,
       preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
 			touchend: false, //没有更多数据
       showLoading: true, //显示加载动画
@@ -96,15 +96,45 @@ export default {
     async getCodeRank(){
       var sortByOrder = this.order_active;
       var monthNum = this.date_active;
+      this.currentPage = 1;
 
       this.codeList = [];
       this.showLoading = true;
-      await getCodeRankData(monthNum,sortByOrder).then(res => {
+      await getCodeRankData(this.currentPage,this.pageSize,monthNum,sortByOrder).then(res => {
         this.codeList = res.data
+        debugger
         this.showLoading = false;
       }).catch(err => {
         console.log('加载代码列表错误:' + err);
       });
+    },
+
+    //到达底部加载更多数据
+    async loaderMore(){
+      if (this.touchend) {
+        return
+      }
+      //防止重复请求
+      if (this.preventRepeatReuqest) {
+        return
+      }
+      this.preventRepeatReuqest = true;
+      this.currentPage++;
+      var more_code_list = [];
+      var sortByOrder = this.order_active;
+      var monthNum = this.date_active;
+      await getCodeRankData(this.currentPage,this.pageSize,monthNum,sortByOrder).then(res => {
+        more_code_list = res.data;
+        if (more_code_list.length < this.pageSize) {
+          this.touchend = true;
+        }
+        this.codeList = [...this.codeList, ...more_code_list]
+        // this.hideLoading();
+      }).catch(err => {
+        console.log('加载更多错误:' + err);
+      })
+      this.preventRepeatReuqest = false;
+
     },
 
     // 改变加载的顺序
@@ -199,37 +229,20 @@ export default {
     }
   }
 
-  // 项目列表
-  .project_list{
-    @include fj($type: column);
-    // height: 100%;
-    padding: 4.0rem 0 2.0rem 0;
-    // width:100%;
-    // overflow: hidden;
-    flex-wrap: wrap;
-    .border{
-      border-right:  0.01rem solid #E2E1E1;
-    }
-    .div_bottom{
-      margin-bottom: 30px;
-    }
-    .project_item{
-      // border: 0.01rem solid grey;
-      border-bottom:  0.01rem solid #E2E1E1;
+  // 代码列表
+  .code_rank_list_section{
+    padding: 0.8rem;
+    margin-top:4rem;
+    margin-bottom:2rem;
 
-      background-color: white;
-      width: 33.33%;
-      padding: 0.4rem 1.3rem;
-      img{
-        @include wh(2.4rem,2.4rem);
-        text-align: center;
-      }
-
-      .project_big_name{
-        color: #383737;
-        // padding-left: 0.3rem;
-        text-align: center;
-      }
+    .tr_head{
+      font-size: 0.7rem;
+      // background-color: #fff;
+      border-bottom:0.025rem solid $bc;
+    }
+    .tr_content{
+      border-bottom:0.025rem solid $bc;
+      background-color: #fff;
     }
   }
 

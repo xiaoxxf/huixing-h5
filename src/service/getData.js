@@ -148,10 +148,10 @@ export const getBoradcastData = (currentPage,pageSize,like,loginUser) => axios.g
 /**
 	获取代码排行榜列表
 **/
-export const getCodeRankData = (month,order) => axios.get('http://rank.blockcomet.com/',{
+export const getCodeRankData = (currentPage,pageSize,month,order) => axios.get('http://rank.blockcomet.com/',{
 	params: {
-		// 'currentPage': currentPage,
-		// 'pageSize': pageSize,
+		'pageNumber': currentPage,
+		'pageSize': pageSize,
 		'month': month,
 		'order': order
 	}

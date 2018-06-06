@@ -30,6 +30,8 @@
 
 <script>
     import {mapState, mapActions} from 'vuex'
+    import { getStore } from 'src/config/mUtils'
+
     export default {
     	data(){
             return{
@@ -38,7 +40,9 @@
         },
         mounted(){
             //获取用户信息
-            this.getUserInfo();
+            if (getStore('user_id')) {
+              this.getUserInfo();
+            }
         },
          created(){
         },
