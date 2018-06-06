@@ -11,14 +11,14 @@
 		</router-link>
 		<router-link :to="'/search/geohash'" class="link_search" slot="search">
 				<svg class="head_search_icon">
-				<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-			</svg>
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+				</svg>
 			</router-link>
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 				</svg>
-    		</router-link>
+    	</router-link>
     	</head-top>
     	<!--切换项-->
 		<section class="broadcast_wrapper">
@@ -91,7 +91,7 @@
 						<img src="../../images/fenxiang.png" class="comments_user_icon"/>
 						<div class="write_user_comment_info">
 							<p class="write_comment_title">{{item.textTitle}}</p>
-							<p class="write_comment_score">{{item.textContent}}</p>
+							<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
 						</div>
 					</div>
 					<div class="write_bottom_list_user_flow">
@@ -197,6 +197,7 @@
 				headTop,
 				footGuide,
 			},
+ 			mixins: [loadMore],
 
 			computed: {
 
@@ -210,7 +211,9 @@
 						this.dataList = res.data.datas;
 						// 去除HTML标签
 						for (var i = 0; i < this.dataList.length; i++) {
-							this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+							if(this.dataList[i].type != 1){
+								this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+							}
 						}
 					}).catch(err => {
 						console.log('获取列表数据错误:' + err)
@@ -235,7 +238,7 @@
 						for (var i = 0; i < temp_list.length; i++) {
 							temp_list[i].textContent = temp_list[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
 						}
-						this.dataList = [...temp_list,...res.data.datas];
+						this.dataList = [...this.dataList,...temp_list,];
 					}).catch(err => {
 						console.log('获取列表数据错误:' + err)
 					})
@@ -485,6 +488,9 @@
 	}
 	.write_user_comment_info{
 		width: 80%;
+		.write_comment_score{
+			color: #999;
+		}
 	}
 	/*点评底部转发评论点赞*/
 	.write_bottom_list_user_flow{
@@ -585,6 +591,7 @@
 						.send_comment_user_time{
 							color: #999;
 					    	font-size: 0.1rem;
+					    	margin-top: 0.1rem;
 						}
 				}
 				.send_comment_user_attention_btn{
@@ -668,7 +675,7 @@
 			background-color: white;
 			font-size: .65rem;
 			padding: 0rem 0.6rem;
-			margin-bottom: 3rem;
+			/*margin-bottom: 3rem;*/
 			.publish_article_list_info{
 				padding: 0.6rem 0rem;
 				.publish_article_user_icon{
@@ -678,14 +685,16 @@
 				    border-radius: 1rem;
 				}
 				.publish_article_name_time{
-					width: 30%;
+					width: 60%;
 			    	margin-left: 2rem;
 			    		.publish_article_name{
-							/*display: inline;*/
+							font-weight: 600;
+							color: #333;
 						}
 						.publish_article_time{
 							color: #999;
 					    	font-size: 0.1rem;
+					    	margin-top: 0.1rem;
 						}
 				}
 				.publish_article_attention_btn{
@@ -707,6 +716,7 @@
 			.publish_article_botton_list_user_content {
 				.publish_article_content_info{
 					/*padding: 0rem 0.6rem;*/
+					color: #999;
 				}
 
 			}
@@ -715,7 +725,16 @@
 			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
-
+				.publish_article_info{
+					.publish_article_title{
+						font-weight: 600;
+    					line-height: 1rem;
+					}
+					.publish_article_score{
+						color: #999;
+    					line-height: 1rem;
+					}
+				}
 			}
 
 		}
@@ -733,13 +752,15 @@
 	/*点评底部转发评论点赞*/
 	.publish_article_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
+		display: flex;
 
 	}
 	.publish_article_flow_send_icon,
 	.publish_article_flow_comment_icon,
 	.publish_article_flow_heart_icon{
-		width: 32%;
-		display: inline-flex;
+		/*width: 32%;*/
+		flex:1 ;
+		text-align: center;
 		padding: 0.5rem 0rem;
 		color: #999;
 	}
@@ -747,7 +768,7 @@
 		padding-left: 1.2rem;
 	}
 	.publish_article_flow_heart_icon{
-		padding-left: 2rem;
+		/*padding-left: 2rem;*/
 	}
 	.publish_article_sort_type_icon{
 		width: 0.8rem;
