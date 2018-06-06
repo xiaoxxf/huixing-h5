@@ -145,6 +145,19 @@ export const getBoradcastData = (currentPage,pageSize,like,loginUser) => axios.g
 })
 
 
+/**
+	获取代码排行榜列表
+**/
+export const getCodeRankData = (month,order) => axios.get('http://rank.blockcomet.com/',{
+	params: {
+		// 'currentPage': currentPage,
+		// 'pageSize': pageSize,
+		'month': month,
+		'order': order
+	}
+})
+
+
 // 原项目
 /**
  * 获取首页默认地址

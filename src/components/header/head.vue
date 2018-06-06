@@ -38,8 +38,7 @@
         },
         mounted(){
             //获取用户信息
-            // this.getUserInfo();
-
+            this.getUserInfo();
         },
          created(){
         },

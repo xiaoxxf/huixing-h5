@@ -197,7 +197,7 @@
 				headTop,
 				footGuide,
 			},
-
+			mixins: [loadMore],
 			computed: {
 
 			},

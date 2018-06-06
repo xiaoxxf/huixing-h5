@@ -14,7 +14,7 @@ export default {
 		state
 	}) {
 		let res = await getUser();
-		commit(GET_USERINFO, res)
+		commit(GET_USERINFO, res.data.datas)
 	},
 	async saveAddress({
 		commit,
@@ -24,6 +24,6 @@ export default {
 		if(state.removeAddress.length > 0) return;
 
 		let addres = await getAddressList(state.userInfo.user_id);
-		commit(SAVE_ADDRESS, addres);	
+		commit(SAVE_ADDRESS, addres);
 	},
 }
