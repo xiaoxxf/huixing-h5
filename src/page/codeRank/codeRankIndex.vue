@@ -102,7 +102,6 @@ export default {
       this.showLoading = true;
       await getCodeRankData(this.currentPage,this.pageSize,monthNum,sortByOrder).then(res => {
         this.codeList = res.data
-        debugger
         this.showLoading = false;
       }).catch(err => {
         console.log('加载代码列表错误:' + err);
@@ -179,6 +178,9 @@ export default {
 			vertical-align: top;
 		}
 	}
+  .title_head{
+    padding-top: 0.22rem !important;
+  }
   .title_button{
     width: 2.8rem;
     border: solid 1px #006bb3;
