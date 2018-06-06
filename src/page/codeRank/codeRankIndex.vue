@@ -32,10 +32,10 @@
           <td>代码提交次数</td>
           <td>贡献者</td>
         </tr>
-        <tr v-for="(item, index) in codeList" :key="index" class="tr_content">
-          <td>{{index}}{{item.token}}</td>
-          <td>{{item.commits}}</td>
-          <td>{{item.contributors}}</td>
+        <tr v-for="(item, index) in codeList" :key="index" class="tr_content" @click='goToDetail(index)'>
+            <td>{{index}}{{item.token}}</td>
+            <td>{{item.commits}}</td>
+            <td>{{item.contributors}}</td>
         </tr>
       </table>
     </section>
@@ -134,6 +134,12 @@ export default {
       })
       this.preventRepeatReuqest = false;
 
+    },
+
+    // 跳转到代码详情
+    goToDetail(index){
+      var index = index;
+        this.$router.push({ name: 'codeDetail', params: { codeIndex: index, date: this.date_active, order: this.order_active }})
     },
 
     // 改变加载的顺序

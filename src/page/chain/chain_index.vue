@@ -24,8 +24,10 @@
 
     <!-- <section> -->
       <section class="project_list" v-load-more="loaderMore">
-        <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
+        <router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }" v-for="(item, index) in projectList" :key="index"
             :class="{'project_item': true, 'border': (index+1)%3 != 0, 'div_bottom': (index+1)%6 == 4 || (index+1)%6 == 5 || (index+1)%6 == 0}">
+        <!-- <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
+            :class="{'project_item': true, 'border': (index+1)%3 != 0, 'div_bottom': (index+1)%6 == 4 || (index+1)%6 == 5 || (index+1)%6 == 0}"> -->
           <div>
             <img :src="item.projectLogo" alt="">
             <p class="project_big_name">{{item.projectBigName}}</p>

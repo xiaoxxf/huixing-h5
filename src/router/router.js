@@ -15,7 +15,7 @@ const article = r => require.ensure([], () => r(require('../page/article/article
 // 代码榜列表
 const codeRankIndex = r => require.ensure([], () => r(require('../page/codeRank/codeRankIndex')), 'codeRankIndex')
 // 代码榜详情
-// const codeRankDetail = r => require.ensure([], () => r(require('../page/codeRank/codeRankDetail')), 'codeRankDetail')
+const codeRankDetail = r => require.ensure([], () => r(require('../page/codeRank/codeRankDetail')), 'codeRankDetail')
 
 const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
 
@@ -113,10 +113,11 @@ export default [{
           component: codeRankIndex
         },
         // 代码榜详情
-        // {
-        //   path:'/codeRank/codeRankDetail/:code_id',
-        //   component: codeRankDetail
-        // },
+        {
+          path:'/codeRank/codeRankDetail/:codeIndex',
+          name:'codeDetail',
+          component: codeRankDetail
+        },
         //当前选择城市页
         {
             path: '/city/:cityid',
