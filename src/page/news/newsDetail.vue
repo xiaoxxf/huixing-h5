@@ -9,6 +9,9 @@
             {{this.newsDetail.newsContent}}
         	</div>
         </section>
+        <transition name="loading">
+          <loading v-show="showLoading"></loading>
+        </transition>
     </div>
 </template>
 <script>
@@ -24,6 +27,7 @@ export default {
         return {
         	profiletitle: '播报内容',
         	news_id:null,
+          showLoading: true, //显示加载动画
           newsDetail: {}
         }
     },
@@ -38,6 +42,7 @@ export default {
   	components: {
   	    headTop,
   	    footGuide,
+        loading
   	},
     computed: {
     },
@@ -46,7 +51,9 @@ export default {
         getNewsDetail(this.news_id).then(res => {
           this.newsDetail = res.data.datas;
         }).catch(err => {
-          console.log('获取详情错误:' + err)
+          console.log('获取详情错误:' + err);
+        }).finally(() => {
+          this.showLoading = false;
         })
       }
     },

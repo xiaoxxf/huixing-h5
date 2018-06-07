@@ -2,7 +2,7 @@
     <div class="container-detail">
         <head-top go-back='true' :head-title="profiletitle"></head-top>
 
-        <section class="news_index_section">
+        <section class="news_index_section" v-load-more="loaderMore">
           <div v-for="(item, index) in news_list" :key="index" class="new_item" @click='goToDetail(item)'>
             <p class="news_title">{{item.title}}</p>
             <p class="news_content">
@@ -62,7 +62,35 @@ export default {
       },
       goToDetail(item){
         this.$router.push({ name: 'newsDetail', params: { newsId: item.newsId  }})
-      }
+      },
+
+      //到达底部加载更多数据
+  		loaderMore(){
+  			if (this.touchend) {
+  				return
+  			}
+  			//防止重复请求
+  			if (this.preventRepeatReuqest) {
+  				return
+  			}
+  			this.preventRepeatReuqest = true;
+        this.currentPage ++;
+        var more_project_list = [];
+        getNewsIndex(this.currentPage,this.pageSize).then(res => {
+          more_project_list = res.data.datas
+          this.news_list = [...this.news_list, ...more_project_list];
+          // 已无更多数据
+          if (more_project_list.length < this.pageSize) {
+            this.touchend = true;
+          }
+        }).catch(res => {
+          console.log('加载更多错误:' + err);
+        }).finally(() => {
+          this.preventRepeatReuqest = false
+        })
+
+
+  		}
     },
     watch: {
 

@@ -156,14 +156,16 @@ export default {
       await queryProjectByType(this.typeActive,this.currentPage,this.pageSize).then(res => {
         more_project_list = res.data.datas
         this.projectList = [...this.projectList, ...more_project_list]
-        this.preventRepeatReuqest = false;
         // 已无更多数据
         if (more_project_list.length < this.pageSize) {
           this.touchend = true;
         }
       }).catch(err => {
         console.log('加载更多错误:' + err);
+      }).finally(() => {
+        this.preventRepeatReuqest = false
       })
+
 			// this.hideLoading();
 
 		}
