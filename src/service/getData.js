@@ -113,6 +113,12 @@ export const addLikeToArticle = (reviewId,userId,likes) => axios.get('blockchain
 	}
 })
 
+export const queryCommentDetail = (reviewId) => axios.get('topic/quaryArticleDeatail',{
+	params:{
+		'reviewId': reviewId
+	}
+})
+
 
 /**
 	关注类型

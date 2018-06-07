@@ -22,6 +22,9 @@ const newsIndex = r => require.ensure([], () => r(require('../page/news/newsInde
 // 播报详情
 const newsDetail = r => require.ensure([], () => r(require('../page/news/newsDetail')), 'newsDetail')
 
+// 文章详情
+const comment = r =>  require.ensure([], () => r(require('../page/comment/comment')), 'comment')
+
 /**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
@@ -132,6 +135,12 @@ export default [{
           path:'/codeRank/codeRankDetail/:codeIndex',
           name:'codeDetail',
           component: codeRankDetail
+        },
+        // 文章详情
+        {
+          path:'/comment/comment/:commentId',
+          name:'comment',
+          component: comment
         },
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
