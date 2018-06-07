@@ -3,44 +3,59 @@
         <head-top go-back='true' :head-title="profiletitle"></head-top>
         <section class="newsdetail_wrapper">
         	<div class="broadcast_detail_title">
-        		矿机巨头争抢台积电产能，嘉楠耘智7nm ASIC芯片量产或早于比特大陆
+        		{{this.newsDetail.title}}
         	</div>
         	<div class="broadcast_detail_content">
-        		有媒体称，比特大陆联合创始人兼CEO詹克团上周来台，密访台积电、力晶等供应链伙伴
-        		，寻求为新一代高效能挖矿芯片展开合作。而日前供应链传出，嘉楠耘智新一代ASIC同样在台积电投片，
-        		且由上一代的16nm跳到7nm，并计划在7月量产，在先进制程的使用上，进度比头号竞争对手比特大陆更快。不过这一消息未得到台积电的证实。（雷锋网）
+            {{this.newsDetail.newsContent}}
         	</div>
         </section>
-    </div>    
+        <transition name="loading">
+          <loading v-show="showLoading"></loading>
+        </transition>
+    </div>
 </template>
 <script>
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
+import {loadMore} from 'src/components/common/mixin'
+import {showBack, animate} from 'src/config/mUtils'
+import {getNewsDetail} from 'src/service/getData'
+import loading from 'src/components/common/loading'
+
 export default {
 	data(){
         return {
         	profiletitle: '播报内容',
-        	news_id:null
+        	news_id:null,
+          showLoading: true, //显示加载动画
+          newsDetail: {}
         }
     },
     created(){
-        this.news_id = this.$route.query.news_id;
+        this.news_id = this.$route.params.newsId;
         console.log(this.news_id)
     },
-    async beforeMount(){
-	},
-    mounted(){
-	
-    },
-	components: {
-	    headTop,
-	    footGuide,
-	},
-    computed: {
 
+    mounted(){
+      this.initData()
+    },
+  	components: {
+  	    headTop,
+  	    footGuide,
+        loading
+  	},
+    computed: {
     },
     methods: {
-    
+      initData(){
+        getNewsDetail(this.news_id).then(res => {
+          this.newsDetail = res.data.datas;
+        }).catch(err => {
+          console.log('获取详情错误:' + err);
+        }).finally(() => {
+          this.showLoading = false;
+        })
+      }
     },
     watch: {
 
