@@ -7,7 +7,7 @@
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 						</svg>
 						{{msiteTitle}}
-				</span>
+				  </span>
 			</router-link>
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
@@ -42,12 +42,15 @@
           </router-link>
 				</div>
 				<div>
-					<span class="code_rank">
-						<svg class="sort_type_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
-						</svg>
-						排行
-					</span>
+          <router-link :to=" '/codeRank/codeRankIndex' ">
+            <span class="code_rank">
+  						<svg class="sort_type_icon">
+  							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
+  						</svg>
+  						排行
+  					</span>
+          </router-link>
+
 				</div>
 		</section>
 		<div id="topic_nav_wrapper">

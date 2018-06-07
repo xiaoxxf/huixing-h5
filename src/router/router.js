@@ -5,14 +5,21 @@ const home = r => require.ensure([], () => r(require('../page/home/home')), 'hom
 const chain_index = r => require.ensure([], () => r(require('../page/chain/chain_index')), 'chain_index')
 // 项目详情
 const chain_detail = r => require.ensure([], () => r(require('../page/chain/chain_detail')), 'chain_detail')
-//广播
+// 广播
 const boradcast = r => require.ensure([], () => r(require('../page/boradcast/boradcast')), 'boradcast')
 // 个人主页
 const mine = r => require.ensure([], () => r(require('../page/mine/mine')), 'mine')
+// 写文章
 const article = r => require.ensure([], () => r(require('../page/article/article')), 'article')
 
-const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
+// 代码榜列表
+const codeRankIndex = r => require.ensure([], () => r(require('../page/codeRank/codeRankIndex')), 'codeRankIndex')
+// 代码榜详情
+const codeRankDetail = r => require.ensure([], () => r(require('../page/codeRank/codeRankDetail')), 'codeRankDetail')
+
 const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
+
+const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
 //const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
 const search = r => require.ensure([], () => r(require('../page/search/search')), 'search')
@@ -99,6 +106,17 @@ export default [{
          {
             path:'/article',
             component: article
+        },
+        // 代码榜列表
+        {
+          path:'/codeRank/codeRankIndex',
+          component: codeRankIndex
+        },
+        // 代码榜详情
+        {
+          path:'/codeRank/codeRankDetail/:codeIndex',
+          name:'codeDetail',
+          component: codeRankDetail
         },
         //当前选择城市页
         {
