@@ -1,19 +1,8 @@
 <template>
 	<div>
-		<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
-			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
-					<span class="title_text ellipsis">
-						<svg class="head_search_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-						</svg>
-						{{mineTitle}}
-				</span>
-			</router-link>
-			<router-link :to="'/search/geohash'" class="link_search" slot="search">
-	    		<svg class="head_search_icon">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-				</svg>
-    		</router-link>
+		<!--<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">-->
+    	<head-top goBack='true' :headTitle='homepage'>
+			
     	</head-top>
     	<section class="person_homepage">
     		<section class="person_introduce">
@@ -44,15 +33,57 @@
     			</div>
     		</section>
     		<section class="person_create">
+    			<!--创建的专题-->
     			<div class="create_topic">
-    				<div class="topic_left"></div>
+    				<div class="topic_left">
+    					<p class="my_create_topic">我创建的专题</p>
+    					<p class="my_create_topic_num">56篇文章</p>
+    				</div>
+    				<div class="topic_right">
+    					<router-link :to="'/createTopic/createTopic'">
+							<span class="topic_return">
+								<svg class="topic_return_icon">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#return'"></use>
+								</svg>
+							</span>
+				        </router-link>
+    				</div>
     			</div>
+    			<!--创建的项目-->
     			<div class="create_subject">
-    				
+    				<div class="subject_left">
+    					<p class="my_create_subject">我创建的项目</p>
+    					<p class="my_create_subject_num">6篇文章</p>
+    				</div>
+    				<div class="subject_right">
+    					<router-link :to="'/createSubject/createSubject'">
+							<span class="subject_return">
+								<svg class="subject_return_icon">
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#return'"></use>
+								</svg>
+							</span>
+				        </router-link>
+    				</div>
     			</div>
-    			
     		</section>
-    		<section class="person_dynamic"></section>
+    		<!--全部动态-->
+    		<section class="person_dynamic">
+    			<ul class="all_dynamic_items">
+					<li class="all_dynamic_item">全部动态</li>
+					<li class="all_dynamic_item">文章</li>
+					<li class="all_dynamic_item">长评</li>
+					<li class="all_dynamic_item">短评</li>
+				</ul>
+				<div class="all_dynamic_content">
+	    			<!--文章-->
+	    			
+	    			<!--长评-->
+	    			
+	    			<!--短评-->
+	    		</div>
+    		</section>
+    		
+    		
     	</section>
     	
     	<foot-guide></foot-guide>
@@ -65,7 +96,7 @@
     export default {
     	data(){
             return{
-                mineTitle:'我的主页'
+                homepage:'我的主页'
             }
        },
         created(){
@@ -135,14 +166,14 @@
 		}
 	}
 	.person_homepage{
-		background-color: white;
 		margin-top: 2rem;
 		/*padding: 0rem 0.6rem;*/
 		font-size: .65rem;
 		.person_introduce{
 			.person_introduce_detail{
 				padding: 0.5rem 0.6rem;
-    			border-bottom: solid 1px gainsboro;
+    			border-bottom: solid 1px #99999929;
+    			background-color: white;
 				.person_icon{
 					float: left;
 				    width: 1.5rem;
@@ -165,6 +196,7 @@
 			.person_introduce_bottom_detail{
 				padding: 0.3rem 0rem;
 				display: flex;
+				background-color: white;
 				.detail_attention,.detail_fans,.detail_topic,.detail_subject{
 					-webkit-box-flex: 1;
 					flex: 1;
@@ -177,15 +209,78 @@
 			}
 		}
 		.person_create{
+			margin-top: 0.3rem;
+			background-color: white;
 			.create_topic{
-				
+				padding: .3rem 0.6rem;
+    			display: flex;
+				.topic_left{
+					flex:12;
+					
+					.my_create_topic{
+						
+					}
+					.my_create_topic_num{
+					    color: #999;
+					    font-size: 0.5rem;
+					    margin-top: 0.2rem;
+					}
+				}
+				.topic_right{
+					flex:1;
+					.topic_return{
+						.topic_return_icon{
+							width: 0.6rem;
+						    height: 0.6rem;
+						    vertical-align: top;
+    						margin-top: 0.5rem;
+						}
+					}
+				}
 			} 
 			.create_subject{
-				
+				padding: .3rem 0.6rem;
+    			display: flex;
+    			border-top: solid 1px #99999929;
+				.subject_left{
+					flex:12;
+					
+					.my_create_subject{
+						
+					}
+					.my_create_subject_num{
+					    color: #999;
+					    font-size: 0.5rem;
+					    margin-top: 0.2rem;
+					}
+				}
+				.subject_right{
+					flex:1;
+					.subject_return{
+						.subject_return_icon{
+							width: 0.6rem;
+						    height: 0.6rem;
+						    vertical-align: top;
+    						margin-top: 0.5rem;
+						}
+					}
+				}
 			}
 		}
 		.person_dynamic{
 			
+			.all_dynamic_items{
+				display: -webkit-inline-box;
+				padding: 0.3rem 0.6rem;
+				.all_dynamic_item{
+					margin-right: 1rem;
+					
+				}
+			}
+			.all_dynamic_content{
+				/*文章*/
+				
+			}
 		}
 	}
 	

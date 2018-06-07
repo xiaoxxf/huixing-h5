@@ -26,7 +26,7 @@
     <!-- 代码 -->
 
     <section class="code_rank_list_section" v-load-more="loaderMore">
-      <table class="table_list" style="width: 100%;">
+      <table class="table_list" style="width: 100%; ">
         <tr class="tr_head">
           <td class="td_head">排名</td>
           <td class="td_head">代码提交数</td>
@@ -246,12 +246,12 @@ export default {
 		.table_list{
 			.tr_head{
 	      font-size: 0.8rem;
-	       /*background-color: #fff;*/
 	      border-bottom:0.025rem solid $bc;
-	      /*display: flex;*/
+	      text-align: center;
     		.td_head{
     			width: 33%;
-    			padding-left: 1rem;
+    			padding-top: 0.2rem;
+    			padding-bottom: 0.2rem;
     		}
     	}
     .tr_content{
@@ -261,7 +261,9 @@ export default {
     	font-size: 0.7rem;
       .td_content{
       	width: 33%;
-    		padding-left: 1rem;
+    		padding-left: 2rem;
+    		padding-top: 0.2rem;
+    		padding-bottom: 0.2rem;
       }
     }
 		}
