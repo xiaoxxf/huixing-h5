@@ -22,17 +22,19 @@
       </nav>
     </head-top>
 
-    <section>
+    <!-- <section> -->
       <section class="project_list" v-load-more="loaderMore">
-        <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
+        <router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }" v-for="(item, index) in projectList" :key="index"
             :class="{'project_item': true, 'border': (index+1)%3 != 0, 'div_bottom': (index+1)%6 == 4 || (index+1)%6 == 5 || (index+1)%6 == 0}">
+        <!-- <router-link :to="'/chain/chain_detail/' + item.projectId"  v-for="(item, index) in projectList" :key="index"
+            :class="{'project_item': true, 'border': (index+1)%3 != 0, 'div_bottom': (index+1)%6 == 4 || (index+1)%6 == 5 || (index+1)%6 == 0}"> -->
           <div>
             <img :src="item.projectLogo" alt="">
             <p class="project_big_name">{{item.projectBigName}}</p>
           </div>
         </router-link>
       </section>
-    </section>
+    <!-- </section> -->
 
     <transition name="loading">
       <loading v-show="showLoading"></loading>
@@ -154,12 +156,17 @@ export default {
       var more_project_list = [];
       await queryProjectByType(this.typeActive,this.currentPage,this.pageSize).then(res => {
         more_project_list = res.data.datas
+        this.projectList = [...this.projectList, ...more_project_list]
+        this.preventRepeatReuqest = false;
+        // 已无更多数据
+        if (more_project_list.length < this.pageSize) {
+          this.touchend = true;
+        }
+      }).catch(err => {
+        console.log('加载更多错误:' + err);
       })
-      debugger
-      this.projectList = [...this.projectList, ...more_project_list]
 			// this.hideLoading();
 
-			this.preventRepeatReuqest = false;
 		}
 
   },

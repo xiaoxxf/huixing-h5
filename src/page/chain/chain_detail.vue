@@ -125,7 +125,7 @@
           <!-- 时间 -->
           <div class="meta">
             <span class="created_time">{{item.createTime.split(' ')[0]}}</span>
-            <span class="comment_count">{{item.likes}}</span>
+            <span class="like_count">{{item.likes}}</span>
             <svg class="like_icon" @click='addLike(item)'>
               <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#likes_icon'"></use>
             </svg>
@@ -319,7 +319,7 @@ export default {
     },
     // // 关注项目
     followProject(){
-      if (this.userinfo) {
+      if (this.userInfo) {
         follow(this.$route.params.projectId,this.userInfo.id,this.userInfo.userPwd,3)
               .then(res => {
                 console.log(res)
@@ -332,7 +332,7 @@ export default {
 
     // 点赞
     addLike(item){
-      if (this.userinfo) {
+      if (this.userInfo) {
         addLikeToArticle(item.reviewId,userInfo.id,1)
                         .then(res => {
                           console.log(res)
@@ -487,6 +487,7 @@ export default {
       font-size: 0.55rem;
       color: grey;
       line-height: 1.7;
+      min-height: 3rem;
     }
     .show_more_content_button{
       font-size: 0.55rem;
@@ -611,14 +612,14 @@ export default {
           margin-top: 0.2rem;
           .created_time{
             color: #7C7C7C;
-            font-size: 0.3rem;
+            font-size: 0.5rem;
             float: left;
           }
-          .comment_count,{
+          .like_count,{
             color: #7C7C7C;
             font-size: 0.8rem;
             float: right;
-            margin-top: -0.2rem;
+            // margin-top: -0.2rem;
             // margin-right: 0.2rem;
           }
         }
@@ -709,21 +710,21 @@ export default {
           margin-top: 0.5rem;
           .created_time{
             color: #7C7C7C;
-            font-size: 0.3rem;
+            font-size: 0.5rem;
             float: left;
           }
           .comment_count{
             color: #7C7C7C;
             font-size: 0.8rem;
             float: right;
-            margin-top: -0.2rem;
+            // margin-top: -0.2rem;
             // margin-right: 0.2rem;
           }
           .like_count{
             color: #006bb3;
             font-size: 0.8rem;
             float: right;
-            margin-top: -0.2rem;
+            // margin-top: -0.2rem;
             margin-right: 0.7rem;
           }
         }
