@@ -11,14 +11,14 @@
 		</router-link>
 		<router-link :to="'/search/geohash'" class="link_search" slot="search">
 				<svg class="head_search_icon">
-				<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-			</svg>
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+				</svg>
 			</router-link>
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 				</svg>
-    		</router-link>
+    	</router-link>
     	</head-top>
     	<!--切换项-->
 		<section class="broadcast_wrapper">
@@ -36,13 +36,13 @@
 			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
 				<div class="broadcast_wrapper_bottom_list">
 					<div class="bottom_list_user_info">
-						<img src="../../images/elmlogo.jpeg" class="user_icon" />
+						<img :src="item.userPic" class="user_icon" />
 						<div class="user_name_time">
 							<p class="user_name">{{item.realName}}</p>
 							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
 						<span class="user_attention_btn">关注</span>
-						<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
+						<!--<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>-->
 
 					</div>
 					<div class="botton_list_user_content">
@@ -51,19 +51,15 @@
 						</p>
 					</div>
 					<div class="bottom_list_user_comment">
-						<img src="../../images/fenxiang.png" class="comment_user_icon"/>
+		        	<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+								<img :src="item.projectLogo" class="comment_user_icon"/>
+		        	</router-link>
 						<div class="user_comment_info">
 							<p class="comment_title">{{item.projectBigName}}</p>
-							<p class="comment_score">评分</p>
+							<p class="comment_score">{{countScore(item.score)}} <span class="comment_score_num">{{item.score}}</span></p>
 						</div>
 					</div>
 					<div class="bottom_list_user_flow">
-						<div class="flow_send_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div>
-						<div class="flow_comment_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div>
 						<div class="flow_heart_icon">
 							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
 						</div>
@@ -75,7 +71,7 @@
 			<section class="write_comment" v-if='item.type == 2'>
 				<div class="write_comment_list">
 					<div class="write_comment_list_info">
-						<img src="../../images/elmlogo.jpeg" class="comment_list_user_icon" />
+						<img :src="item.userPic" class="comment_list_user_icon" />
 						<div class="comment_user_name_time">
 							<p class="comment_user_name">{{item.realName}}</p>
 							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
@@ -88,10 +84,10 @@
 						</p>
 					</div>
 					<div class="comment_bottom_list_user_comment">
-						<img src="../../images/fenxiang.png" class="comments_user_icon"/>
+						<img :src="item.projectLogo" class="comments_user_icon"/>
 						<div class="write_user_comment_info">
 							<p class="write_comment_title">{{item.textTitle}}</p>
-							<p class="write_comment_score">{{item.textContent}}</p>
+							<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
 						</div>
 					</div>
 					<div class="write_bottom_list_user_flow">
@@ -114,7 +110,7 @@
 			<section class="publish_article" v-if='item.type == 4'>
 				<div class="publish_article_list">
 					<div class="publish_article_list_info">
-						<img src="../../images/elmlogo.jpeg" class="publish_article_user_icon" />
+						<img :src="item.userPic" class="publish_article_user_icon" />
 						<div class="publish_article_name_time">
 							<p class="publish_article_name">{{item.realName}}</p>
 							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
@@ -190,6 +186,7 @@
 			mounted(){
 				this.$nextTick(()=>{
 					this.initData();
+
 				});
 			},
 
@@ -210,13 +207,22 @@
 						this.dataList = res.data.datas;
 						// 去除HTML标签
 						for (var i = 0; i < this.dataList.length; i++) {
-							this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+							if(this.dataList[i].type != 1){
+								this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+							}
 						}
+//						console.log(this.dataList)
+
 					}).catch(err => {
 						console.log('获取列表数据错误:' + err)
 					})
 				},
-
+				 // 计算评分星星
+			    countScore: function(rate){
+			      var start = 5 - rate;
+			      var end = 10 - rate;
+			      return '★★★★★☆☆☆☆☆'.slice(start,end);
+			    },
 				// 加载关注or全部
 				changeLike(e){
 					if (e) {
@@ -235,7 +241,7 @@
 						for (var i = 0; i < temp_list.length; i++) {
 							temp_list[i].textContent = temp_list[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
 						}
-						this.dataList = [...temp_list,...res.data.datas];
+						this.dataList = [...this.dataList,...temp_list,];
 					}).catch(err => {
 						console.log('获取列表数据错误:' + err)
 					})
@@ -351,7 +357,7 @@
 								}
 						}
 						.user_attention_btn{
-						    margin-right: 1.5rem;
+						    /*margin-right: 1.5rem;*/
 						    float: right;
 						    margin-top: -1.4rem;
 						    border: solid 1px #2196F3;
@@ -369,6 +375,7 @@
 					}
 					.botton_list_user_content{
 							.user_content_info{
+								color: #999;
 						}
 					}
 					.bottom_list_user_comment{
@@ -388,15 +395,23 @@
 					    	.comment_title{
 								color: #999;
 							}
+							.comment_score{
+								color: #2196F3;
+								.comment_score_num{
+									color: #999;
+									margin-left: 0.2rem;
+								}
+							}
 						}
 					}
 					.bottom_list_user_flow{
 						border-bottom: solid 1px gainsboro;
+						text-align: right;
 						.flow_comment_icon{
 							padding-left: 1.2rem;
 						}
 						.flow_heart_icon{
-							padding-left: 2rem;
+							/*padding-left: 2rem;*/
 						}
 					}
 
@@ -482,13 +497,23 @@
 	    width: 1.5rem;
 	    height: 1.5rem;
 	    border-radius: 1rem;
+	    margin-top: 1.8rem;
 	}
 	.write_user_comment_info{
 		width: 80%;
+		.write_comment_title{
+			font-weight: 600;
+		}
+		.write_comment_score{
+			color: #999;
+			font-size: 0.61rem;
+			margin-top: 0.2rem;
+		}
 	}
 	/*点评底部转发评论点赞*/
 	.write_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
+		display: flex;
 
 	}
 	.write_flow_send_icon,.write_flow_comment_icon,.write_flow_heart_icon{
@@ -499,9 +524,11 @@
 	}
 	.write_flow_comment_icon{
 		padding-left: 1.2rem;
+		flex: 1;
 	}
 	.write_flow_heart_icon{
 		padding-left: 2rem;
+		flex: 1;
 	}
 	.write_sort_type_icon{
 		width: 0.8rem;
@@ -585,6 +612,7 @@
 						.send_comment_user_time{
 							color: #999;
 					    	font-size: 0.1rem;
+					    	margin-top: 0.1rem;
 						}
 				}
 				.send_comment_user_attention_btn{
@@ -668,7 +696,7 @@
 			background-color: white;
 			font-size: .65rem;
 			padding: 0rem 0.6rem;
-			margin-bottom: 3rem;
+			/*margin-bottom: 3rem;*/
 			.publish_article_list_info{
 				padding: 0.6rem 0rem;
 				.publish_article_user_icon{
@@ -678,14 +706,16 @@
 				    border-radius: 1rem;
 				}
 				.publish_article_name_time{
-					width: 30%;
+					width: 60%;
 			    	margin-left: 2rem;
 			    		.publish_article_name{
-							/*display: inline;*/
+							font-weight: 600;
+							color: #333;
 						}
 						.publish_article_time{
 							color: #999;
 					    	font-size: 0.1rem;
+					    	margin-top: 0.2rem;
 						}
 				}
 				.publish_article_attention_btn{
@@ -707,6 +737,7 @@
 			.publish_article_botton_list_user_content {
 				.publish_article_content_info{
 					/*padding: 0rem 0.6rem;*/
+					color: #999;
 				}
 
 			}
@@ -715,7 +746,18 @@
 			    background-color: #f1f5f7;
 			    padding: 0.5rem;
 				border-radius: 0.1rem;
-
+				.publish_article_info{
+					.publish_article_title{
+						font-weight: 600;
+    					line-height: 1rem;
+					}
+					.publish_article_score{
+						color: #999;
+    					line-height: 1rem;
+    					font-size: 0.61rem;
+    					margin-top: 0.2rem;
+					}
+				}
 			}
 
 		}
@@ -733,13 +775,15 @@
 	/*点评底部转发评论点赞*/
 	.publish_article_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
+		display: flex;
 
 	}
 	.publish_article_flow_send_icon,
 	.publish_article_flow_comment_icon,
 	.publish_article_flow_heart_icon{
-		width: 32%;
-		display: inline-flex;
+		/*width: 32%;*/
+		flex:1 ;
+		text-align: center;
 		padding: 0.5rem 0rem;
 		color: #999;
 	}
@@ -747,7 +791,7 @@
 		padding-left: 1.2rem;
 	}
 	.publish_article_flow_heart_icon{
-		padding-left: 2rem;
+		/*padding-left: 2rem;*/
 	}
 	.publish_article_sort_type_icon{
 		width: 0.8rem;
