@@ -70,7 +70,6 @@ export default {
       showLoading: true, //显示加载动画
       currentPage: 1,
       pageSize: 6,
-      showLoading: true, //显示加载动画
       title:'彗星链库'
     }
   },

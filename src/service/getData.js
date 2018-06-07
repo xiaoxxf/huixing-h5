@@ -157,6 +157,21 @@ export const getCodeRankData = (currentPage,pageSize,month,order) => axios.get('
 	}
 })
 
+/**
+	获取播报列表
+**/
+export const getNewsIndex = (currentPage,pageSize) => axios.get('http://testapi.blockcomet.com/news/search',{
+	params: {
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+	}
+})
+export const getNewsDetail = (newsId) => axios.get('http://testapi.blockcomet.com/news/getinfo',{
+	params: {
+		'newsId': newsId
+	}
+})
+
 
 // 原项目
 /**

@@ -17,8 +17,12 @@ const codeRankIndex = r => require.ensure([], () => r(require('../page/codeRank/
 // 代码榜详情
 const codeRankDetail = r => require.ensure([], () => r(require('../page/codeRank/codeRankDetail')), 'codeRankDetail')
 
-const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
+// 播报列表
+const newsIndex = r => require.ensure([], () => r(require('../page/news/newsIndex')), 'newsIndex')
+// 播报详情
+const newsDetail = r => require.ensure([], () => r(require('../page/news/newsDetail')), 'newsDetail')
 
+/**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
 //const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
@@ -97,13 +101,24 @@ export default [{
         	path:'/boradcast',
         	component:boradcast
         },
-       	//我的列表页
+        // 播报列表
+        {
+          path: '/news/newsIndex',
+          component: newsIndex
+        },
+        // 播报详情
+        {
+            path: '/news/newsDetail/:newsId',
+            name: 'newsDetail',
+            component: newsDetail
+        },
+       	//个人主页
         {
         	path:'/mine',
         	component:mine
         },
          //编写文章
-         {
+        {
             path:'/article',
             component: article
         },
@@ -118,14 +133,15 @@ export default [{
           name:'codeDetail',
           component: codeRankDetail
         },
+
+/**   --------------------------------------    分割线  -------------------------------------              **/
+        /**
+          原项目
+        **/
         //当前选择城市页
         {
             path: '/city/:cityid',
             component: city
-        },
-        {
-            path: '/newsDetail',
-            component: newsDetail
         },
            //项目列表
         {
