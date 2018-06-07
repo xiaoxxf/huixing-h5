@@ -26,16 +26,16 @@
     <!-- 代码 -->
 
     <section class="code_rank_list_section" v-load-more="loaderMore">
-      <table>
+      <table class="table_list" style="width: 100%;">
         <tr class="tr_head">
-          <td>排名</td>
-          <td>代码提交次数</td>
-          <td>贡献者</td>
+          <td class="td_head">排名</td>
+          <td class="td_head">代码提交数</td>
+          <td class="td_head">贡献者</td>
         </tr>
         <tr v-for="(item, index) in codeList" :key="index" class="tr_content" @click='goToDetail(index)'>
-            <td>{{index}}{{item.token}}</td>
-            <td>{{item.commits}}</td>
-            <td>{{item.contributors}}</td>
+            <td class="td_content">{{index}}{{item.token}}</td>
+            <td class="td_content">{{item.commits}}</td>
+            <td class="td_content">{{item.contributors}}</td>
         </tr>
       </table>
     </section>
@@ -174,7 +174,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../style/mixin';
 
-  // 头部
+   /*头部*/
   .link_search{
 		right: .8rem;
 		@include wh(.8rem, .8rem);
@@ -206,27 +206,28 @@ export default {
     border-radius: 0.2rem;
   }
 
-  // 分类
+   /*分类*/
   .code_date_nav_wrapper{
-    // position: fixed;
+    /*position: fixed;*/
     padding: 1.5rem 0.4rem 0 0.4rem;
     background-color: #fff;
     border-bottom:0.025rem solid $bc;
-    // margin-top: 1.9rem;
+    /*margin-top: 1.9rem;*/
     .code_date_wrapper{
       margin-bottom: 0.3rem;
-
-      // position: relative;
-      // height: 100%;
-      // overflow: hidden;
-      margin-left: 12%;
+      /*position: relative;*/
+      /*height: 100%;*/
+      /*overflow: hidden;*/
+      /*margin-left: 12%;*/
       .code_date_wrap{
         display: flex;
+        margin: 0rem 1.5rem;
           li{
             font-size: .65rem;
-            margin-right: 1rem;
+            /*margin-right: 1rem;*/
             padding-bottom: .3rem;
-            text-align: left;
+            text-align: center;
+            flex: 1;
           }
           .date_active{
             color: #1267a6;
@@ -237,21 +238,34 @@ export default {
     }
   }
 
-  // 代码列表
+   /*代码列表*/
   .code_rank_list_section{
-    padding: 0.8rem;
-    margin-top:4rem;
+    padding: 0.8rem 0rem;
+    margin-top:3.5rem;
     margin-bottom:2rem;
-
-    .tr_head{
-      font-size: 0.7rem;
-      // background-color: #fff;
-      border-bottom:0.025rem solid $bc;
-    }
+		.table_list{
+			.tr_head{
+	      font-size: 0.8rem;
+	       /*background-color: #fff;*/
+	      border-bottom:0.025rem solid $bc;
+	      /*display: flex;*/
+    		.td_head{
+    			width: 33%;
+    			padding-left: 1rem;
+    		}
+    	}
     .tr_content{
       border-bottom:0.025rem solid $bc;
       background-color: #fff;
+      color: #999;
+    	font-size: 0.7rem;
+      .td_content{
+      	width: 33%;
+    		padding-left: 1rem;
+      }
     }
+		}
+    
   }
 
 </style>
