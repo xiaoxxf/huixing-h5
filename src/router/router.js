@@ -9,6 +9,8 @@ const chain_detail = r => require.ensure([], () => r(require('../page/chain/chai
 const boradcast = r => require.ensure([], () => r(require('../page/boradcast/boradcast')), 'boradcast')
 // 个人主页
 const mine = r => require.ensure([], () => r(require('../page/mine/mine')), 'mine')
+//个人设置
+const mine_setting = r => require.ensure([], () => r(require('../page/mine/mine_setting')), 'mine_setting')
 // 写文章
 const article = r => require.ensure([], () => r(require('../page/article/article')), 'article')
 
@@ -116,6 +118,11 @@ export default [{
         {
         	path:'/mine',
         	component:mine
+        },
+        //个人设置
+        {
+        	path:'/mine_setting',
+        	component:mine_setting
         },
          //编写文章
         {
