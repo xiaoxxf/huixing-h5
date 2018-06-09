@@ -7,7 +7,7 @@
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 						</svg>
 						{{msiteTitle}}
-				</span>
+				  </span>
 			</router-link>
 			<router-link :to="'/search/geohash'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
@@ -32,20 +32,25 @@
 		</nav>
 		<section class="change_link_nav">
 				<div class="sort_type_wrap">
+          <router-link :to="'/chain/chain_index'">
 					<span class="sort_type">
 						<svg class="sort_type_icon">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
 						</svg>
 						分类
 					</span>
+          </router-link>
 				</div>
 				<div>
-					<span class="code_rank">
-						<svg class="sort_type_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
-						</svg>
-						排行
-					</span>
+          <router-link :to=" '/codeRank/codeRankIndex' ">
+            <span class="code_rank">
+  						<svg class="sort_type_icon">
+  							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
+  						</svg>
+  						排行
+  					</span>
+          </router-link>
+
 				</div>
 		</section>
 		<div id="topic_nav_wrapper">
@@ -80,10 +85,10 @@
 			</section>
 		</section>
 		-->
-		
+
 		<span class="fake_container"></span>
     	<foot-guide></foot-guide>
-    </div>    
+    </div>
 </template>
 
 <script>
@@ -97,7 +102,6 @@ import {msiteAddress, msiteFoodTypes, searchTopic, queryArticle} from 'src/servi
 import 'src/plugins/swiper.min.js'
 import 'src/style/swiper.min.css'
 import BScroll from 'better-scroll'
-
 export default {
 	data(){
         return {
@@ -119,10 +123,9 @@ export default {
         }
     },
     async beforeMount(){
-		
+
 	},
 	created(){
-
 	},
 	destroyed () {
 		window.removeEventListener('scroll', this.handleScroll)
@@ -141,10 +144,9 @@ export default {
 				new Swiper('.swiper-container', {
 					pagination: '.swiper-pagination',
 					loop: true,
-					autoplay: 2000, 
+					autoplay: 2000,
 				});
 		})
-
 	},
 	mixins: [loadMore],
     components: {
@@ -153,7 +155,6 @@ export default {
     	footGuide,
     },
     computed: {
-
     },
     methods: {
     	...mapMutations([
@@ -182,7 +183,7 @@ export default {
 			//this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
 		},
 		changeActice(id){
-			
+
 			this.topicActive = id;
 			this.currentPage = 0;
 		},
@@ -199,10 +200,9 @@ export default {
     watch: {
 		//topicActive 改变时则出发栏目文章查找方法
 		topicActive:function(value){
-		}	
+		}
     }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -268,7 +268,7 @@ export default {
 			}
 		}
 	}
-	
+
 	.change_link_nav{
 		display: flex;
         background-color: #fff;
@@ -336,7 +336,7 @@ export default {
 				}
 			}
 		}
-	
+
 	}
 	.fake_container{
 		display: block;

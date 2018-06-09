@@ -1,9 +1,29 @@
 import App from '../App'
-
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+
+// 项目列表
+const chain_index = r => require.ensure([], () => r(require('../page/chain/chain_index')), 'chain_index')
+// 项目详情
+const chain_detail = r => require.ensure([], () => r(require('../page/chain/chain_detail')), 'chain_detail')
+// 广播
+const boradcast = r => require.ensure([], () => r(require('../page/boradcast/boradcast')), 'boradcast')
+// 个人主页
+const mine = r => require.ensure([], () => r(require('../page/mine/mine')), 'mine')
+// 写文章
 const article = r => require.ensure([], () => r(require('../page/article/article')), 'article')
+
+// 代码榜列表
+const codeRankIndex = r => require.ensure([], () => r(require('../page/codeRank/codeRankIndex')), 'codeRankIndex')
+// 代码榜详情
+const codeRankDetail = r => require.ensure([], () => r(require('../page/codeRank/codeRankDetail')), 'codeRankDetail')
+
+// 播报列表
+const newsIndex = r => require.ensure([], () => r(require('../page/news/newsIndex')), 'newsIndex')
+// 播报详情
+const newsDetail = r => require.ensure([], () => r(require('../page/news/newsDetail')), 'newsDetail')
+
+/**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
-const newsDetail = r => require.ensure([], () => r(require('../page/newsDetail/newsDetail')), 'newsDetail')
 const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
 //const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
 const search = r => require.ensure([], () => r(require('../page/search/search')), 'search')
@@ -49,9 +69,6 @@ const questionDetail = r => require.ensure([], () => r(require('../page/service/
 const find = r => require.ensure([], () => r(require('../page/find/find')), 'find')
 const download = r => require.ensure([], () => r(require('../page/download/download')), 'download')
 
-
-
-
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -61,25 +78,70 @@ export default [{
             path: '',
             redirect: '/home'
         },
-       
-        //首页城市列表页
         {
             path: '/home',
             component: home
         },
+
+        // 链库首页
+        {
+            path: '/chain/chain_index',
+            component: chain_index
+        },
+
+        // 项目详情页
+        {
+          path: '/chain/chain_detail/:projectId',
+          name: 'chainDetail',
+          component: chain_detail
+        },
+
+        //广播列表页
+        {
+        	path:'/boradcast',
+        	component:boradcast
+        },
+        // 播报列表
+        {
+          path: '/news/newsIndex',
+          component: newsIndex
+        },
+        // 播报详情
+        {
+            path: '/news/newsDetail/:newsId',
+            name: 'newsDetail',
+            component: newsDetail
+        },
+       	//个人主页
+        {
+        	path:'/mine',
+        	component:mine
+        },
          //编写文章
-         {
+        {
             path:'/article',
             component: article
         },
+        // 代码榜列表
+        {
+          path:'/codeRank/codeRankIndex',
+          component: codeRankIndex
+        },
+        // 代码榜详情
+        {
+          path:'/codeRank/codeRankDetail/:codeIndex',
+          name:'codeDetail',
+          component: codeRankDetail
+        },
+
+/**   --------------------------------------    分割线  -------------------------------------              **/
+        /**
+          原项目
+        **/
         //当前选择城市页
         {
             path: '/city/:cityid',
             component: city
-        },
-        {
-            path: '/newsDetail',
-            component: newsDetail
         },
            //项目列表
         {

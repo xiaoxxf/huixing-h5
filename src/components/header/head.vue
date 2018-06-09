@@ -19,6 +19,8 @@
         <section class="title_head ellipsis" v-if="headTitle">
             <span class="title_text">{{headTitle}}</span>
         </section>
+        <slot name='menu'></slot>
+
         <slot name="edit"></slot>
         <slot name="msite-title"></slot>
         <slot name="changecity"></slot>
@@ -28,6 +30,8 @@
 
 <script>
     import {mapState, mapActions} from 'vuex'
+    import { getStore } from 'src/config/mUtils'
+
     export default {
     	data(){
             return{
@@ -36,8 +40,9 @@
         },
         mounted(){
             //获取用户信息
-            this.getUserInfo();
-
+            if (getStore('user_id')) {
+              this.getUserInfo();
+            }
         },
          created(){
         },
@@ -67,10 +72,11 @@
         left: 0;
         top: 0;
         @include wh(100%, 1.95rem);
-        @include boxshadeBottom(0,0,10px,rgba(0,0,0,.5));
+        @include boxshadeBottom(0,0,1px,rgba(0,0,0,.5));
         transition: all 1s;
     }
     .head_goback{
+        margin-top: 0.2rem;
         left: 0.4rem;
         @include wh(0.6rem, 1rem);
         line-height: 2.2rem;
@@ -95,7 +101,7 @@
         color: #aaaaaa;
         text-align: center;
         .title_text{
-            @include sc(0.8rem, #aaaaaa);
+            @include sc(0.8rem, #383737);
             text-align: center;
             font-weight: bold;
         }
