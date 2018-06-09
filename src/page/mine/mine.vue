@@ -7,7 +7,7 @@
     	<section class="person_homepage">
     		<section class="person_introduce">
     			<div class="person_introduce_detail">
-    				<img src="../../../static/weixin.png" class="person_icon"/>
+    				<img src="../../../static/loading.png" class="person_icon"/>
     				<div class="person_name_introduce">
     					<a href="" class="person_name">尼古拉</a>
     					<p class="person_introduce">简介：币圈老韭菜一枚。</p>
