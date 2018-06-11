@@ -148,16 +148,15 @@ export default {
     // overflow: auto;
     width: 100%;
     padding: 0 0.8rem 0.8rem 0.8rem;
+    img{
+      width: 100% !important;
+      display: block;
+    }
+    p{
+     color: #7e7e7e;
+     font-size: 1.0rem;
+    }
   }
 
-  .comment_content img{
-    width: 100% !important;
-    display: block;
-  }
-
-  .comment_content p{
-    color: #7e7e7e;
-    font-size: 1.0rem;
-  }
 
 </style>
