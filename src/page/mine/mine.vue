@@ -20,19 +20,19 @@
     					<p class="attention_num">12</p>
     					<p class="attention_chaim">粉丝</p>
     				</div>
-    				<div class="detail_topic">
+    				<!--<div class="detail_topic">
     					<p class="attention_num">8</p>
     					<p class="attention_chaim">专题</p>
     				</div>
     				<div class="detail_subject">
     					<p class="attention_num">10</p>
     					<p class="attention_chaim">项目</p>
-    				</div>
+    				</div>-->
     			</div>
     		</section>
     		<section class="person_create">
     			<!--创建的专题-->
-    			<div class="create_topic">
+    			<!--<div class="create_topic">
     				<div class="topic_left">
     					<p class="my_create_topic">我创建的专题</p>
     					<p class="my_create_topic_num">56篇文章</p>
@@ -46,9 +46,9 @@
 							</span>
 				        </router-link>
     				</div>
-    			</div>
+    			</div>-->
     			<!--创建的项目-->
-    			<div class="create_subject">
+    			<!--<div class="create_subject">
     				<div class="subject_left">
     					<p class="my_create_subject">我创建的项目</p>
     					<p class="my_create_subject_num">6篇文章</p>
@@ -62,7 +62,7 @@
 							</span>
 				        </router-link>
     				</div>
-    			</div>
+    			</div>-->
     		</section>
     		<!--动态切换-->
     		<ul class="all_dynamic_items">
