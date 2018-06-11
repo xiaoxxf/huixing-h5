@@ -4,10 +4,11 @@
             <svg class="user_avatar" v-if="userInfo">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
             </svg>
-             <svg class="user_avatar" v-else>
+            <!-- <span class="login_span user_default" v-else>登录|注册</span> -->
+
+             <!-- <svg class="user_avatar" v-else>
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
-            </svg>
-            <!--<span class="login_span user_default" v-else>登录|注册</span>-->
+            </svg> -->
         </router-link>
         <slot name='logo'></slot>
         <slot name='search'></slot>

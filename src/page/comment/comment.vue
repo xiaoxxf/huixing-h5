@@ -1,11 +1,7 @@
 <template>
   <div>
     <head-top goBack='true' :headTitle='title'>
-      <router-link :to="'/search/geohash'" class="link_search" slot="search">
-          <svg class="head_search_icon">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-          </svg>
-      </router-link>
+
     </head-top>
 
     <!-- 文章作者信息 -->
@@ -152,12 +148,9 @@ export default {
     // overflow: auto;
     padding: 0 0.8rem 0.8rem 0.8rem;
     color: #7e7e7e;
-    img{
-      border-radius: 100px;
-    }
+    font-size: 1.0rem;
     p{
       color: #373737;
-      font-size: 1.0rem;
     }
   }
 

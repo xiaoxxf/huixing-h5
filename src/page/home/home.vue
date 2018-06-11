@@ -9,11 +9,7 @@
 						{{msiteTitle}}
 				  </span>
 			</router-link>
-			<router-link :to="'/search/geohash'" class="link_search" slot="search">
-	    		<svg class="head_search_icon">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-				</svg>
-    		</router-link>
+
     	</head-top>
 		<nav class="msite_nav">
 			<div class="swiper-container" v-if="fakeBanner.length">
@@ -65,26 +61,7 @@
 			</nav>
 				<topic-list v-if="hasTopicData" :topicActive="topicActive" :topicBarFixed="topicBarFixed"></topic-list>
 		</div>
-		<!--<section class="hot_review_region" id="hotReviewContainer">
-			 <section v-load-more="getArticleByType">
-				<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
-					<div class="review_item_left">
-						<h2 class="review_title">{{item.textTitle}}</h2>
-						<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
-						<div class="author_info">
-							<span class="author_pic">
-								<img :src="item.userPic" alt="">
-							</span>
-							<span class="author_name">{{item.realName}}</span>
-						</div>
-					</div>
-					<div class="review_item_right">
-							<img src="http://www.huixing.io/img/1519917063959.jpg" alt="">
-					</div>
-				</a>
-			</section>
-		</section>
-		-->
+
 
 		<span class="fake_container"></span>
     	<foot-guide></foot-guide>

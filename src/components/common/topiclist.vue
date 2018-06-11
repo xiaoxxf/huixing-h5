@@ -1,7 +1,7 @@
 <template>
 	<section class="hot_review_region" id="hotReviewContainer" :class="topicBarFixed == true ? 'containerFixed' :''">
 			 <section v-load-more="getArticleByType">
-				<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
+				<div v-for="(item, index) in topicActiveData" :key="index"  class="hot_review_item">
 					<div class="review_item_left">
 						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
 							<h2 class="review_title">{{item.textTitle}}</h2>
@@ -19,7 +19,7 @@
 					<div class="review_item_right" v-if="item.type == 2">
 							<img  v-lazy="item.projectLogo" alt="">
 					</div>
-				</a>
+				</div>
 			</section>
 			<transition name="loading">
 				<loading v-show="showLoading"></loading>
