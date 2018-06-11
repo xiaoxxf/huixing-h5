@@ -144,7 +144,14 @@ export const getBoradcastData = (currentPage,pageSize,like,loginUser) => axios.g
 	}
 })
 
-
+//获取个人主页信息
+export const getPersonData = (currentPage,pageSize,userId) => axios.get('http://testapi.blockcomet.com/news/quaryusers',{
+	params: {
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'userId':userId
+	}
+})
 /**
 	获取代码排行榜列表
 **/
@@ -171,6 +178,8 @@ export const getNewsDetail = (newsId) => axios.get('http://testapi.blockcomet.co
 		'newsId': newsId
 	}
 })
+
+
 
 
 // 原项目

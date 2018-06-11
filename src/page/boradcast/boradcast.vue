@@ -434,7 +434,7 @@
 
 
 
-	/*点评*/
+	/*写长评*/
 	.write_comment{
 		.write_comment_list{
 			background-color: white;
@@ -588,66 +588,6 @@
 	    margin-right: 0.2rem;
 	}
 
-
-	/*转发*/
-	.send_comment{
-		.send_comment_list{
-			background-color: white;
-			font-size: .65rem;
-			padding: 0rem 0.6rem;
-			.send_comment_list_info{
-				padding: 0.6rem 0rem;
-				.send_comment_list_user_icon{
-					float: left;
-				    width: 1.5rem;
-				    height: 1.5rem;
-				    border-radius: 1rem;
-				}
-				.send_comment_user_name_time{
-					width: 30%;
-			    	margin-left: 2rem;
-			    		.send_comment_user_name{
-							/*display: inline;*/
-						}
-						.send_comment_user_time{
-							color: #999;
-					    	font-size: 0.1rem;
-					    	margin-top: 0.1rem;
-						}
-				}
-				.send_comment_user_attention_btn{
-					float: right;
-				    margin-top: -1.4rem;
-				    border: solid 1px #2196F3;
-				    color: #2196F3;
-				    padding: 0.1rem;
-				    border-radius: 0.1rem;
-			    	font-size: 0.1rem;
-				}
-				.send_icon{
-					float: right;
-					margin-top: -1.2rem;
-				}
-
-			}
-			.send_comment_botton_list_user_content {
-				.send_comment_user_content_info{
-					padding: 0rem 0.2rem;
-				}
-
-			}
-			.send_comment_bottom_list_user_comment{
-				margin-top: 0.4rem;
-			    background-color: #f1f5f7;
-			    padding: 0.5rem;
-				border-radius: 0.1rem;
-				.send_author{
-					margin-bottom: 0.3rem;
-				}
-			}
-
-		}
-	}
 	/*点评写评论项目图片*/
 	.send_comments_user_icon{
 		float: right;
