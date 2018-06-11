@@ -55,7 +55,9 @@
 								<img :src="item.projectLogo" class="comment_user_icon"/>
 		        	</router-link>
 						<div class="user_comment_info">
-							<p class="comment_title">{{item.projectBigName}}</p>
+							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+								<p class="comment_title">{{item.projectBigName}}</p>
+							</router-link>
 							<p class="comment_score">{{countScore(item.score)}} <span class="comment_score_num">{{item.score}}</span></p>
 						</div>
 					</div>
@@ -80,15 +82,23 @@
 						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
 					</div>
 					<div class="comment_botton_list_user_content">
-						<p class="comment_user_content_info">写了{{item.projectBigName}}的点评
+						<p class="comment_user_content_info">写了
+							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+								{{item.projectBigName}}
+							</router-link>
+							的点评
 						</p>
 					</div>
 					<div class="comment_bottom_list_user_comment">
-						<img :src="item.projectLogo" class="comments_user_icon"/>
-						<div class="write_user_comment_info">
-							<p class="write_comment_title">{{item.textTitle}}</p>
-							<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
-						</div>
+						<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+							<img :src="item.projectLogo" class="comments_user_icon"/>
+						</router-link>
+						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+							<div class="write_user_comment_info">
+								<p class="write_comment_title">{{item.textTitle}}</p>
+								<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
+							</div>
+						</router-link>
 					</div>
 					<div class="write_bottom_list_user_flow">
 						<!-- <div class="write_flow_send_icon">
@@ -124,10 +134,12 @@
 					</div>
 					<div class="publish_article_bottom_list_user_comment">
 						<!-- <img src="../../images/fenxiang.png" class="publish_article_icon"/> -->
-						<div class="publish_article_info">
-							<p class="publish_article_title">{{item.textTitle}}</p>
-							<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
-						</div>
+						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+							<div class="publish_article_info">
+								<p class="publish_article_title">{{item.textTitle}}</p>
+								<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
+							</div>
+						</router-link>
 					</div>
 					<div class="publish_article_bottom_list_user_flow">
 						<div class="publish_article_flow_send_icon">
