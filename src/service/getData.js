@@ -186,7 +186,19 @@ export const getNewsDetail = (newsId) => axios.get('http://testapi.blockcomet.co
 })
 
 
+/**
+	个人中心页，获取动态
+**/
+export const getUserDynamic = (currentPage,pageSize,creator,type) => axios.get('blockchain/quaryReviewByUser',{
+	params: {
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'creator': creator,
+		'type': type
+	}
+})
 
+/**   --------------------------------------    分割线  -------------------------------------              **/
 
 // 原项目
 /**

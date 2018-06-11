@@ -55,6 +55,10 @@ export default {
       initData(){
         getNewsIndex(this.currentPage,this.pageSize).then(res => {
           this.news_list = res.data.datas;
+          // 去除HTML标签
+          for (var i = 0; i < this.news_list.length; i++) {
+            this.news_list[i].newsContent = this.news_list[i].newsContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+          }
           this.showLoading = false;
         }).catch(res => {
           console.log('获取列表数据错误:' + err);
@@ -78,6 +82,10 @@ export default {
         var more_project_list = [];
         getNewsIndex(this.currentPage,this.pageSize).then(res => {
           more_project_list = res.data.datas
+          // 去除HTML标签
+          for (var i = 0; i <res.data.datas.length; i++) {
+            res.data.datas[i].newsContent = res.data.datas[i].newsContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+          }
           this.news_list = [...this.news_list, ...more_project_list];
           // 已无更多数据
           if (more_project_list.length < this.pageSize) {

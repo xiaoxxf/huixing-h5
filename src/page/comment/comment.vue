@@ -153,8 +153,9 @@ export default {
       display: block;
     }
     p{
-     color: #7e7e7e;
-     font-size: 1.0rem;
+     color: #7e7e7e !important;
+     font-size: 0.8rem !important;
+     line-height: 2.0;
     }
   }
 

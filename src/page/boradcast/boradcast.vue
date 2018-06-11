@@ -63,7 +63,8 @@
 					</div>
 					<div class="bottom_list_user_flow">
 						<div class="flow_heart_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
+							{{item.likes}}
 						</div>
 					</div>
 				</div>
