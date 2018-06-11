@@ -2,11 +2,11 @@
 	<div>
 		<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
 		<router-link :to="'/search/geohash'" slot="search" class="msite_title">
-				<span class="title_text ellipsis">
-					<svg class="head_search_icon">
-						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-					</svg>
-					{{msiteTitle}}
+			<span class="title_text ellipsis">
+				<svg class="head_search_icon">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+				</svg>
+				{{msiteTitle}}
 			</span>
 		</router-link>
 		<router-link :to="'/search/geohash'" class="link_search" slot="search">
@@ -366,7 +366,8 @@
 								}
 								.user_time{
 									color: #999;
-							    	font-size: 0.1rem;
+							    	font-size: 0.5rem;
+							    	margin-top: 0.1rem
 								}
 						}
 						.user_attention_btn{
@@ -377,7 +378,7 @@
 						    color: #2196F3;
 						    padding: 0.1rem;
 						    border-radius: 0.1rem;
-						    font-size: 0.1rem;
+						    font-size: 0.5rem;
 
 						}
 						.send_icon{
@@ -469,7 +470,8 @@
 						}
 						.comment_user_time{
 							color: #999;
-					    	font-size: 0.1rem;
+					    	font-size: 0.5rem;
+					    	margin-top: 0.1rem;
 						}
 				}
 				.comment_user_attention_btn{
@@ -479,7 +481,7 @@
 				    color: #2196F3;
 				    padding: 0.1rem;
 				    border-radius: 0.1rem;
-			    	font-size: 0.1rem;
+			    	font-size: 0.5rem;
 
 				}
 				.send_icon{
@@ -527,21 +529,23 @@
 	.write_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
 		display: flex;
+		padding: 0.5rem 0rem;
 
 	}
-	.write_flow_send_icon,.write_flow_comment_icon,.write_flow_heart_icon{
-		width: 32%;
-		display: inline-flex;
+	/*.write_flow_send_icon,.write_flow_comment_icon,.write_flow_heart_icon{
+		display: flex;
 		padding: 0.5rem 0rem;
 		color: #999;
-	}
+	}*/
 	.write_flow_comment_icon{
-		padding-left: 1.2rem;
+		text-align: center;
 		flex: 1;
+		color: #999;
 	}
 	.write_flow_heart_icon{
-		padding-left: 2rem;
+		text-align: center;
 		flex: 1;
+		color: #999;
 	}
 	.write_sort_type_icon{
 		width: 0.8rem;
@@ -667,8 +671,8 @@
 						}
 						.publish_article_time{
 							color: #999;
-					    	font-size: 0.1rem;
-					    	margin-top: 0.2rem;
+					    	font-size: 0.5rem;
+					    	margin-top: 0.1rem;
 						}
 				}
 				.publish_article_attention_btn{
@@ -678,7 +682,7 @@
 				    color: #2196F3;
 				    padding: 0.1rem;
 				    border-radius: 0.1rem;
-			    	font-size: 0.1rem;
+			    	font-size: 0.5rem;
 
 				}
 				.send_icon{
