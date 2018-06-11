@@ -97,7 +97,7 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 @import '../../style/mixin';
 
   // 头部
@@ -146,12 +146,18 @@ export default {
   .comment_content{
     // max-width: 100%;
     // overflow: auto;
+    width: 100%;
     padding: 0 0.8rem 0.8rem 0.8rem;
+  }
+
+  .comment_content img{
+    width: 100% !important;
+    display: block;
+  }
+
+  .comment_content p{
     color: #7e7e7e;
     font-size: 1.0rem;
-    p{
-      color: #373737;
-    }
   }
 
 </style>
