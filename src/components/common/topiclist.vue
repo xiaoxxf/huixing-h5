@@ -1,10 +1,14 @@
 <template>
 	<section class="hot_review_region" id="hotReviewContainer" :class="topicBarFixed == true ? 'containerFixed' :''">
 			 <section v-load-more="getArticleByType">
-				<a v-for="(item, index) in topicActiveData" :key="index" href="//www.baidu.com" class="hot_review_item">
+				<div v-for="(item, index) in topicActiveData" :key="index"  class="hot_review_item">
 					<div class="review_item_left">
-						<h2 class="review_title">{{item.textTitle}}</h2>
-						<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
+						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+							<h2 class="review_title">{{item.textTitle}}</h2>
+						</router-link>
+						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+							<div class="review_content" v-html="subStrArticle(item.textContent)"></div>
+						</router-link>
 						<div class="author_info">
 							<span class="author_pic">
 								<img  v-lazy="item.userPic" alt="">
@@ -12,10 +16,10 @@
 							<span class="author_name">{{item.realName}}</span>
 						</div>
 					</div>
-					<div class="review_item_right">
-							<img  v-lazy="item.userPic" alt="">
+					<div class="review_item_right" v-if="item.type == 2">
+							<img  v-lazy="item.projectLogo" alt="">
 					</div>
-				</a>
+				</div>
 			</section>
 			<transition name="loading">
 				<loading v-show="showLoading"></loading>
