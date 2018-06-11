@@ -32,8 +32,9 @@
           <td class="td_head">代码提交数</td>
           <td class="td_head">贡献者</td>
         </tr>
-        <tr v-for="(item, index) in codeList" :key="index" class="tr_content" @click='goToDetail(index)'>
-            <td class="td_content">{{index}}{{item.token}}</td>
+        <tr v-for="(item, index) in codeList" :key="index" 
+        	class="tr_content" @click='goToDetail(index)'>
+            <td class="td_content index_num"><span :class="{'td_index': true, 'style_1': index == 0, 'style_2': index == 1, 'style_3': index == 2,}">{{index+1}}</span>{{item.token}}</td>
             <td class="td_content">{{item.commits}}</td>
             <td class="td_content">{{item.contributors}}</td>
         </tr>
@@ -82,7 +83,14 @@ export default {
     loading,
   },
   mixins: [loadMore],
-
+	//遍历出来的数据前面3个index改变样式
+//	computed: {
+//	  codeList: function () {
+//	    return this.items.slice(0, 10)
+////	    return this.items[0].backgroundColor="red";
+//	  }
+//	},
+	
   mounted(){
 
     // 渲染所有项目数据
@@ -191,7 +199,7 @@ export default {
     width: 2.8rem;
     border: solid 1px #006bb3;
     color: #006bb3 !important;
-    font-size: 0.1rem !important;
+    font-size: 0.5rem !important;
     padding: 0.3rem;
     background: white;
     border-radius: 0.2rem;
@@ -200,7 +208,7 @@ export default {
     width: 2.8rem;
     border: solid 1px #006bb3;
     color: white !important;
-    font-size: 0.1rem !important;
+    font-size: 0.5rem !important;
     padding: 0.3rem;
     background: #006bb3;
     border-radius: 0.2rem;
@@ -228,7 +236,7 @@ export default {
             padding-bottom: .3rem;
             text-align: center;
             flex: 1;
-          }
+          } 
           .date_active{
             color: #1267a6;
             border-bottom: 2px solid #1267a6;
@@ -250,8 +258,8 @@ export default {
 	      text-align: center;
     		.td_head{
     			width: 33%;
-    			padding-top: 0.2rem;
-    			padding-bottom: 0.2rem;
+    			padding-top: 0.3rem;
+    			padding-bottom: 0.3rem;
     		}
     	}
     .tr_content{
@@ -262,11 +270,36 @@ export default {
       .td_content{
       	width: 33%;
     		padding-left: 2rem;
-    		padding-top: 0.2rem;
-    		padding-bottom: 0.2rem;
+    		padding-top: 0.3rem;
+    		padding-bottom: 0.3rem;
+    		.td_index{
+    			width: 1rem;
+    			height: 1rem;
+			    display: inline-block;
+			    border-radius: 30rem;
+			    background-color: #99999985;
+			    margin-right: 0.5rem;
+			    text-align: center;
+    			color:white;
+    		}
       }
+      .index_num{
+	    	padding-left: 0.5rem;
+	    } 
+      .style_1{
+      	background-color: red !important;
+      }
+      .style_2{
+    		background-color: orange !important;
+   		}
+    
+	    .style_3{
+	    	background-color: #ffc107a3 !important;
+	    }
+     
     }
-		}
+
+	}
     
   }
 
