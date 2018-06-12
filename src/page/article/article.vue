@@ -1,10 +1,14 @@
 <template>
     <div>
-		<div class="">    
-			  <vue-html5-editor :content="content" :height="200" :z-index="100" :auto-height="true" :show-module-name="false" @click="focus" @change="updateData" ref="editor"></vue-html5-editor>
-		</div>   
-    	<foot-guide></foot-guide>
-    </div>    
+      <head-top goBack='true' :headTitle='msiteTitle'>
+        <button type="button" name="button" slot="search" class="postButton" @click="postArticle()">发布文章</button>
+    	</head-top>
+		<div class="editor">
+        <input type="text" v-model='textTitle' name="textTitle"class="textTitle" placeholder='请输入文章标题'></input>
+			  <vue-html5-editor :content="content" :height="300" :z-index="100" :auto-height="true" :show-module-name="false" @click="focus" @change="updateData" ref="editor"></vue-html5-editor>
+		</div>
+    <foot-guide></foot-guide>
+    </div>
 </template>
 
 <script>
@@ -13,46 +17,66 @@ import {mapMutations} from 'vuex'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import {loadMore} from 'src/components/common/mixin'
-import {} from 'src/service/getData'
+import {postArticle} from 'src/service/getData'
+import {getStore, setStore, removeStore} from 'src/config/mUtils'
 
 export default {
+
 	data(){
-        return {
-            msiteTitle: '编写文章', // msite页面头部标题
-			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
-			content: '彗星',
-        }
-    },
-    async beforeMount(){
-		
+    return {
+      msiteTitle: '写文章', // msite页面头部标题
+      // imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+      textTitle: '',
+      content: '彗星',
+    }
+  },
+  async beforeMount(){
+
 	},
 	created(){
 	},
-    mounted(){
-		
+  mounted(){
+
 
 	},
 	mixins: [loadMore],
-    components: {
-    	headTop,
-		footGuide,
-    },
-    computed: {
 
+  components: {
+  	headTop,
+	   footGuide,
+  },
+
+  computed: {
+
+  },
+
+  methods: {
+    updateData: function (data) {
+      // sync content to component
+      let c1 = data.replace(/<img width="100%"/g, '<img');
+      let c2 = c1.replace(/<img/g, '<img width="100%"');
+      this.content = c2;
     },
-    methods: {
-		 updateData: function (data) {
-			// sync content to component
-			let c1 = data.replace(/<img width="100%"/g, '<img');    
-			let c2 = c1.replace(/<img/g, '<img width="100%"');    
-			this.content = c2; 
-		},
-		 focus: function () {
-			this.$refs.editor.focus()
-		},
-	},
-    watch: {
+    focus: function () {
+      this.$refs.editor.focus()
+    },
+
+
+    postArticle: function(){
+      var user_id = getStore('user_id');
+      postArticle(this.textTitle,this.content,user_id,4).then(res => {
+        // debugger
+        this.content = '';
+        this.textTitle = '';
+        this.$router.push({ name: 'mine'});
+      }).catch(err => {
+        console.log('发布文章错误:' + err);
+      })
     }
+  },
+
+  watch: {
+  }
 }
 
 </script>
@@ -101,4 +125,27 @@ export default {
 			@include wh(100%, 100%);
 		}
 	}
+
+  .postButton{
+      float: right;
+      padding: 0 0.4rem;
+      font-size: 0.6rem;
+      color: #006bb3;
+      background: white;
+      border: solid 1px #006bb3;
+      height: 1.0rem;
+      border-radius: 0.2rem;
+      margin-top: 0.6rem;
+      margin-right: 0.2rem;
+  }
+
+  .editor{
+    margin-top: 2rem;
+    .textTitle{
+      padding-left: 0.2rem;
+      width: 100%;
+      height: 2rem;
+      font-size: 0.7rem;
+    }
+  }
 </style>

@@ -4,6 +4,8 @@ import { baseUrl } from '../config/env'
 import axios from 'axios'
 import md5 from 'js-md5' //md5对用户密码进行加密传送
 axios.defaults.baseURL = baseUrl;
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 
 /**
  * 获取新闻列表
@@ -197,6 +199,20 @@ export const getUserDynamic = (currentPage,pageSize,creator,type) => axios.get('
 		'type': type
 	}
 })
+
+
+/**
+	发布文章
+**/
+export const postArticle = (textTitle,textContent,userId,type) => axios.post('blockchain/addReview',{
+
+	'textTitle': textTitle,
+	'textContent': textContent,
+	'userId': userId,
+	'type': type
+
+})
+
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 
