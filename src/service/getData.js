@@ -118,6 +118,15 @@ export const queryCommentDetail = (reviewId) => axios.get('topic/quaryArticleDea
 		'reviewId': reviewId
 	}
 })
+//管理的专题
+//推荐专题
+export const manageTopic = (currentPage,pageSize,creator) => axios.get('topic/seachTopic',{
+	params:{
+		'currentPage':currentPage,
+		'pageSize':pageSize,
+		'creator':creator,
+	}
+})
 
 
 /**

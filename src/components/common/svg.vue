@@ -70,12 +70,11 @@
 			<symbol viewBox="0 0 200 200" id="return">
 				<path fill="#999" d="M146.17,99.77l0,0L59.88,13.38l-1.1-1.1-7.41,7.41,80.08,80.08-79,79-1.1,1.1,7.41,7.41,87.45-87.44Z"/>
 			</symbol>
-			<!--登录-->
-			<symbol viewBox="0 0 200 200" id="logo">
-				<!--<path style="enable-background:new 0 0 336 336;" xml:space="preserve"/>-->
-				<image style="overflow:visible;" width="75" height="75" xlink:href="彗星logo/144*144logo.png"  transform="matrix(1 0 0 1 131 130)">
-				</image>
+			<!--发表文章-->
+			<symbol viewBox="0 0 200 200" id="send_article">
+				<path fill="#999" d="M159.09,99.84a13.64,13.64,0,1,1-13.67-13.6A13.39,13.39,0,0,1,159.09,99.84Zm-45.45.12A13.64,13.64,0,1,1,100,86.36,13.39,13.39,0,0,1,113.64,100Zm-45.45.12a13.64,13.64,0,1,1-13.67-13.6A13.39,13.39,0,0,1,68.18,100.08Z"/>
 			</symbol>
+			
 			
 			<symbol viewBox="0 0 200 200" id="rank">
 			<path fill="#1A68A4" stroke="#1A68A4" stroke-miterlimit="10" d="M75,62.5h100c3.5,0,6.2-2.8,6.2-6.2S178.5,50,175,50H75c-3.4,0-6.2,2.8-6.2,6.2S71.6,62.5,75,62.5z"/>

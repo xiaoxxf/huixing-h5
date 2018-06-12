@@ -26,6 +26,9 @@ const newsDetail = r => require.ensure([], () => r(require('../page/news/newsDet
 
 // 文章详情
 const comment = r =>  require.ensure([], () => r(require('../page/comment/comment')), 'comment')
+//文章投稿到专题
+const sendTopicArticle = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticle')), 'sendTopicArticle')
+
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -100,7 +103,11 @@ export default [{
           name: 'chainDetail',
           component: chain_detail
         },
-
+		//投稿专题管理
+        {
+        	path:'/sendTopicArticle/sendTopicArticle',
+        	component:sendTopicArticle
+        },
         //广播列表页
         {
         	path:'/boradcast',

@@ -7,9 +7,10 @@
             <p class="news_title">{{item.title}}</p>
             <p class="news_content">
               {{item.newsContent.substr(0,30)}}...
-              <span class="news_item">{{item.createTime.split(' ')[0]}}</span>
+              <!--<span class="news_item">{{item.createTime.split(' ')[0]}}</span>-->
             </p>
-
+            <p class="news_item">{{item.createTime.split(' ')[0]}}</p>
+			
           </div>
         </section>
         <transition name="loading">
@@ -104,9 +105,11 @@ export default {
   .news_index_section{
     margin-top: 2rem;
     padding: 0.8rem;
+    background-color:white;
     .new_item{
       margin-bottom: 0.5rem;
       border-bottom:0.005rem solid #D4DADE;
+      /*min-height:5rem;*/
     }
     .news_title{
       @include sc(0.7rem,#232121)
@@ -118,6 +121,14 @@ export default {
         @include sc(0.6rem,#8A8A8A)
         float: right;
       }
+    }
+    .news_item{
+    	margin: 0.4rem 0;
+	    font-size: 0.6rem;
+	    color: #716a6a;
+	    /*float: right;*/
+	    display: inline-block;
+    	padding-right: 0.4rem;
     }
   }
 </style>
