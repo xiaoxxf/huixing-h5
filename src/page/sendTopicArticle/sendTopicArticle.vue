@@ -2,12 +2,12 @@
 	<div>
 		<head-top goBack='true' >
 			<!--<router-link :to="'/search/geohash'" slot="search" class="msite_title">-->
-			<section slot="search" class="msite_title">	
+			<section slot="search" class="msite_title">
 				<input v-model="message" class="title_text ellipsis" placeholder="搜索专题" >
 				</input>
 			</section >
 			<!--</router-link>-->
-			
+
 			<section class="link_search" slot="search">
 				<svg class="head_search_icon" @click="searchTopic()" @keyup="searchTopic()">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
@@ -15,7 +15,7 @@
 				<!--<span class="cancel_search" @click="searchTopic()">取消</span>-->
 			</section>
     	</head-top>
-    	
+
     	<!--我管理的专题-->
     	<section class="manage_topic" v-show="isShow">
     		<div class="manage_topic_title" >
@@ -25,7 +25,7 @@
 			    			查看全部&nbsp;&rsaquo;
 		    			</span>
 	    			</router-link>
-    			
+
     		</div>
     		<div class="manage_topic_info" >
     			<div class="inner_container" v-for="(item, index) in myManageTopic">
@@ -49,7 +49,7 @@
     		</div>
     	</section>
     	<!--搜索专题-->
-    	<section class="topic_list">
+    	<section class="topic_list" v-show="!isShow">
     		<div class="topic_list_title">搜索专题</div>
     		<div class="topic_list_info" v-for="(item, index) in mysearchTopic">
     			<div class="topic_list_introdece_wrapper_info">
@@ -63,14 +63,14 @@
     		</div>
     	</section>
 	</div>
-	
+
 </template>
 
 <script>
 	import headTop from 'src/components/header/head'
 	import {manageTopic,commentTopic} from 'src/service/getData'
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
-	
+
 export default {
   data(){
     return{
@@ -85,9 +85,9 @@ export default {
 		creator: '',
 		message:'',
 		isShow:true
-		
+
     }
-   
+
   },
 
   components: {
@@ -109,7 +109,7 @@ export default {
 		this.currentPage = 1;
 		manageTopic(this.currentPage,this.ManageTopicpageSize,this.creator).then(res => {
 			this.myManageTopic = res.data.datas;
-			
+
 			console.log(this.myManageTopic)
 
 		}).catch(err => {
@@ -143,7 +143,7 @@ export default {
       });
     }
 //  checkname:function(){
-//     if(this.message ==""){    
+//     if(this.message ==""){
 //        this.isShow=true;
 //     }
 //	 },
@@ -151,10 +151,10 @@ export default {
   },
   watch: {
     message() {
-       if(this.message ==""){    
+       if(this.message ==""){
           this.isShow=true;
      	}
-    } 
+    }
   }
 
 }
@@ -223,7 +223,7 @@ export default {
 			padding: 0.5rem 0rem;
 			.inner_container{
 				display: inline-grid;
-		
+
 				.topic_icon{
 					width: 3rem;
 				    height: 3rem;
@@ -264,7 +264,7 @@ export default {
     			.introduce_center{
     				flex: 3;
     				.introdece_title{
-    					
+
     				}
     			}
     			.send_article_btn{
@@ -282,7 +282,7 @@ export default {
 				    font-size: 0.5rem;
 				    color: #999;
     			}
-    			
+
     		}
     	}
 	}
@@ -310,7 +310,7 @@ export default {
     			.topic_list_introduce_center{
     				flex: 3;
     				.introdece_title{
-    					
+
     				}
     			}
     			.topic_list_send_article_btn{
@@ -328,10 +328,10 @@ export default {
 				    font-size: 0.5rem;
 				    color: #999;
     			}
-    			
+
     		}
     	}
 	}
-	
-	
+
+
 </style>
