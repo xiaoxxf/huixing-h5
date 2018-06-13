@@ -1,11 +1,24 @@
 <template>
   <div>
     <head-top goBack='true' :headTitle='title'>
-
-    </head-top>
-
-    <!-- 文章作者信息 -->
-    <section class="creator_info">
+			<!--<router-link to='/search/geohash' class="link_search" slot="search">-->
+			<section class="link_search" slot="search">
+				<svg class="head_search_icon" @click="show">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#send_article'"></use>
+				</svg>
+				
+				<router-link :to="'/sendTopicArticle/sendTopicArticle'" slot="search" class="msite_title">
+					<section class="send_page" v-show="detailShow">
+						<span>投稿</span>
+					</section>
+				</router-link>
+				
+			</section>
+   </head-top>
+		
+		<section @click="hideSend()">
+			<!-- 文章作者信息 -->
+    <section class="creator_info" >
       <img :src="this.commentInfo.userPic" alt="">
       <div class="">
         <p class="creator_name">{{this.commentInfo.realName}}</p>
@@ -14,17 +27,17 @@
     </section>
 
     <!-- 文章标题 -->
-    <section class="comment_title">
+    <section class="comment_title" >
       {{this.commentInfo.textTitle}}
     </section>
 
     <!-- 文章内容 -->
-    <section class="comment_content"  v-html='this.commentInfo.textContent'>
+    <section class="comment_content"  v-html='this.commentInfo.textContent' >
       <!-- {{this.commentInfo.textContent}} -->
     </section>
 
     <!-- 评论列表 -->
-    <section>
+    <section >
 
     </section>
 
@@ -34,6 +47,9 @@
 
     <span class="fake_container"></span>
   	<!-- <foot-guide></foot-guide> -->
+			
+		</section>
+    
   </div>
 </template>
 
@@ -49,13 +65,16 @@ import {showBack, animate} from 'src/config/mUtils'
 import loading from 'src/components/common/loading'
 
 export default {
+	
   data(){
     return{
       commentInfo: {},
       commentId: '',
       title: '',
       showLoading: true, //显示加载动画
+      detailShow: false
     }
+   
   },
 
   components: {
@@ -87,6 +106,16 @@ export default {
         this.showLoading = false;
       })
 
+    },
+    //右上角投稿点击显示影藏
+    show() {
+      this.detailShow = !this.detailShow;         //show方法
+    },
+    
+    hideSend(){
+    	if(this.detailShow){
+    		      this.detailShow = !this.detailShow;         //show方法
+    	}
     }
   },
   watch: {
@@ -99,16 +128,37 @@ export default {
 
 <style lang="scss" >
 @import '../../style/mixin';
-
+#app{
+	background-color: white;
+}
   // 头部
   .link_search{
 		right: .8rem;
-		@include wh(.8rem, .8rem);
+		@include wh(1rem, 1rem);
 		@include ct;
 		.head_search_icon{
-			@include wh(.8rem, .8rem);
+			@include wh(1rem, 1rem);
 			vertical-align: top;
 		}
+		.send_page{
+	    width: 6rem;
+	    background-color: white;
+	    display: block;
+	    position: fixed;
+	    right: .1rem;
+	    text-align: center;
+	    top: 0.8rem;
+	    span{
+	    	width: 100%;
+		    height: 100%;
+		    display: block;
+		    border: solid 1px gainsboro;
+		    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+		    font-size: 0.7rem;
+   	 		padding: 0.3rem 0rem;
+	    }
+		}
+		
 	}
 
   // 作者信息

@@ -1,10 +1,22 @@
 <template>
     <div>
-      <head-top goBack='true' :headTitle='msiteTitle'>
-        <button type="button" name="button" slot="search" class="postButton" @click="postArticle()">发布文章</button>
-    	</head-top>
+		<head-top goBack='true' :headTitle='msiteTitle'>
+			<button type="button" name="button" slot="search" class="postButton" @click="postArticle()">发布文章</button>
+		</head-top>
 		<div class="editor">
-        <input type="text" v-model='textTitle' name="textTitle"class="textTitle" placeholder='请输入文章标题'></input>
+		<div class="coin_pic_name_wrap">
+			<div class="coin_pic_name">
+				<div class="img_left">
+					<img src="../../../static/huixingLogo.png" alt="">
+				</div>
+				<div class="text">
+					ETH
+				</div>
+			</div>
+		</div>
+			<div class="title_wrap">
+				 <input type="text" v-model='textTitle' name="textTitle" class="textTitle" placeholder='请输入文章标题' />
+			</div>
 			  <vue-html5-editor :content="content" :height="300" :z-index="100" :auto-height="true" :show-module-name="false" @click="focus" @change="updateData" ref="editor"></vue-html5-editor>
 		</div>
     <foot-guide></foot-guide>
@@ -13,7 +25,6 @@
 
 <script>
 import {mapMutations} from 'vuex'
-// import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import {loadMore} from 'src/components/common/mixin'
@@ -81,7 +92,7 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	@import 'src/style/mixin';
 	.link_search{
 		right: .8rem;
@@ -91,6 +102,37 @@ export default {
 			@include wh(.8rem, .8rem);
 			vertical-align: top;
 		}
+	}
+	.coin_pic_name_wrap {
+		padding: 0.5rem 0.5rem 0 .5rem;
+		.coin_pic_name{
+			background-color: #006bb3;
+			@include borderRadius(0.2rem);
+			display: flex;
+			align-content: space-between;
+			.img_left{
+				position: relative;
+				width: 6rem;
+				height: 6rem;
+				img{
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%);
+				}
+			}
+			.text{
+				display: flex;
+				align-items: center;
+				color: #fff;
+			}
+		}
+
+	}
+	.vue-html5-editor{
+		border:none;
+		border-radius:0;
+		padding: 0 0.6rem;
 	}
 	.msite_title{
 		@include center;
@@ -140,12 +182,21 @@ export default {
   }
 
   .editor{
-    margin-top: 2rem;
-    .textTitle{
-      padding-left: 0.2rem;
-      width: 100%;
-      height: 2rem;
-      font-size: 0.7rem;
-    }
+    margin-top: 1.95rem;
+	background-color: #fff;
+	.title_wrap{
+		padding: 0 .6rem;
+		.textTitle{
+		width: 100%;
+		height: 2rem;
+		font-size: 0.7rem;
+		border-bottom: .5px solid #b5b5b5;
+		}
+	}
+	
+  }
+  .vue-html5-editor .toolbar ul{
+	border-bottom: 0;
+	margin-bottom: 0.3rem;
   }
 </style>

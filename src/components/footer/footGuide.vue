@@ -82,8 +82,9 @@
             <span>广播</span>
         </section>
          <section @click = "gotoAddress({path: '/article'})" class="guide_item">
-        	 <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>
-            <span>发帖</span>
+        	 <!--<svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>-->
+            	<img src="../../../static/navAdd.png" class="navbottom_add" />
+            <!--<span>发帖</span>-->
         </section>
         <section @click = "gotoAddress({path: '/news/newsIndex'})" class="guide_item">
           <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>
@@ -95,6 +96,7 @@
             </svg>
             <span>我的</span>
         </section>
+        
     </section>
 </template>
 
@@ -158,6 +160,10 @@
 		span{
 			@include sc(.45rem, #666);
 		}
+		.navbottom_add{
+			@include wh(1.5rem, 1.5rem);
+    		margin-top: 0.2rem;
+		}
     }
-
+	
 </style>
