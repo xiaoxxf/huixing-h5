@@ -135,6 +135,7 @@ export default [{
        	//个人主页
         {
         	path:'/mine',
+          name: 'mine',
         	component:mine
         },
         //个人设置

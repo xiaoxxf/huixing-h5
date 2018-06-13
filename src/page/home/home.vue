@@ -33,7 +33,7 @@
 						<svg class="sort_type_icon">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
 						</svg>
-						分类
+						找项目
 					</span>
           </router-link>
 				</div>
@@ -43,7 +43,7 @@
   						<svg class="sort_type_icon">
   							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
   						</svg>
-  						排行
+  						代码榜
   					</span>
           </router-link>
 

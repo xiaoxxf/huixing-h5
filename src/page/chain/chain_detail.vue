@@ -133,7 +133,7 @@
         </div>
       </div>
       <router-link :to="{ name: '', params: {} }" v-if='shortCommentList.length == short_comment_list_page_size'>
-        <button type="button" name="button" class="read_more">查看更多</button>
+        <button type="button" name="button" class="read_more" @click='readMoreShort()'>查看更多</button>
       </router-link>
     </section>
 
@@ -272,17 +272,17 @@ export default {
 
       // 查询类型中文名
       await getProjectCategory()
-      .then(res => {
-        var projectType_list = res.data.datas;
-        for (let type of projectType_list) {
-          if (type.dicType == this.projectInfo.projectType) {
-            this.projectType = type.dicValue;
-          }
-        }
-      })
-      .catch(res => {
-        console.log('查询类型中文名错误:' + err)
-      });
+            .then(res => {
+              var projectType_list = res.data.datas;
+              for (let type of projectType_list) {
+                if (type.dicType == this.projectInfo.projectType) {
+                  this.projectType = type.dicValue;
+                }
+              }
+            })
+            .catch(res => {
+              console.log('查询类型中文名错误:' + err)
+            });
 
       // 查询短评
       await queryCommentByProject(this.$route.params.projectId,this.short_comment_list_current_page,this.short_comment_list_page_size,1)
@@ -298,7 +298,6 @@ export default {
               this.longCommentList = res.data.datas;
               for (var i = 0; i < this.longCommentList.length; i++) {
                 this.longCommentList[i].textContent = this.longCommentList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
-
               }
             })
             .catch(err => {
@@ -341,7 +340,10 @@ export default {
                           console.log('关注错误:' + err);
                         })
       }
-    }
+    },
+
+    // 查看更多短评
+
 
   },
 

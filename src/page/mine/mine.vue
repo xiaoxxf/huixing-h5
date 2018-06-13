@@ -5,19 +5,19 @@
     	<section class="person_homepage">
     		<section class="person_introduce">
     			<div class="person_introduce_detail">
-    				<img src="../../../static/loading.png" class="person_icon"/>
+    				<img :src="this.loginUser.userPic" class="person_icon"/>
     				<div class="person_name_introduce">
-    					<a href="" class="person_name">尼古拉</a>
-    					<p class="person_introduce">简介：币圈老韭菜一枚。</p>
+    					<a href="" class="person_name">{{this.loginUser.realName}}</a>
+    					<p class="person_introduce">简介：{{this.loginUser.personIntro}}</p>
     				</div>
     			</div>
     			<div class="person_introduce_bottom_detail">
     				<div class="detail_attention">
-    					<p class="attention_num">6</p>
+    					<p class="attention_num">{{this.loginUser.following}}</p>
     					<p class="attention_chaim">关注</p>
     				</div>
     				<div class="detail_fans">
-    					<p class="attention_num">12</p>
+    					<p class="attention_num">{{this.loginUser.follower}}</p>
     					<p class="attention_chaim">粉丝</p>
     				</div>
     				<!--<div class="detail_topic">
@@ -35,7 +35,7 @@
     			<!--<div class="create_topic">
     				<div class="topic_left">
     					<p class="my_create_topic">我创建的专题</p>
-    					<p class="my_create_topic_num">56篇文章</p>
+    					<p class="my_create_topic_num">点击查看</p>
     				</div>
     				<div class="topic_right">
     					<router-link :to="'/createTopic/createTopic'">
@@ -51,7 +51,7 @@
     			<!--<div class="create_subject">
     				<div class="subject_left">
     					<p class="my_create_subject">我创建的项目</p>
-    					<p class="my_create_subject_num">6篇文章</p>
+    					<p class="my_create_subject_num">点击查看</p>
     				</div>
     				<div class="subject_right">
     					<router-link :to="'/createSubject/createSubject'">
@@ -66,15 +66,16 @@
     		</section>
     		<!--动态切换-->
     		<ul class="all_dynamic_items">
-				<!--item_color-->
-				<li :class="{all_dynamic_item:like='' }" @click='changeLike(0)'>全部动态</li>
-				<li :class="{all_dynamic_item:like= 1 }" @click='changeLike(1)'>文章</li>
-				<li :class="{all_dynamic_item:like= 2 }" @click='changeLike(2)'>长评</li>
-				<li :class="{all_dynamic_item:like= 3 }" @click='changeLike(3)'>短评</li>
-			</ul>
+					<!--item_color-->
+					<li :class="{all_dynamic_item:type == '' }" @click='changType(0)'>全部动态</li>
+					<li :class="{all_dynamic_item:type == 4 }" @click='changType(4)'>文章</li>
+					<li :class="{all_dynamic_item:type == 2 }" @click='changType(2)'>长评</li>
+					<li :class="{all_dynamic_item:type == 1 }" @click='changType(1)'>短评</li>
+				</ul>
+
     		<!--全部动态-->
-    		<!--<section class="person_dynamic">-->
-				<div class="all_dynamic_content" v-for="(item, index) in dataList" :key="index" >
+
+				<div class="all_dynamic_content"  v-for="(item, index) in personDataList" :key="index" v-load-more="loaderMore">
 	    			<!--文章-->
 	    			<section class="publish_article" v-if='item.type == 4'>
 						<div class="publish_article_list">
@@ -91,10 +92,12 @@
 								</p>
 							</div>
 							<div class="publish_article_bottom_list_user_comment">
-								<div class="publish_article_info">
-									<p class="publish_article_title">{{item.textTitle}}</p>
-									<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
-								</div>
+								<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+									<div class="publish_article_info">
+										<p class="publish_article_title">{{item.textTitle}}</p>
+										<p class="publish_article_score" v-text=''>{{item.textContent.substr(0,70)}}...</p>
+									</div>
+								</router-link>
 							</div>
 							<div class="publish_article_bottom_list_user_flow">
 								<div class="publish_article_flow_send_icon">
@@ -126,18 +129,27 @@
 									<p class="comment_user_name">{{item.realName}}</p>
 									<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
 								</div>
-								<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> 
+								<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>
 							</div>
 							<div class="comment_botton_list_user_content">
-								<p class="comment_user_content_info">写了{{item.projectBigName}}的点评
+								<p class="comment_user_content_info">写了
+									<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+										{{item.projectBigName}}
+									</router-link>
+									的点评
 								</p>
 							</div>
 							<div class="comment_bottom_list_user_comment">
-								<img :src="item.projectLogo" class="comments_user_icon"/>
-								<div class="write_user_comment_info">
-									<p class="write_comment_title">{{item.textTitle}}</p>
-									<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
-								</div>
+								<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+									<img :src="item.projectLogo" class="comments_user_icon"/>
+								</router-link>
+								<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+									<div class="write_user_comment_info">
+										<p class="write_comment_title">{{item.textTitle}}</p>
+										<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
+									</div>
+								</router-link>
+
 							</div>
 							<div class="write_bottom_list_user_flow">
 								<div class="write_flow_comment_icon">
@@ -168,18 +180,21 @@
 								</p>
 							</div>
 							<div class="bottom_list_user_comment">
-		        				<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
-								
+								<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
 									<img :src="item.projectLogo" class="comment_user_icon"/>
-								</router-link>
+			        	</router-link>
 								<div class="user_comment_info">
-									<p class="comment_title">{{item.projectBigName}}</p>
+									<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+										<p class="comment_title">{{item.projectBigName}}</p>
+									</router-link>
 									<p class="comment_score">{{countScore(item.score)}} <span class="comment_score_num">{{item.score}}</span></p>
 								</div>
 							</div>
 							<div class="bottom_list_user_flow">
 								<div class="flow_heart_icon">
-									<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>123
+									<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg>
+									</span>
+									{{item.likes}}
 								</div>
 							</div>
 						</div>
@@ -187,108 +202,147 @@
 	    		</div>
     		<!--</section>-->
     	</section>
+			<transition name="loading">
+				<loading v-show="showLoading"></loading>
+			</transition>
     	<foot-guide></foot-guide>
 	</div>
 </template>
 
 <script>
+	import {mapState, mapActions} from 'vuex'
 	import headTop from 'src/components/header/head'
 	import footGuide from 'src/components/footer/footGuide'
-	import {getBoradcastData} from 'src/service/getData'
-	import {getPersonInfo} from 'src/service/getData'
+	import {getUserDynamic,getBoradcastData,getUser} from 'src/service/getData'
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
 	import {loadMore} from 'src/components/common/mixin'
-	
+	import loading from 'src/components/common/loading'
+
     export default {
     	data(){
-            return{
-                homepage:'我的主页',
-                like:'',
-                dataList:'',
-                currentPage: 1,
-				pageSize: 12,
-				like: '',
-				loginUser: '',
-				persondataList:''
-            }
-       },
-        created(){
-           
-        },
-        mounted(){
-            this.$nextTick(()=>{
-				this.initData();
-//				this.getPersonInfo();
-			});
-        },
+	    	return{
+	        homepage:'我的主页',
+	        currentPage: 1,
+					pageSize: 12,
+					type: '',
+					personDataList: [],
+					loginUser: {},
+					user_id: '',
+					showLoading: true, //显示加载动画
+					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
+					touchend: false, //没有更多数据
+
+	      }
+      },
+			created(){
+				//获取用户信息
+				// if (getStore('user_id')) {
+				// 	this.getUserInfo();
+				// }
+			},
+			mounted(){
+				this.$nextTick(()=>{
+					this.initData();
+				});
+			},
 	    components: {
 	    	headTop,
 	    	footGuide,
+				loading,
 	    },
-        computed: {
+			mixins: [loadMore],
 
-        },
-        methods: {
-        	async initData(){
-        		this.loginUser = getStore('user_id');
-				this.currentPage = 1;
-				getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
-					this.dataList = res.data.datas;
-					// 去除HTML标签
-					for (var i = 0; i < this.dataList.length; i++) {
-						if(this.dataList[i].type != 1){
-							this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
-						}
-					}
-//					console.log(this.dataList)
+			computed: {
 
-				}).catch(err => {
-					console.log('获取列表数据错误:' + err)
-				})
-    		
-        	vuex
-        	},
-
-        	// 计算评分星星
-		    countScore: function(rate){
-		      var start = 5 - rate;
-		      var end = 10 - rate;
-		      return '★★★★★☆☆☆☆☆'.slice(start,end);
-		    },
-        	gotoAddress(path){
-        		this.$router.push(path)
-        	},
-        	// 加载全部/文章/长评、短评
-        	changeLike(e){
-				if (e) {
-					this.like = 1
-				}else{
-					this.like = ''
-				}
 			},
-        	
-        	// 加载更多
-			loaderMore(){
-				this.currentPage ++;
-				getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
-					var temp_list = res.data.datas;
-					// 去除HTML标签
-					for (var i = 0; i < temp_list.length; i++) {
-						temp_list[i].textContent = temp_list[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+			methods: {
+				initData(){
+					this.user_id = getStore('user_id');
+					this.getDynamicData()
+					// 获取用户信息
+					getUser().then(res => {
+						this.loginUser = res.data.datas
+					});
+
+				},
+
+				// 加载全部/文章/长评、短评
+				getDynamicData(){
+					this.touchend = true; //重置没有更多数据的flag
+					this.currentPage = 1; //重置加载起始页
+					this.personDataList = [];
+					this.showLoading = true;
+					getUserDynamic(this.currentPage,this.pageSize,this.user_id,this.type).then(res => {
+						this.personDataList = res.data.datas;
+						// 去除HTML标签
+						for (var i = 0; i < this.personDataList.length; i++) {
+							if(this.personDataList[i].type == 4 || this.personDataList[i].type == 2){
+								this.personDataList[i].textContent = this.personDataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+							}
+						}
+					}).catch(err => {
+						console.log('获取列表数据错误:' + err)
+					}).finally( () => {
+						this.showLoading = false;
+					})
+				},
+
+
+
+				// 加载更多
+				loaderMore(){
+					if (this.touchend) {
+						return
 					}
-					this.dataList = [...this.dataList,...temp_list,];
-				}).catch(err => {
-					console.log('获取列表数据错误:' + err)
-				})
+					this.preventRepeatReuqest = true;
+					this.currentPage++;
+					getUserDynamic(this.currentPage,this.pageSize,this.user_id,this.type).then(res => {
+						this.personDataList = res.data.datas;
+						// 去除HTML标签
+						for (var i = 0; i < this.personDataList.length; i++) {
+							if(this.personDataList[i].type == 4 || this.personDataList[i].type == 2){
+								this.personDataList[i].textContent = this.personDataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+							}
+						}
+						if (res.data.datas.length < this.pageSize) {
+								this.touchend = true;
+						}
+					}).catch(err => {
+						console.log('获取列表数据错误:' + err)
+					}).finally( () => {
+						this.preventRepeatReuqest = false;
+					})
+				},
+
+
+				// 计算评分星星
+				countScore: function(rate){
+					var start = 5 - rate;
+					var end = 10 - rate;
+					return '★★★★★☆☆☆☆☆'.slice(start,end);
+				},
+
+				// 加载类型
+				changType: function(e){
+					if (e) {
+						this.type = e;
+						this.getDynamicData();
+					}else{
+						this.type = '';
+						this.getDynamicData();
+					}
+				}
+
+			},
+			watch: {
+				type: function(value){
+					if (value) {
+						this.type = value;
+					}else {
+						this.type = '';
+					}
+				}
 			}
-			
-        },
-        watch: {
-			like:function(value){
-				this.dataList = []
-				this.initData()
-			}
-		}
 
     }
 </script>
@@ -354,7 +408,7 @@
 				    margin-right:0.5rem;
 				}
 				.person_name_introduce{
-					
+
 					.person_name{
 						font-weight: 600;
 					}
@@ -391,9 +445,9 @@
     			display: flex;
 				.topic_left{
 					flex:12;
-					
+
 					.my_create_topic{
-						
+
 					}
 					.my_create_topic_num{
 					    color: #999;
@@ -412,16 +466,16 @@
 						}
 					}
 				}
-			} 
+			}
 			.create_subject{
 				padding: .3rem 0.6rem;
     			display: flex;
     			border-top: solid 1px #99999929;
 				.subject_left{
 					flex:12;
-					
+
 					.my_create_subject{
-						
+
 					}
 					.my_create_subject_num{
 					    color: #999;
@@ -445,8 +499,10 @@
 		.all_dynamic_items{
 			display: -webkit-inline-box;
 			padding: 0.3rem 0.6rem;
-			.all_dynamic_item{
+			li{
 				margin: 0rem 0.5rem;
+			}
+			.all_dynamic_item{
 				color: #007fcc;
 			}
 			.item_color{
@@ -491,13 +547,13 @@
 							    padding: 0.1rem;
 							    border-radius: 0.1rem;
 						    	font-size: 0.1rem;
-			
+
 							}
 							.send_icon{
 								float: right;
 								margin-top: -1.2rem;
 							}
-			
+
 						}
 						.publish_article_botton_list_user_content {
 							.publish_article_content_info{
@@ -505,7 +561,7 @@
 								color: #999;
 								padding-left: 0.1rem;
 							}
-			
+
 						}
 						.publish_article_bottom_list_user_comment{
 							margin-top: 0.4rem;
@@ -540,7 +596,7 @@
 							border-bottom: solid 1px gainsboro;
 							display: flex;
 							margin: 0rem -0.6rem;
-					
+
 						}
 						.publish_article_flow_send_icon,
 						.publish_article_flow_comment_icon,
@@ -554,7 +610,7 @@
 							/*padding-left: 1.2rem;*/
 						}
 						.publish_article_flow_heart_icon{
-							
+
 						}
 						.sort_type_icon{
 							width: 0.8rem;
@@ -562,10 +618,10 @@
 						    vertical-align: top;
 						    margin-right: 0.2rem;
 						}
-			
+
 					}
 				}
-				
+
 				/*写长评*/
 				.write_comment{
 					.write_comment_list{
@@ -600,13 +656,13 @@
 							    padding: 0.1rem;
 							    border-radius: 0.1rem;
 						    	font-size: 0.1rem;
-			
+
 							}
 							.send_icon{
 								float: right;
 								margin-top: -1.2rem;
 							}
-			
+
 						}
 						.comment_botton_list_user_content {
 							.comment_user_content_info{
@@ -614,16 +670,16 @@
 								padding-left: 0.1rem;
 								color: #999;
 							}
-			
+
 						}
 						.comment_bottom_list_user_comment{
 							margin-top: 0.4rem;
 						    background-color: #f1f5f7;
 						    padding: 0.5rem;
 							border-radius: 0.1rem;
-			
+
 						}
-			
+
 					}
 				}
 				/*点评写评论项目图片*/
@@ -651,13 +707,13 @@
 					display: flex;
 					margin: 0rem -0.6rem;
 				}
-			
+
 				.write_flow_comment_icon{
 					/*padding-left: 1.2rem;*/
 					text-align: center;
 					flex: 1;
 					padding: 0.5rem 0rem;
-					
+
 				}
 				.write_flow_heart_icon{
 					/*padding-left: 2rem;*/
@@ -671,8 +727,8 @@
 				    vertical-align: top;
 				    margin-right: 0.2rem;
 				}
-				
-				
+
+
 				/*写短评*/
 				.broadcast_wrapper_bottom{
 					.broadcast_wrapper_bottom_list{
@@ -707,13 +763,13 @@
 									    padding: 0.1rem;
 									    border-radius: 0.1rem;
 									    font-size: 0.1rem;
-			
+
 									}
 									.send_icon{
 										float: right;
 			    						margin-top: -1.2rem;
 									}
-			
+
 								}
 								.botton_list_user_content{
 										.user_content_info{
@@ -760,13 +816,13 @@
 											color: #999;
 									}
 								}
-			
+
 						}
 				    }
-				
-				
+
+
 			}
 		/*}*/
 	}
-	
+
 </style>

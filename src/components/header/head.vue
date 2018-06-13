@@ -1,7 +1,7 @@
 <template>
     <header id='head_top'>
-         <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head_login">
-            <svg class="user_avatar" v-if="userInfo">
+         <router-link :to="userInfo? '/mine':'/login'" v-if='signinUp' class="head_login">
+            <svg class="user_avatar">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
             </svg>
             <!-- <span class="login_span user_default" v-else>登录|注册</span> -->
@@ -40,12 +40,13 @@
             }
         },
         mounted(){
-            //获取用户信息
-            if (getStore('user_id')) {
-              this.getUserInfo();
-            }
+
         },
-         created(){
+        created(){
+          //获取用户信息
+          if (getStore('user_id')) {
+            this.getUserInfo();
+          }
         },
         props: ['signinUp', 'headTitle', 'goBack'],
         computed: {
