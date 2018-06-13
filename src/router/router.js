@@ -28,7 +28,9 @@ const newsDetail = r => require.ensure([], () => r(require('../page/news/newsDet
 const comment = r =>  require.ensure([], () => r(require('../page/comment/comment')), 'comment')
 //文章投稿到专题
 const sendTopicArticle = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticle')), 'sendTopicArticle')
-
+//管理专题查看全部
+const sendTopicArticleDetail = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticleDetail')), 'sendTopicArticleDetail')
+ 
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -107,6 +109,12 @@ export default [{
         {
         	path:'/sendTopicArticle/sendTopicArticle',
         	component:sendTopicArticle
+        },
+        //投稿专题查看全部
+        
+        {
+        	path:'/sendTopicArticle/sendTopicArticleDetail',
+        	component:sendTopicArticleDetail
         },
         //广播列表页
         {

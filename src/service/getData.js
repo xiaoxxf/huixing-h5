@@ -119,16 +119,22 @@ export const queryCommentDetail = (reviewId) => axios.get('topic/quaryArticleDea
 	}
 })
 //管理的专题
-//推荐专题
-export const manageTopic = (currentPage,pageSize,creator) => axios.get('topic/seachTopic',{
+export const manageTopic = (currentPage,pageSize,topic,creator) => axios.get('topic/seachTopic',{
 	params:{
 		'currentPage':currentPage,
 		'pageSize':pageSize,
-		'creator':creator,
+		'creator':creator
 	}
 })
-
-
+//推荐专题
+export const commentTopic = (currentPage,pageSize,topic,creator) => axios.get('topic/seachTopic',{
+	params:{
+		'currentPage':currentPage,
+		'pageSize':pageSize,
+		'topic':topic,
+		'creator':creator
+	}
+})
 /**
 	关注类型
 	type
