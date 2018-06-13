@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
+
 			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
 				<span class="title_text ellipsis">
 					<svg class="head_search_icon">
@@ -20,7 +21,7 @@
 				</svg>
 	  	</router-link>
     </head-top>
-    	<!--切换项-->
+    <!--切换项-->
 		<section class="broadcast_wrapper">
 			<div class="broadcast_wrapper_top">
 				<ul class="broadcast_wrapper_top_list">
