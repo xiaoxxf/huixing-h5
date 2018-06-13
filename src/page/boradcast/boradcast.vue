@@ -188,7 +188,10 @@
 					currentPage: 1,
 					pageSize: 12,
 					like: '',
-					loginUser: ''
+					loginUser: '',
+					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
+					touchend: false, //没有更多数据
+
 				}
 			},
 
@@ -214,6 +217,8 @@
 
 			methods: {
 				initData(){
+					this.touchend = false; // 重置 没有更多数据 的标志
+					this.preventRepeatReuqest = false, //重置 到达底部加载数据，防止重复加载
 					this.loginUser = getStore('user_id');
 					this.currentPage = 1;
 					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
@@ -247,6 +252,10 @@
 
 				// 加载更多
 				loaderMore(){
+					if (this.preventRepeatReuqest || this.touchend) {
+						return
+					}
+					this.preventRepeatReuqest = true;
 					this.currentPage ++;
 					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
 						var temp_list = res.data.datas;
@@ -255,8 +264,13 @@
 							temp_list[i].textContent = temp_list[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
 						}
 						this.dataList = [...this.dataList,...temp_list,];
+						if (temp_list.length < this.pageSize) {
+							this.touchend = true;
+						}
 					}).catch(err => {
 						console.log('获取列表数据错误:' + err)
+					}).finally( () => {
+						this.preventRepeatReuqest = false;
 					})
 				}
 			},
