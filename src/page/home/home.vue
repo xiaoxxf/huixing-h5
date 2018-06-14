@@ -7,9 +7,8 @@
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 						</svg>
 						{{msiteTitle}}
-				  </span>
+				  	</span>
 			</router-link>
-
     	</head-top>
 		<nav class="msite_nav">
 			<div class="swiper-container" v-if="fakeBanner.length">
