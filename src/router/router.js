@@ -30,7 +30,8 @@ const comment = r =>  require.ensure([], () => r(require('../page/comment/commen
 const sendTopicArticle = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticle')), 'sendTopicArticle')
 //管理专题查看全部
 const sendTopicArticleDetail = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticleDetail')), 'sendTopicArticleDetail')
- 
+//注册
+const register = r =>  require.ensure([], () => r(require('../page/register/register')), 'register')
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -105,13 +106,14 @@ export default [{
           name: 'chainDetail',
           component: chain_detail
         },
-		//投稿专题管理
+		//投稿专题
         {
-        	path:'/sendTopicArticle/sendTopicArticle',
+        	path:'/sendTopicArticle/sendTopicArticle/:commentId/:topicIdList',
+        	name:'sendTopicArticle',
         	component:sendTopicArticle
         },
-        //投稿专题查看全部
-        
+        //我管理的专题查看全部
+
         {
         	path:'/sendTopicArticle/sendTopicArticleDetail',
         	component:sendTopicArticleDetail
@@ -247,6 +249,11 @@ export default [{
         {
             path: '/login',
             component: login
+        },
+        //注册
+        {
+            path: '/register',
+            component: register
         },
         //个人信息页
         {
