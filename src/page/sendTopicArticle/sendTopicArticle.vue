@@ -31,6 +31,8 @@
     			<div class="inner_container" v-for="(item, index) in myManageTopic">
 	    			<img :src="item.topicPic" class="topic_icon" />
 	    			<div class="topic_title">{{item.topic.substr(0,6)}}...</div>
+	    			<div class="send_article_btn" v-if='topiclist.indexOf(item.id.toString()) > -1'>已投稿</div>
+    				<div class="send_article_btn" v-else >投稿</div>
     			</div>
     		</div>
     	</section>
@@ -44,7 +46,9 @@
     					<p class="introdece_title">{{item.topic}}</p>
     					<p class="introdece_already_get">已收录{{item.counts}}篇文章</p>
     				</div>
-    				<div class="send_article_btn">投稿</div>
+    				<div class="send_article_btn" v-if='topiclist.indexOf(item.id.toString()) > -1'>已投稿</div>
+    				<div class="send_article_btn" v-else @click="send(item.id)">投稿</div>
+    				
     			</div>
     		</div>
     	</section>
@@ -58,7 +62,7 @@
     					<p class="topic_list_introdece_title">{{item.topic}}</p>
     					<p class="topic_list_introdece_already_get">已收录{{item.counts}}篇文章</p>
     				</div>
-    				<div class="topic_list_send_article_btn">投稿</div>
+    				<div class="topic_list_send_article_btn" >投稿</div>
     			</div>
     		</div>
     	</section>
@@ -68,8 +72,9 @@
 
 <script>
 	import headTop from 'src/components/header/head'
-	import {manageTopic,commentTopic} from 'src/service/getData'
+	import {manageTopic,commentTopic,postSendArticle} from 'src/service/getData'
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
+    import {mapState, mapActions} from 'vuex'
 
 export default {
   data(){
@@ -78,27 +83,39 @@ export default {
 		myManageTopic: [],
 		commentSendArticle:[],
 		mysearchTopic:[],
+		sendArticleList:[],  //投稿返回值
 		currentPage: 1,
 		ManageTopicpageSize: 4,
 		pageSize: 12,
 		reviewId: '',
 		creator: '',
 		message:'',
-		isShow:true
-
+		isShow:true,
+		topiclist: []
     }
 
   },
 
   components: {
-  	headTop,
+  	headTop,	
   },
   mounted(){
     this.initData();
     this.getIntrodeceArticle();
-//  this.searchTopic();
+    console.log(this.$route.params)
+   	this.reviewId=this.$route.params.commentId;
+   	this.topiclist=this.$route.params.topicIdList.split(",");
+   	this.topiclist.pop();
+   	console.log(this.reviewId)
+   	console.log(this.topiclist)
+	
+//  this.commentId = this.$route.params.commentId;    
   },
   computed: {
+	//判断文章是否投稿过
+            ...mapState([
+                'userInfo'
+            ]),
 
   },
 
@@ -110,7 +127,7 @@ export default {
 		manageTopic(this.currentPage,this.ManageTopicpageSize,this.creator).then(res => {
 			this.myManageTopic = res.data.datas;
 
-			console.log(this.myManageTopic)
+//			console.log(this.myManageTopic)
 
 		}).catch(err => {
 			console.log('获取列表数据错误:' + err)
@@ -121,7 +138,7 @@ export default {
       this.currentPage = 1;
       this.commentSendArticle = [];
       this.showLoading = true;
-      await commentTopic(this.currentPage,this.pageSize).then(res => {
+      await commentTopic(this.currentPage,6).then(res => {
         this.commentSendArticle = res.data.datas;
 		//console.log(this.commentSendArticle)
       }).catch(err => {
@@ -141,12 +158,17 @@ export default {
       }).catch(err => {
         console.log('加载项目列表错误:' + err);
       });
+    },
+    //投稿
+    send(topic_id){
+		this.creator = getStore('user_id');
+		debugger
+    	postSendArticle(this.creator,123456,this.topic_id,this.reviewId).then(res => {
+        	this.sendArticleList = res.data.datas
+    	}).catch(err => {
+        console.log('加载项目列表错误:' + err);
+      });
     }
-//  checkname:function(){
-//     if(this.message ==""){
-//        this.isShow=true;
-//     }
-//	 },
 
   },
   watch: {
@@ -239,6 +261,16 @@ export default {
 				    color: black;
 				    text-align: center;
 				}
+				.send_article_btn{
+					flex: 1;
+    				color: #007fcc;
+				    height: 1rem;
+				    text-align: center;
+				    margin-right: 0.3rem;
+				    border-radius: 0.1rem;
+				    border: solid 1px #007fcc;
+				    margin: 0.5rem;
+				}
 			}
 		}
 	}
@@ -276,6 +308,9 @@ export default {
 				    border-radius: 0.1rem;
 				    border: solid 1px #007fcc;
 				    margin: 0.5rem;
+    			}
+    			.already_send_article{
+    				display: none;
     			}
     			.introdece_already_get{
     				margin-top: 0.3rem;

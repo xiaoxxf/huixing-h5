@@ -105,13 +105,14 @@ export default [{
           name: 'chainDetail',
           component: chain_detail
         },
-		//投稿专题管理
+		//投稿专题
         {
-        	path:'/sendTopicArticle/sendTopicArticle',
+        	path:'/sendTopicArticle/sendTopicArticle/:commentId/:topicIdList',
+        	name:'sendTopicArticle',
         	component:sendTopicArticle
         },
-        //投稿专题查看全部
-        
+        //我管理的专题查看全部
+
         {
         	path:'/sendTopicArticle/sendTopicArticleDetail',
         	component:sendTopicArticleDetail

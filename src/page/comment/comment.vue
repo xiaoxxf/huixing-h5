@@ -3,11 +3,13 @@
     <head-top goBack='true' :headTitle='title'>
 			<!--<router-link to='/search/geohash' class="link_search" slot="search">-->
 			<section class="link_search" slot="search">
-				<svg class="head_search_icon" @click="show">
+				<svg class="head_search_icon" @click="show()">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#send_article'"></use>
 				</svg>
 				
-				<router-link :to="'/sendTopicArticle/sendTopicArticle'" slot="search" class="msite_title">
+				<router-link :to="{ name: 'sendTopicArticle', params: {commentId: commentInfo.reviewId, topicIdList: topiclist} }" 
+											slot="search" class="msite_title">
+				<!--<router-link :to="'/sendTopicArticle/sendTopicArticle'" >-->
 					<section class="send_page" v-show="detailShow">
 						<span>投稿</span>
 					</section>
@@ -61,6 +63,7 @@ import {queryCommentDetail} from 'src/service/getData'
 import BScroll from 'better-scroll'
 // 加载的
 import {loadMore} from 'src/components/common/mixin'
+import {getStore, setStore, removeStore} from 'src/config/mUtils'
 import {showBack, animate} from 'src/config/mUtils'
 import loading from 'src/components/common/loading'
 
@@ -69,6 +72,7 @@ export default {
   data(){
     return{
       commentInfo: {},
+      topiclist: '',
       commentId: '',
       title: '',
       showLoading: true, //显示加载动画
@@ -96,10 +100,21 @@ export default {
 
   methods: {
     initData(){
+    	//获取登录用户
+      this.creator = getStore('user_id');
       queryCommentDetail(this.commentId).then(res => {
         this.commentInfo = res.data.datas;
         this.title = this.commentInfo.textTitle
-        this.commentInfo.createTime = this.commentInfo.createTime.split(' ')[0]
+        this.commentInfo.createTime = this.commentInfo.createTime.split(' ')[0];
+        // 文章已投稿过的专题
+
+        
+        
+        for(var i = 0; i < this.commentInfo.topiclist.length; i++){
+        	this.topiclist += (this.commentInfo.topiclist[i].id + ',')
+        }
+        console.log(this.topiclist)
+        
       }).catch(err => {
         console.log('获取数据错误:' + err)
       }).finally( () => {
@@ -109,12 +124,16 @@ export default {
     },
     //右上角投稿点击显示影藏
     show() {
+    	if(this.commentInfo.creator != this.creator){
       this.detailShow = !this.detailShow;         //show方法
+//      	this.detailShow =false;
+      }
+
     },
     
     hideSend(){
     	if(this.detailShow){
-    		      this.detailShow = !this.detailShow;         //show方法
+    		this.detailShow = !this.detailShow;         //show方法
     	}
     }
   },

@@ -227,6 +227,14 @@ export const postArticle = (textTitle,textContent,userId,type) => axios.post('bl
 	'type': type
 
 })
+//投稿
+
+export const postSendArticle = (creator,password,topic_id,reviewId) => axios.post('topic/submission',{
+	'creator': creator,
+	'password': password,
+	'topicId': topic_id,
+	'reviewId': reviewId
+})
 
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
