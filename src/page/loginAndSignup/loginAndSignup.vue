@@ -25,8 +25,8 @@
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
     import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
-    import login from 'src/components/common/login'
-    import register from 'src/components/common/register'
+    import login from 'src/components/loginAndSignUp/login'
+    import register from 'src/components/loginAndSignUp/register'
 
     export default {
         data(){

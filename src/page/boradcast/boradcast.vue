@@ -178,6 +178,7 @@
 			</section>
 
 		</section>
+		<loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
     <foot-guide></foot-guide>
 	</div>
 </template>
@@ -185,6 +186,7 @@
 <script>
 	import headTop from 'src/components/header/head'
 	import footGuide from 'src/components/footer/footGuide'
+	import loadingMore from 'src/components/common/loadingMore'
 	import {getBoradcastData} from 'src/service/getData'
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
 	import {loadMore} from 'src/components/common/mixin'
@@ -201,7 +203,7 @@
 					loginUser: '',
 					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
 					touchend: false, //没有更多数据
-
+					loadingMoreShow: false
 				}
 			},
 
@@ -219,6 +221,7 @@
 			components: {
 				headTop,
 				footGuide,
+				loadingMore
 			},
 			mixins: [loadMore],
 			computed: {
@@ -265,6 +268,7 @@
 					if (this.preventRepeatReuqest || this.touchend) {
 						return
 					}
+					this.loadingMoreShow = true;
 					this.preventRepeatReuqest = true;
 					this.currentPage ++;
 					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
@@ -281,6 +285,8 @@
 						console.log('获取列表数据错误:' + err)
 					}).finally( () => {
 						this.preventRepeatReuqest = false;
+						this.loadingMoreShow = false;
+
 					})
 				}
 			},

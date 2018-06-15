@@ -210,6 +210,11 @@
 			<transition name="loading">
 				<loading v-show="showLoading"></loading>
 			</transition>
+
+			<transition name="loading">
+				<loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
+			</transition>
+
     	<foot-guide></foot-guide>
 	</div>
 </template>
@@ -222,6 +227,8 @@
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
 	import {loadMore} from 'src/components/common/mixin'
 	import loading from 'src/components/common/loading'
+	import loadingMore from 'src/components/common/loadingMore'
+
 
     export default {
     	data(){
@@ -236,7 +243,7 @@
 			showLoading: true, //显示加载动画
 			preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
 			touchend: false, //没有更多数据
-
+			loadingMoreShow: false // 加载更多动画
 	      }
       },
 			created(){
@@ -255,6 +262,7 @@
 	    	headTop,
 	    	footGuide,
 				loading,
+				loadingMore
 	    },
 			mixins: [loadMore],
 
@@ -304,6 +312,7 @@
 					if (this.touchend) {
 						return
 					}
+					this.loadingMoreShow = true;
 					this.preventRepeatReuqest = true;
 					this.currentPage++;
 					getUserDynamic(this.currentPage,this.pageSize,this.user_id,this.type).then(res => {
@@ -320,6 +329,7 @@
 					}).catch(err => {
 						console.log('获取列表数据错误:' + err)
 					}).finally( () => {
+						this.loadingMoreShow = false;
 						this.preventRepeatReuqest = false;
 					})
 				},
