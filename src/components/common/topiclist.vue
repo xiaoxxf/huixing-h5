@@ -11,7 +11,10 @@
 						</router-link>
 						<div class="author_info">
 							<span class="author_pic">
-								<img  v-lazy="item.userPic" alt="">
+								<img  v-lazy="item.userPic " alt="" v-if='item.userPic'>
+								<svg class="normal_user" v-else>
+									<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+								</svg>
 							</span>
 							<span class="author_name">{{item.realName}}</span>
 						</div>
@@ -177,6 +180,11 @@ export default {
 					.author_pic{
 						display: inline-block;
 						img{
+							width: .7rem;
+							height: .7rem;
+							@include borderRadius(50%);
+						}
+						svg{
 							width: .7rem;
 							height: .7rem;
 							@include borderRadius(50%);

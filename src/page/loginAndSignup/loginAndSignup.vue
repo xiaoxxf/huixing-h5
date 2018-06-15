@@ -63,9 +63,11 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
   @import '../../style/mixin';
-
+  body{
+    background: white !important;
+  }
 	.go_register{
 		right: .8rem;
 		@include wh(2rem, .8rem);

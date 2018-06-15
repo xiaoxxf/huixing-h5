@@ -114,7 +114,10 @@
         <div class="short_comment_item" v-for="(item, index) in shortCommentList" :key="index">
           <!-- 名称、评分 -->
           <div class="comment_user_and_score">
-            <img v-lazy="item.userPic" alt="">
+            <img  v-lazy="item.userPic " alt="" v-if='item.userPic'>
+            <svg class="normal_user" v-else>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+            </svg>
             <span class="creator_real_name">{{item.realName}}</span>
             <span class="score_star">{{countScore(item.score/2)}}</span>
           </div>
@@ -151,7 +154,11 @@
         <div class="long_comment_item" v-for="(item, index) in longCommentList" :key="index">
           <!-- 名称、评分 -->
           <div class="comment_user_and_score">
-            <img v-lazy="item.userPic" alt="">
+
+            <img  v-lazy="item.userPic " alt="" v-if='item.userPic'>
+            <svg class="normal_user" v-else>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+            </svg>
             <span class="creator_real_name">{{item.realName}}</span>
             <span class="score_star">{{countScore(item.score/2)}}</span>
           </div>
@@ -590,12 +597,19 @@ export default {
           color: #7C7C7C;
           font-size: 0.6rem;
           padding: 0.1rem 0;
-          img{
+          img {
             @include wh(1.2rem,1.2rem);
             border-radius:30px;
             margin-top: 0.15rem;
             // background-color: white;
           }
+          svg{
+            @include wh(1.2rem,1.2rem);
+            border-radius:30px;
+            margin-top: 0.15rem;
+            // background-color: white;
+          }
+
           .creator_real_name{
             margin: 0.3rem;
             color:#7C7C7C;
@@ -681,8 +695,14 @@ export default {
           flex-grow: row;
           color: #7C7C7C;
           font-size: 0.6rem;
-          padding: 0.2rem 0;
-          img{
+          padding: 0.1rem 0;
+          img {
+            @include wh(1.2rem,1.2rem);
+            border-radius:30px;
+            margin-top: 0.15rem;
+            // background-color: white;
+          }
+          svg{
             @include wh(1.2rem,1.2rem);
             border-radius:30px;
             margin-top: 0.15rem;

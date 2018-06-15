@@ -37,7 +37,10 @@
 			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
 				<div class="broadcast_wrapper_bottom_list">
 					<div class="bottom_list_user_info">
-						<img :src="item.userPic" class="user_icon" />
+						<img :src="item.userPic" class="user_icon"  v-if='item.userPic'/>
+						<svg class="normal_user" v-else>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+						</svg>
 						<div class="user_name_time">
 							<p class="user_name">{{item.realName}}</p>
 							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
@@ -75,7 +78,10 @@
 			<section class="write_comment" v-if='item.type == 2'>
 				<div class="write_comment_list">
 					<div class="write_comment_list_info">
-						<img :src="item.userPic" class="comment_list_user_icon" />
+						<img :src="item.userPic" class="comment_list_user_icon"  v-if='item.userPic'/>
+						<svg class="normal_user" v-else>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+						</svg>
 						<div class="comment_user_name_time">
 							<p class="comment_user_name">{{item.realName}}</p>
 							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
@@ -122,7 +128,10 @@
 			<section class="publish_article" v-if='item.type == 4'>
 				<div class="publish_article_list">
 					<div class="publish_article_list_info">
-						<img :src="item.userPic" class="publish_article_user_icon" />
+						<img :src="item.userPic" class="publish_article_user_icon" v-if='item.userPic'/>
+						<svg class="normal_user" v-else>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+						</svg>
 						<div class="publish_article_name_time">
 							<p class="publish_article_name">{{item.realName}}</p>
 							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
@@ -359,6 +368,13 @@
 
 	}
 
+	.normal_user{
+		float: left;
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 1rem;
+	}
+
 	/*导航栏分离*/
 	.all_dynamic{
 		.broadcast_wrapper_bottom{
@@ -370,10 +386,11 @@
 						padding: 0.6rem 0rem;
 						.user_icon{
 							float: left;
-						    width: 1.5rem;
-						    height: 1.5rem;
-						    border-radius: 1rem;
+					    width: 1.5rem;
+					    height: 1.5rem;
+					    border-radius: 1rem;
 						}
+
 						.user_name_time{
 							width: 30%;
 					    	margin-left: 2rem;
@@ -463,7 +480,7 @@
 
 
 
-	/*写长评*/
+	/*长评*/
 	.write_comment{
 		.write_comment_list{
 			background-color: white;

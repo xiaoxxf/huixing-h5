@@ -21,16 +21,19 @@
 		<section @click="hideSend()">
 			<!-- 文章作者信息 -->
     <section class="creator_info" >
-      <img :src="this.commentInfo.userPic" alt="">
+      <img :src="this.commentInfo.userPic" alt="" v-if='this.commentInfo.userPic'>
+      <svg class="normal_user" v-else>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+      </svg>
       <div class="">
-        <p class="creator_name">{{this.commentInfo.realName}}</p>
-        <p class="create_time">{{this.commentInfo.createTime}}</p>
+        <p class="creator_name">{{commentInfo.realName}}</p>
+        <p class="create_time">{{commentInfo.createTime}}</p>
       </div>
     </section>
 
     <!-- 文章标题 -->
     <section class="comment_title" >
-      {{this.commentInfo.textTitle}}
+      {{commentInfo.textTitle}}
     </section>
 
     <!-- 文章内容 -->
@@ -146,9 +149,12 @@ export default {
 
 <style lang="scss" >
 @import '../../style/mixin';
-#app{
-	background-color: white;
-}
+    body {
+    	background-color: white;
+    }
+    #app {
+      background-color: white;
+    }
   // 头部
   .link_search{
 		right: .8rem;
@@ -186,6 +192,10 @@ export default {
     flex-direction: row;
     padding: 0.8rem;
     img{
+      border-radius: 4rem;
+      @include wh(2.4rem,2.4rem);
+    }
+    svg{
       border-radius: 4rem;
       @include wh(2.4rem,2.4rem);
     }

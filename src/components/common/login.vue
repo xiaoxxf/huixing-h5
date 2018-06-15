@@ -105,6 +105,7 @@
 
 <style lang="scss" scoped>
     @import '../../style/mixin';
+
 	.go_register{
 		right: .8rem;
 		@include wh(2rem, .8rem);
