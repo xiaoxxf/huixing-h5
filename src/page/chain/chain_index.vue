@@ -240,6 +240,7 @@ export default {
 
   // 项目列表
   .project_list{
+    margin-top: 4rem;
     @include fj($type: column);
     // height: 100%;
     // padding: 4.0rem 0 2.0rem 0;

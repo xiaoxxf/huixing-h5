@@ -268,12 +268,14 @@ export const sendRegisterCode = (phoneNo) => axios.get('blockchain/getCode',{
 	}
 })
 //注册
+
 export const sendRegisterInfo = (realName,userName,phoneCode,userPwd) => axios.post('news/registerUser',{
 	'realName': realName,
 	'userName': userName,
-	'userPwd': phoneCode,
+	'userPwd': userPwd,
 //	'tel': $("#session_phone").val(),
-	'phoneCode': userPwd
+	'phoneCode': phoneCode,
+	'tel': userName
 
 })
 

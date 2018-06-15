@@ -36,17 +36,18 @@
     export default {
         data(){
             return {
-				alertText: '', // 彈窗信息内容
-				showAlert: false, // 是否彈窗
-				userAccount:'',//用户名
-				phoneNum:'',//手机号
-				codeNumber:'',//验证码
-				passWord:'',//密码
-				checkPhoneNum:'',//手机号是否存在
-				checkPhoneValid: false,
-				getCode: '获取验证码',
-				hasSendCode: false, //发送验证码防重点击
-				accountValid: false, // 判断填写信息是否正确
+              alertText: '', // 彈窗信息内容
+      				showAlert: false, // 是否彈窗
+      				userAccount:'',//用户名
+      				phoneNum:'',//手机号
+      				codeNumber:'',//验证码
+      				passWord:'',//密码
+      				checkPhoneNum:0,//手机号是否存在
+      				checkPhoneValid: false,
+      				getCode: '获取验证码',
+      				hasSendCode: false, //发送验证码防重点击
+      				accountValid: false, // 判断填写信息是否正确
+              userInfo: {}
             }
         },
         created(){
@@ -81,6 +82,8 @@
 
             //检验手机号是否存在
             checkNum(){
+              this.registerFromValid(); //检验手机号格式
+
             	if(this.checkPhoneValid || this.hasSendCode == false){
 	            	console.log(this.phoneNum)
 					checkWhetherPhoneExit(this.phoneNum).then(res => {
@@ -132,11 +135,12 @@
 
 			signUp(){
 
-				if(!this.userAccount && !this.phoneNum && !this.codeNumber &&
-					!this.passWord && this.checkPhoneNum == 0 && this.checkPhoneValid)
+
+				if(this.userAccount && this.phoneNum && this.codeNumber &&
+					this.passWord && this.checkPhoneNum == 0 && this.checkPhoneValid)
 				{
 					sendRegisterInfo(this.userAccount, this.phoneNum, this.codeNumber, this.passWord).then(res => {
-						debugger
+            this.mobileLogin();
 					}).catch(err => {
 						console.log('注册错误:' + err)
 					}).finally( () => {
@@ -162,7 +166,7 @@
               this.alertText = '请输入密码';
               return
           }
-          this.userInfo = await accountLogin(this.userAccount, this.passWord);
+          this.userInfo = await accountLogin(this.phoneNum ,this.passWord);
           console.log("this.userInfo==>",this.userInfo)
 
           //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
