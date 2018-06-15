@@ -1,7 +1,9 @@
 export const GET_USERINFO = 'GET_USERINFO'
 export const RECORD_USERINFO = 'RECORD_USERINFO'
 
-// 
+export const DEL_USERINFO = 'DEL_USERINFO'
+
+//
 // export const RECORD_ADDRESS = 'RECORD_ADDRESS'
 // export const ADD_CART = 'ADD_CART'
 // export const REDUCE_CART = 'REDUCE_CART'

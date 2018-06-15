@@ -1,7 +1,7 @@
 import {
 	GET_USERINFO,
 	RECORD_USERINFO,
-
+	DEL_USERINFO,
 	// RECORD_ADDRESS,
 	// ADD_CART,
 	// REDUCE_CART,
@@ -44,6 +44,12 @@ export default {
 		state.login = true;
 		setStore('user_id', info.id);
 		setStore('user_info', info);
+	},
+	// 删除用户信息，退出登录
+	[DEL_USERINFO](state, info) {
+		// console.log("info===?",info)
+		state.userInfo = null;
+		state.login = false;
 	},
 	//获取用户信息存入vuex
 	[GET_USERINFO](state, info) {

@@ -15,6 +15,7 @@
 	import headTop from 'src/components/header/head'
 	import footGuide from 'src/components/footer/footGuide'
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
+	import {mapState, mapMutations} from 'vuex'
 	export default {
     	data(){
             return{
@@ -22,10 +23,10 @@
             }
        },
         created(){
-           
+
         },
         mounted(){
-            
+
         },
 	    components: {
 	    	headTop,
@@ -33,14 +34,20 @@
 	    },
 
         methods: {
+					...mapMutations([
+							'DEL_USERINFO',
+					]),
+
         	exitLogin(){
         		removeStore('user_id');
+						removeStore('user_info');
+						this.DEL_USERINFO(null);
         		this.$router.push({path: '/home',})
         	}
-        	
+
         }
 
-        
+
 
     }
 </script>
@@ -55,8 +62,8 @@
 		.exit_login_btn{
 			color: #1a68a4;
     		padding: 1rem;
-    		
+
 		}
 	}
-	
+
 </style>
