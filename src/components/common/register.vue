@@ -30,18 +30,18 @@
 <script>
     import alertTip from '../../components/common/alertTip'
     import {mapState, mapMutations} from 'vuex'
-	
+
     import {checkWhetherPhoneExit,sendRegisterCode,sendRegisterInfo} from '../../service/getData'
-	
+
     export default {
         data(){
             return {
 				alertText: '', // 彈窗信息内容
 				showAlert: false, // 是否彈窗
-				userAccount:'zhao',//用户名
-				phoneNum:'17722431087',//手机号
+				userAccount:'',//用户名
+				phoneNum:'',//手机号
 				codeNumber:'',//验证码
-				passWord:'123456',//密码
+				passWord:'',//密码
 				checkPhoneNum:'',//手机号是否存在
 				checkPhoneValid: false,
 				getCode: '获取验证码',
@@ -59,17 +59,17 @@
 
   		},
         computed: {
- 
+
         },
         methods: {
             ...mapMutations([
                 'RECORD_USERINFO',
             ]),
-            
+
             closeTip(){
                 this.showAlert = false;
             },
-            
+
             // 校驗手機號格式
             registerFromValid(){
             	if(this.phoneNum == "" || !(/^1[0-9]{10}$/.test(this.phoneNum))) {
@@ -78,13 +78,13 @@
 					this.checkPhoneValid = true
 				}
             },
-			
+
             //检验手机号是否存在
             checkNum(){
             	if(this.checkPhoneValid || this.hasSendCode == false){
 	            	console.log(this.phoneNum)
 					checkWhetherPhoneExit(this.phoneNum).then(res => {
-						
+
 						this.checkPhoneNum = res.data.code;
 	//					console.log(this.checkPhoneNum)
 						// 可以注册
@@ -106,7 +106,7 @@
 			},
 
 			//发送验证码
-			getRegisterCode(){				
+			getRegisterCode(){
 //				console.log(this.phoneNum)
 				this.hasSendCode = true;
 				sendRegisterCode(this.phoneNum).then(res => {
@@ -119,7 +119,7 @@
 					console.log('发送验证码错误:' + err)
 				})
 			},
-			
+
 			getCodeCount(){
 				if(this.getCode > 0){
 					this.getCode--;
@@ -129,9 +129,9 @@
 					this.hasSendCode = false;
 				}
 			},
-			
+
 			signUp(){
-				
+
 				if(!this.userAccount && !this.phoneNum && !this.codeNumber &&
 					!this.passWord && this.checkPhoneNum == 0 && this.checkPhoneValid)
 				{
@@ -140,19 +140,19 @@
 					}).catch(err => {
 						console.log('注册错误:' + err)
 					}).finally( () => {
-						
+
 					})
 				}else{
-			
+
 					this.showAlert = true
 					this.alertText = '请检查填写的信息是否完整正确'
 				}
-				
+
 			},
 
-            
+
        },
-        
+
         watch: {
         	phoneNum: function(){
         		this.registerFromValid();
@@ -218,7 +218,7 @@
             	font-size: 0.5rem;
     			color: #3b95e9;
             }
-            
+
         }
 
         .phone_number{

@@ -6,18 +6,18 @@
 				<svg class="head_search_icon" @click="show()">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#send_article'"></use>
 				</svg>
-				
-				<router-link :to="{ name: 'sendTopicArticle', params: {commentId: commentInfo.reviewId, topicIdList: topiclist} }" 
+
+				<router-link :to="{ name: 'sendTopicArticle', params: {commentId: commentInfo.reviewId, topicIdList: topiclist} }"
 											slot="search" class="msite_title">
 				<!--<router-link :to="'/sendTopicArticle/sendTopicArticle'" >-->
 					<section class="send_page" v-show="detailShow">
 						<span>投稿</span>
 					</section>
 				</router-link>
-				
+
 			</section>
    </head-top>
-		
+
 		<section @click="hideSend()">
 			<!-- 文章作者信息 -->
     <section class="creator_info" >
@@ -49,9 +49,9 @@
 
     <span class="fake_container"></span>
   	<!-- <foot-guide></foot-guide> -->
-			
+
 		</section>
-    
+
   </div>
 </template>
 
@@ -68,7 +68,7 @@ import {showBack, animate} from 'src/config/mUtils'
 import loading from 'src/components/common/loading'
 
 export default {
-	
+
   data(){
     return{
       commentInfo: {},
@@ -78,7 +78,7 @@ export default {
       showLoading: true, //显示加载动画
       detailShow: false
     }
-   
+
   },
 
   components: {
@@ -108,13 +108,13 @@ export default {
         this.commentInfo.createTime = this.commentInfo.createTime.split(' ')[0];
         // 文章已投稿过的专题
 
-        
-        
+
+
         for(var i = 0; i < this.commentInfo.topiclist.length; i++){
         	this.topiclist += (this.commentInfo.topiclist[i].id + ',')
         }
         console.log(this.topiclist)
-        
+
       }).catch(err => {
         console.log('获取数据错误:' + err)
       }).finally( () => {
@@ -124,13 +124,12 @@ export default {
     },
     //右上角投稿点击显示影藏
     show() {
-    	if(this.commentInfo.creator != this.creator){
+    	if(this.commentInfo.creator == this.creator){
       this.detailShow = !this.detailShow;         //show方法
-//      	this.detailShow =false;
       }
 
     },
-    
+
     hideSend(){
     	if(this.detailShow){
     		this.detailShow = !this.detailShow;         //show方法
@@ -177,7 +176,7 @@ export default {
    	 		padding: 0.3rem 0rem;
 	    }
 		}
-		
+
 	}
 
   // 作者信息

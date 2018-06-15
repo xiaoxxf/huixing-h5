@@ -4,7 +4,7 @@
 			<button type="button" name="button" slot="search" class="postButton" @click="postArticle()">发布</button>
 		</head-top>
 		<div class="editor">
-		<div class="coin_pic_name_wrap">
+		<!-- <div class="coin_pic_name_wrap">
 			<div class="coin_pic_name">
 				<div class="img_left">
 					<img src="../../../static/huixingLogo.png" alt="">
@@ -13,7 +13,7 @@
 					ETH
 				</div>
 			</div>
-		</div>
+		</div> -->
 			<div class="title_wrap">
 				 <input type="text" v-model='textTitle' name="textTitle" class="textTitle" placeholder='请输入文章标题' />
 			</div>
@@ -38,7 +38,7 @@ export default {
       msiteTitle: '写文章', // msite页面头部标题
       // imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
       textTitle: '',
-      content: '彗星',
+      content: '请输入正文',
     }
   },
   async beforeMount(){
@@ -193,7 +193,7 @@ export default {
 		border-bottom: .5px solid #b5b5b5;
 		}
 	}
-	
+
   }
   .vue-html5-editor .toolbar ul{
 	border-bottom: 0;

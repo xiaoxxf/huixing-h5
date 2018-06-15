@@ -21,7 +21,7 @@ export default function () {
       link: "fa fa-chain",
       unlink: "fa fa-chain-broken",
       tabulation: "fa fa-table",
-      image: "fa fa-file-image-o",
+      // image: "fa fa-file-image-o",
       hr: "fa fa-minus",
       eraser: "fa fa-eraser",
       undo: "fa-undo fa",
@@ -30,7 +30,7 @@ export default function () {
     },
     // 配置图片模块
     image: {
-      // 文件最大体积，单位字节  
+      // 文件最大体积，单位字节
       sizeLimit: 512 * 1024 * 10,
       // 上传参数,默认把图片转为base64而不上传
       // upload config,default null and convert image to base64
@@ -65,7 +65,7 @@ export default function () {
     i18n: {
       "zh-cn": {
         "align": "对齐方式",
-        "image": "图片",
+        // "image": "图片",
         "list": "列表",
         "link": "链接",
         "unlink": "去除链接",
@@ -118,7 +118,7 @@ export default function () {
       "link",
       "unlink",
       // "tabulation",
-      "image",
+      // "image",
       "hr",
       // "eraser",
       "undo",

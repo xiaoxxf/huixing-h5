@@ -47,8 +47,8 @@
     					<p class="introdece_already_get">已收录{{item.counts}}篇文章</p>
     				</div>
     				<div class="send_article_btn" v-if='topiclist.indexOf(item.id.toString()) > -1'>已投稿</div>
-    				<div class="send_article_btn" v-else @click="send(item.id)">投稿</div>
-    				
+    				<div class="send_article_btn" v-else @click="send(item)">投稿</div>
+
     			</div>
     		</div>
     	</section>
@@ -83,21 +83,21 @@ export default {
 		myManageTopic: [],
 		commentSendArticle:[],
 		mysearchTopic:[],
-		sendArticleList:[],  //投稿返回值
+		// sendArticleList:[],  //投稿返回值
 		currentPage: 1,
 		ManageTopicpageSize: 4,
 		pageSize: 12,
 		reviewId: '',
 		creator: '',
 		message:'',
-		isShow:true,
-		topiclist: []
+		isShow:true, //
+		topiclist: [] // 该文章已投稿的专题
     }
 
   },
 
   components: {
-  	headTop,	
+  	headTop,
   },
   mounted(){
     this.initData();
@@ -108,8 +108,8 @@ export default {
    	this.topiclist.pop();
    	console.log(this.reviewId)
    	console.log(this.topiclist)
-	
-//  this.commentId = this.$route.params.commentId;    
+
+//  this.commentId = this.$route.params.commentId;
   },
   computed: {
 	//判断文章是否投稿过
@@ -130,7 +130,7 @@ export default {
 //			console.log(this.myManageTopic)
 
 		}).catch(err => {
-			console.log('获取列表数据错误:' + err)
+			console.log('我管理的专题加载错误:' + err)
 		})
 	},
 	//推荐投稿
@@ -142,7 +142,7 @@ export default {
         this.commentSendArticle = res.data.datas;
 		//console.log(this.commentSendArticle)
       }).catch(err => {
-        console.log('加载项目列表错误:' + err);
+        console.log('推荐专题加载错误:' + err);
       });
     },
 	//搜索专题
@@ -156,17 +156,19 @@ export default {
 		this.isShow=!this.isShow;
 //		console.log(this.mysearchTopic)
       }).catch(err => {
-        console.log('加载项目列表错误:' + err);
+        console.log('搜索专题错误:' + err);
       });
     },
-    //投稿
-    send(topic_id){
+  //投稿
+  send(topic){
 		this.creator = getStore('user_id');
-		debugger
-    	postSendArticle(this.creator,123456,this.topic_id,this.reviewId).then(res => {
-        	this.sendArticleList = res.data.datas
+		var passWord = JSON.parse(getStore('user_info')).userPwd;
+    postSendArticle(this.creator,passWord,topic.id,this.reviewId).then(res => {
+        	// this.sendArticleList = res.data.datas;
+					topic.counts++;
+					this.topiclist.push(topic.id.toString());
     	}).catch(err => {
-        console.log('加载项目列表错误:' + err);
+        console.log('投稿错误:' + err);
       });
     }
 

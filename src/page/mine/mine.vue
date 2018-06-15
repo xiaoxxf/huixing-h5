@@ -10,19 +10,19 @@
     	<section class="person_homepage">
     		<section class="person_introduce">
     			<div class="person_introduce_detail">
-    				<img :src="this.loginUser.userPic" class="person_icon"/>
+    				<img :src="loginUser.userPic" class="person_icon"/>
     				<div class="person_name_introduce">
-    					<a href="" class="person_name">{{this.loginUser.realName}}{{this.userInfo.realName}}</a>
-    					<p class="person_introduce">简介：{{this.loginUser.personIntro}}</p>
+    					<a href="" class="person_name">{{loginUser.realName}}</a>
+    					<p class="person_introduce">简介：{{loginUser.personIntro}}</p>
     				</div>
     			</div>
     			<div class="person_introduce_bottom_detail">
     				<div class="detail_attention">
-    					<p class="attention_num">{{this.loginUser.following}}</p>
+    					<p class="attention_num">{{loginUser.following}}</p>
     					<p class="attention_chaim">关注</p>
     				</div>
     				<div class="detail_fans">
-    					<p class="attention_num">{{this.loginUser.follower}}</p>
+    					<p class="attention_num">{{loginUser.follower}}</p>
     					<p class="attention_chaim">粉丝</p>
     				</div>
     				<!--<div class="detail_topic">
@@ -249,6 +249,7 @@
 				this.$nextTick(()=>{
 					this.initData();
 				});
+
 			},
 	    components: {
 	    	headTop,
@@ -258,15 +259,17 @@
 			mixins: [loadMore],
 
 			computed: {
-				...mapState([
-						'userInfo'
-				]),
-			},
+	      ...mapState([
+	          'userInfo'
+	      ]),
+	    },
 			methods: {
 				initData(){
+					// debugger
+					// this.loginUser = this.userInfo;
 					this.user_id = getStore('user_id');
-					this.getDynamicData()
-					// 获取用户信息
+					this.getDynamicData();
+					// // 获取用户信息
 					getUser().then(res => {
 						this.loginUser = res.data.datas
 					});

@@ -1,6 +1,6 @@
 <template>
     <header id='head_top'>
-         <router-link :to="userInfo? '/mine':'/loginAndSignUp'" v-if='signinUp' class="head_login">
+        <router-link :to="userInfo? '/mine':'/loginAndSignUp'" v-if='signinUp' class="head_login">
             <svg class="user_avatar" v-if='userInfo'>
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
             </svg>

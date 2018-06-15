@@ -7,8 +7,8 @@ import './config/rem'
 import FastClick from 'fastclick'
 import VueLazyLoad from 'vue-lazyload'
 import 'font-awesome.css/css/font-awesome.css'
-import initRichText from './utils/editor'  
- 
+import initRichText from './utils/editor'
+
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {
@@ -17,13 +17,13 @@ if ('addEventListener' in document) {
 }
 
 Vue.use(VueLazyLoad,{
-    error:'./static/loading.png',
-    loading:'./static/loading.png'
+    // error:'./static/loading.png',
+    // loading:'./static/loading.png'
 })
 
-initRichText();  
+initRichText();
 
-//文章字符截取前40个字符显示 
+//文章字符截取前40个字符显示
 Vue.prototype.subStrArticle = function (value) {
 	let retValue = value.replace(/<[^>]+>/g,"")
 	return retValue.substring(0,40)+"..."
@@ -49,4 +49,3 @@ new Vue({
 	router,
 	store,
 }).$mount('#app')
-

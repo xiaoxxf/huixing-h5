@@ -115,18 +115,19 @@
           <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>
            <span>播报</span>
        </section>
-        <section @click = "gotoAddress('/mine')" class="guide_item">
+        <section @click = "userInfo ? gotoAddress('/mine') : gotoAddress('/loginAndSignUp')" class="guide_item">
         	<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('mine') !== -1? '#mineActive' : '#mine'"></use>
             </svg>
             <span>我的</span>
         </section>
-        
+
     </section>
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState, mapActions} from 'vuex'
+    import { getStore } from 'src/config/mUtils'
     export default {
     	data(){
             return{
@@ -140,15 +141,16 @@
 
         },
         computed: {
-            ...mapState([
-                'geohash'
-                
-            ]),
+
+          ...mapState([
+              'userInfo'
+          ]),
+
         },
         methods: {
         	gotoAddress(path){
         		this.$router.push(path)
-        	}
+        	},
         },
 
     }
@@ -191,5 +193,5 @@
     		margin-top: 0.2rem;
 		}
     }
-	
+
 </style>
