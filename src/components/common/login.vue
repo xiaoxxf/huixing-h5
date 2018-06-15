@@ -118,7 +118,8 @@
 	}
 
     .loginContainer{
-        /*padding-top: 1.6rem;*/
+    	background:white;
+        padding-top: 0.8rem;
         p, span, input{
             font-family: Helvetica Neue,Tahoma,Arial;
         }
@@ -254,6 +255,6 @@
     }
     .login_box{
     	background-color: white;
-    	height: 15rem;
+    	height: 18rem;
     }
 </style>

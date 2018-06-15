@@ -1,9 +1,9 @@
 <template>
 	<div>
     	<head-top goBack='true' :headTitle='homepage'>
-    		<router-link :to="'/search/geohash'" class="link_search" slot="search">
+    		<router-link :to="'mine_setting'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#setting'"></use>
 				</svg>
 	  		</router-link>
     	</head-top>

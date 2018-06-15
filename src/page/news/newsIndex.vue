@@ -16,6 +16,7 @@
         <transition name="loading">
           <loading v-show="showLoading"></loading>
         </transition>
+    	<foot-guide></foot-guide>
     </div>
 </template>
 <script>

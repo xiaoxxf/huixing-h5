@@ -1,32 +1,31 @@
 <template>
-	<head-top goBack='true' :headTitle='homepage'>
-    </head-top>
+	<div>
+		<head-top goBack='true' :headTitle='homepage_setting'>
+	    </head-top>
+		<section class="homepage_wrapper">
+			<div class="exit_login_btn" @click="exitLogin()">
+				注销
+			</div>
+		</section>
+	    <foot-guide></foot-guide>
+	</div>
 </template>
 
 <script>
 	import headTop from 'src/components/header/head'
 	import footGuide from 'src/components/footer/footGuide'
+	import {getStore, setStore, removeStore} from 'src/config/mUtils'
 	export default {
     	data(){
             return{
-                homepage:'我的主页',
-                like:'',
-                dataList:'',
-                currentPage: 1,
-				pageSize: 12,
-				like: '',
-				loginUser: '',
-				persondataList:''
+                homepage_setting:'个人中心',
             }
        },
         created(){
            
         },
         mounted(){
-            this.$nextTick(()=>{
-				this.initData();
-//				this.getPersonInfo();
-			});
+            
         },
 	    components: {
 	    	headTop,
@@ -34,54 +33,30 @@
 	    },
 
         methods: {
-        	async initData(){
-        		this.loginUser = getStore('user_id');
-				this.currentPage = 1;
-				getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
-					this.dataList = res.data.datas;
-					// 去除HTML标签
-					for (var i = 0; i < this.dataList.length; i++) {
-						if(this.dataList[i].type != 1){
-							this.dataList[i].textContent = this.dataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
-						}
-					}
-//					console.log(this.dataList)
-
-				}).catch(err => {
-					console.log('获取列表数据错误:' + err)
-				})
-    		
+        	exitLogin(){
+        		removeStore('user_id');
+        		this.$router.push({path: '/home',})
+        	}
         	
-        	},
-
-        	// 计算评分星星
-		    countScore: function(rate){
-		      var start = 5 - rate;
-		      var end = 10 - rate;
-		      return '★★★★★☆☆☆☆☆'.slice(start,end);
-		    },
-        	gotoAddress(path){
-        		this.$router.push(path)
-        	},
-        	// 加载全部/文章/长评、短评
-        	changeLike(e){
-				if (e) {
-					this.like = 1
-				}else{
-					this.like = ''
-				}
-			},
-        	
-        	// 加载更多
-			loaderMore(){
-				
-			}
-			
         }
+
         
 
     }
 </script>
 
-<style>
+<style lang="scss" scoped>
+	@import 'src/style/mixin';
+	.homepage_wrapper{
+		font-size:0.8rem;
+		background-color: white;
+		margin-top:2rem;
+		height: 30rem;
+		.exit_login_btn{
+			color: #1a68a4;
+    		padding: 1rem;
+    		
+		}
+	}
+	
 </style>
