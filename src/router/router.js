@@ -31,7 +31,7 @@ const sendTopicArticle = r =>  require.ensure([], () => r(require('../page/sendT
 //管理专题查看全部
 const sendTopicArticleDetail = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticleDetail')), 'sendTopicArticleDetail')
 //注册
-const register = r =>  require.ensure([], () => r(require('../page/register/register')), 'register')
+//const register = r =>  require.ensure([], () => r(require('../page/register/register')), 'register')
 // 登录
 const loginAndSignup = r => require.ensure([], () => r(require('../page/loginAndSignup/loginAndSignup')), 'loginAndSignup')
 
@@ -252,10 +252,10 @@ export default [{
             component: loginAndSignup
         },
         //注册
-        {
-            path: '/register',
-            component: register
-        },
+//      {
+//          path: '/register',
+//          component: register
+//      },
         //个人信息页
         {
             path: '/profile',
