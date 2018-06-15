@@ -38,7 +38,7 @@ export default {
       msiteTitle: '写文章', // msite页面头部标题
       // imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
       textTitle: '',
-      content: '彗星',
+      content: '请输入正文',
     }
   },
   async beforeMount(){
