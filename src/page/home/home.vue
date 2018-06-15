@@ -1,13 +1,13 @@
 <template>
     <div>
-    	<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
+    	<head-top signin-up='1' :class="topicBarFixed == true ? 'headFadeOut' :''">
 			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
 					<span class="title_text ellipsis">
 						<svg class="head_search_icon">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 						</svg>
-						{{msiteTitle}}
-				  	</span>
+            {{msiteTitle}}
+				  </span>
 			</router-link>
     	</head-top>
 		<nav class="msite_nav">
@@ -69,6 +69,8 @@
 
 <script>
 import {mapMutations} from 'vuex'
+import {mapState, mapActions} from 'vuex'
+
 // import {imgBaseUrl} from 'src/config/env'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
@@ -131,6 +133,9 @@ export default {
     	footGuide,
     },
     computed: {
+      ...mapState([
+          'userInfo'
+      ]),
     },
     methods: {
     	...mapMutations([

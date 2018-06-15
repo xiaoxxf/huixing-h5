@@ -1,5 +1,5 @@
 <template>
-    <div class="loginContainer">
+    <div>
         <head-top :head-title="title" goBack="true">
             <!--<div slot="changeLogin" class="change_login" @click="changeLoginWay">{{loginWay? "密码登录":"短信登录"}}</div>-->
    			<!--<span class="go_login">去登录</span>-->
@@ -8,15 +8,15 @@
   	    		<!--<svg class="head_search_icon">
   					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
   				</svg>-->
-			<span class="go_register_btn" @click='changeWay()'>{{this.goTo}}</span>
-	  	</div>
+			     <span class="go_register_btn" @click='changeWay()'>{{this.goTo}}</span>
+	  	   </div>
 
         </head-top>
 
         <login v-if='login'></login>
         <register v-else></register>
 
-	    </div>
+	   </div>
 </template>
 
 <script>
@@ -33,7 +33,7 @@
             return {
               title: '登录',
               goTo: '去注册',
-              login: false,
+              login: true,
             }
         },
         created(){
@@ -65,6 +65,7 @@
 
 <style lang="scss" scoped>
   @import '../../style/mixin';
+
 	.go_register{
 		right: .8rem;
 		@include wh(2rem, .8rem);

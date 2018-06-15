@@ -127,10 +127,11 @@ export default {
 		state.userInfo = info;
 		state.login = true;
 		setStore('user_id', info.id);
+		setStore('user_info', info);
 	},
 	//获取用户信息存入vuex
 	[GET_USERINFO](state, info) {
-		 
+
 		if (state.userInfo && (state.userInfo.username !== info.username)) {
 			return;
 		};

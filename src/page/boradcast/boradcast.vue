@@ -42,7 +42,7 @@
 							<p class="user_name">{{item.realName}}</p>
 							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
-						<span class="user_attention_btn">关注</span>
+						<!-- <span class="user_attention_btn">关注</span> -->
 						<!--<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>-->
 
 					</div>
@@ -80,7 +80,7 @@
 							<p class="comment_user_name">{{item.realName}}</p>
 							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
-						<span class="comment_user_attention_btn">关注</span>
+						<!-- <span class="comment_user_attention_btn">关注</span> -->
 						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
 					</div>
 					<div class="comment_botton_list_user_content">
@@ -127,7 +127,7 @@
 							<p class="publish_article_name">{{item.realName}}</p>
 							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
 						</div>
-						<span class="publish_article_attention_btn">关注</span>
+						<!-- <span class="publish_article_attention_btn">关注</span> -->
 						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
 					</div>
 					<div class="publish_article_botton_list_user_content">
