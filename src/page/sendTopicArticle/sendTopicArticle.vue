@@ -240,6 +240,7 @@ export default {
 				flex: 1;
 				font-size: 0.5rem;
 				color: #999;
+				margin-right: 0.5rem;
 			}
 		}
 		.manage_topic_info{
@@ -289,9 +290,9 @@ export default {
     			display: flex;
     			padding:0.5rem 0rem;
     			.introduce_icon{
-				    flex: 0.5;
+				    flex: 1;
 				    height: 2rem;
-				    width: 2rem;
+				    width: 1rem;
 				    margin: 0rem 0.5rem;
 				    border-radius: 0.3rem;
     			}
