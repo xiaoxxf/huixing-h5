@@ -19,6 +19,8 @@
 			</div>
 			  <vue-html5-editor :content="content" :height="300" :z-index="100" :auto-height="true" :show-module-name="false" @click="focus" @change="updateData" ref="editor"></vue-html5-editor>
 		</div>
+    <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
+
     <foot-guide></foot-guide>
     </div>
 </template>
@@ -30,6 +32,7 @@ import footGuide from 'src/components/footer/footGuide'
 import {loadMore} from 'src/components/common/mixin'
 import {postArticle} from 'src/service/getData'
 import {getStore, setStore, removeStore} from 'src/config/mUtils'
+import alertTip from '../../components/common/alertTip'
 
 export default {
 
@@ -39,6 +42,8 @@ export default {
       // imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
       textTitle: '',
       content: '请输入正文',
+      showAlert: false, //显示提示组件
+      alertText: null, //提示的内容
     }
   },
   async beforeMount(){
@@ -55,6 +60,8 @@ export default {
   components: {
   	headTop,
 	   footGuide,
+     alertTip,
+
   },
 
   computed: {
@@ -75,6 +82,16 @@ export default {
 
     postArticle: function(){
       var user_id = getStore('user_id');
+      if (!user_id) {
+        this.showAlert = true;
+        this.alertText = '请先登录';
+        return
+      }
+      if (this.content.length < 300) {
+        this.showAlert = true;
+        this.alertText = '文章字数不能少于300字';
+        return
+      }
       postArticle(this.textTitle,this.content,user_id,4).then(res => {
         // debugger
         this.content = '';
@@ -83,6 +100,11 @@ export default {
       }).catch(err => {
         console.log('发布文章错误:' + err);
       })
+    },
+
+    closeTip: function(){
+      this.showAlert = false;
+
     }
   },
 
@@ -94,6 +116,9 @@ export default {
 
 <style lang="scss">
 	@import 'src/style/mixin';
+  body{
+    background: white;
+  }
 	.link_search{
 		right: .8rem;
 		@include wh(.8rem, .8rem);
