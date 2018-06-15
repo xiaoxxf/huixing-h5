@@ -31,7 +31,7 @@
     import alertTip from '../../components/common/alertTip'
     import {mapState, mapMutations} from 'vuex'
 
-    import {checkWhetherPhoneExit,sendRegisterCode,sendRegisterInfo} from '../../service/getData'
+    import {checkWhetherPhoneExit,sendRegisterCode,sendRegisterInfo,accountLogin} from '../../service/getData'
 
     export default {
         data(){
@@ -150,6 +150,35 @@
 
 			},
 
+
+      //发送登录信息
+      async mobileLogin(){
+          if (!this.userAccount) {
+              this.showAlert = true;
+              this.alertText = '请输入手机号/邮箱/用户名';
+              return
+          }else if(!this.passWord){
+              this.showAlert = true;
+              this.alertText = '请输入密码';
+              return
+          }
+          this.userInfo = await accountLogin(this.userAccount, this.passWord);
+          console.log("this.userInfo==>",this.userInfo)
+
+          //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
+          if (this.userInfo.data.code !== 0) {
+              this.showAlert = true;
+              this.alertText = '账号密码不正确';
+          }else{
+              this.RECORD_USERINFO(this.userInfo.data.datas);
+              this.$router.go(-1);
+          }
+      },
+
+
+      closeTip(){
+          this.showAlert = false;
+      }
 
        },
 
