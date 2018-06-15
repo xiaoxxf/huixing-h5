@@ -431,7 +431,8 @@
 						}
 					}
 					.bottom_list_user_comment{
-						margin-top: 0.4rem;
+						/*margin-top: 0.4rem;*/
+						margin: 0.4rem 0rem;
 					    background-color: #f1f5f7;
 					    padding: 0.5rem;
 						border-radius: 0.1rem;
@@ -463,6 +464,7 @@
 							padding-left: 1.2rem;
 						}
 						.flow_heart_icon{
+							display: none;
 							/*padding-left: 2rem;*/
 						}
 					}
