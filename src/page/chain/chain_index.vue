@@ -36,11 +36,11 @@
       </section>
     <!-- </section> -->
 
-    <transition name="loading">
-      <loading v-show="showLoading"></loading>
-    </transition>
+    <!-- <transition name="loading">
+      <loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
+    </transition> -->
 
-	  <span class="fake_container"></span>
+	  <!-- <span class="fake_container"></span> -->
   	<foot-guide></foot-guide>
   </div>
 </template>
@@ -54,6 +54,8 @@ import {loadMore} from 'src/components/common/mixin'
 import {showBack, animate} from 'src/config/mUtils'
 import {getProjectCategory, queryProjectByType} from 'src/service/getData'
 import loading from 'src/components/common/loading'
+import loadingMore from 'src/components/common/loadingMore'
+
 // import 'src/plugins/swiper.min.js'
 // import 'src/style/swiper.min.css'
 import BScroll from 'better-scroll'
@@ -70,7 +72,9 @@ export default {
       showLoading: true, //显示加载动画
       currentPage: 1,
       pageSize: 6,
-      title:'彗星链库'
+      title:'彗星链库',
+      loadingMoreShow: false
+
     }
   },
 
@@ -78,6 +82,7 @@ export default {
     footGuide,
     headTop,
     loading,
+    loadingMore
   },
   mixins: [loadMore],
 
@@ -150,7 +155,7 @@ export default {
 				return
 			}
 			this.preventRepeatReuqest = true;
-
+      this.loadingMoreShow = true;
       this.currentPage ++;
       var more_project_list = [];
       await queryProjectByType(this.typeActive,this.currentPage,this.pageSize).then(res => {
@@ -163,7 +168,9 @@ export default {
       }).catch(err => {
         console.log('加载更多错误:' + err);
       }).finally(() => {
-        this.preventRepeatReuqest = false
+        this.preventRepeatReuqest = false;
+        this.loadingMoreShow = false;
+
       })
 
 			// this.hideLoading();
@@ -231,7 +238,7 @@ export default {
   .project_list{
     @include fj($type: column);
     // height: 100%;
-    padding: 4.0rem 0 2.0rem 0;
+    // padding: 4.0rem 0 2.0rem 0;
     // width:100%;
     // overflow: hidden;
     flex-wrap: wrap;

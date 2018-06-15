@@ -10,7 +10,7 @@
 				  </span>
 			</router-link>
     	</head-top>
-		<nav class="msite_nav">
+		<!-- <nav class="msite_nav">
 			<div class="swiper-container" v-if="fakeBanner.length">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
@@ -24,7 +24,7 @@
 				<div class="swiper-pagination"></div>
 			</div>
 			<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
-		</nav>
+		</nav> -->
 		<section class="change_link_nav">
 				<div class="sort_type_wrap">
           <router-link :to="'/chain/chain_index'">
@@ -251,6 +251,7 @@ export default {
 	}
 
 	.change_link_nav{
+    margin-top: 2rem;
 		display: flex;
         background-color: #fff;
         padding: .3rem 0;

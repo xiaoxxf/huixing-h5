@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-load-more="loaderMore">
 		<head-top signin-up='msite' :class="topicBarFixed == true ? 'headFadeOut' :''">
 
 			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
@@ -32,7 +32,7 @@
 		</section>
 
 		<!--所有动态-->
-		<section class="all_dynamic"  v-for="(item, index) in dataList" :key="index" v-load-more="loaderMore">
+		<section class="all_dynamic"  v-for="(item, index) in dataList" :key="index" >
 	    <!-- 短评 -->
 			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
 				<div class="broadcast_wrapper_bottom_list">

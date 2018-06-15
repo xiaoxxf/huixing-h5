@@ -7,7 +7,7 @@
 				</svg>
 	  		</router-link>
     	</head-top>
-    	<section class="person_homepage">
+    	<section class="person_homepage"  v-load-more="loaderMore">
     		<section class="person_introduce">
     			<div class="person_introduce_detail">
     				<img :src="loginUser.userPic" class="person_icon"/>
@@ -35,9 +35,9 @@
     				</div>-->
     			</div>
     		</section>
-    		<section class="person_create">
-    			<!--创建的专题-->
-    			<!--<div class="create_topic">
+    		<!-- <section class="person_create">
+
+    			<div class="create_topic">
     				<div class="topic_left">
     					<p class="my_create_topic">我创建的专题</p>
     					<p class="my_create_topic_num">点击查看</p>
@@ -51,9 +51,9 @@
 							</span>
 				        </router-link>
     				</div>
-    			</div>-->
-    			<!--创建的项目-->
-    			<!--<div class="create_subject">
+    			</div>
+
+    			<div class="create_subject">
     				<div class="subject_left">
     					<p class="my_create_subject">我创建的项目</p>
     					<p class="my_create_subject_num">点击查看</p>
@@ -67,8 +67,8 @@
 							</span>
 				        </router-link>
     				</div>
-    			</div>-->
-    		</section>
+    			</div>
+    		</section> -->
     		<!--动态切换-->
     		<ul class="all_dynamic_items">
 					<!--item_color-->
@@ -80,7 +80,7 @@
 
     		<!--全部动态-->
 
-				<div class="all_dynamic_content"  v-for="(item, index) in personDataList" :key="index" v-load-more="loaderMore">
+				<div class="all_dynamic_content"  v-for="(item, index) in personDataList" :key="index" >
 	    			<!--文章-->
 	    			<section class="publish_article" v-if='item.type == 4'>
 						<div class="publish_article_list">
@@ -309,7 +309,7 @@
 
 				// 加载更多
 				loaderMore(){
-					if (this.touchend) {
+					if (this.touchend || this.preventRepeatReuqest) {
 						return
 					}
 					this.loadingMoreShow = true;
@@ -413,6 +413,7 @@
 	}
 	.person_homepage{
 		margin-top: 2rem;
+		margin-bottom: 2rem;
 		/*padding: 0rem 0.6rem;*/
 		font-size: .65rem;
 		.person_introduce{
