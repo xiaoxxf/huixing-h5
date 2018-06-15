@@ -245,11 +245,13 @@ export const postArticle = (textTitle,textContent,userId,type) => axios.post('bl
 })
 //投稿
 
-export const postSendArticle = (creator,password,topic_id,reviewId) => axios.post('topic/submission',{
-	'creator': creator,
-	'password': password,
-	'topicId': topic_id,
-	'reviewId': reviewId
+export const postSendArticle = (creator,password,topic_id,reviewId) => axios.get('topic/submission',{
+	params: {
+		'creator': creator,
+		'password': password,
+		'topicId': topic_id,
+		'reviewId': reviewId
+	}
 })
 
 //注册-验证手机号是否存在
@@ -272,7 +274,7 @@ export const sendRegisterInfo = (realName,userName,phoneCode,userPwd) => axios.p
 	'userPwd': phoneCode,
 //	'tel': $("#session_phone").val(),
 	'phoneCode': userPwd
-	
+
 })
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
