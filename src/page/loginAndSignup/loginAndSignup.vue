@@ -8,8 +8,8 @@
   	    		<!--<svg class="head_search_icon">
   					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
   				</svg>-->
-				    <span class="go_register_btn" @click='changeWay()'>{{this.goTo}}</span>
-	  		</div>
+			<span class="go_register_btn" @click='changeWay()'>{{this.goTo}}</span>
+	  	</div>
 
         </head-top>
 
@@ -26,13 +26,14 @@
     import {mapState, mapMutations} from 'vuex'
     import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
     import login from 'src/components/common/login'
+    import register from 'src/components/common/register'
 
     export default {
         data(){
             return {
               title: '登录',
               goTo: '去注册',
-              login: true,
+              login: false,
             }
         },
         created(){
@@ -40,7 +41,8 @@
         components: {
             headTop,
             alertTip,
-            login
+            login,
+            register
         },
         computed: {
 
@@ -76,7 +78,7 @@
 	}
 
   .loginContainer{
-      padding-top: 1.6rem;
+      padding-top: 0.8rem;
       p, span, input{
           font-family: Helvetica Neue,Tahoma,Arial;
       }

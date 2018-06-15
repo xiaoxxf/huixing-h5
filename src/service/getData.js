@@ -69,6 +69,22 @@ export const getUser = () => axios.get('/news/quaryusers', {
 	}
 });
 
+
+//账号密码注册
+export const accountRegister = (userName, userPwd,phoneCode) => axios.get('/news/registerUser', {
+	params: {
+		userName,
+		userPwd:md5.hex(userName+userPwd),
+		phoneCode:phoneCode
+	}
+}).then(function(res){
+	return res;
+})
+.catch(function(err){
+	console.log(err);
+});
+
+
 // 获取项目的分类列表
 export const getProjectCategory = () => axios.get('blockchain/quary', {
 	params: {
@@ -236,6 +252,28 @@ export const postSendArticle = (creator,password,topic_id,reviewId) => axios.pos
 	'reviewId': reviewId
 })
 
+//注册-验证手机号是否存在
+export const checkWhetherPhoneExit = (userName) => axios.get('news/virty',{
+	params:{
+		'userName': userName,
+	}
+})
+//注册-发送验证码
+export const sendRegisterCode = (phoneNo) => axios.get('blockchain/getCode',{
+	params:{
+		'phoneNo': phoneNo
+
+	}
+})
+//注册
+export const sendRegisterInfo = (realName,userName,phoneCode,userPwd) => axios.post('news/registerUser',{
+	'realName': realName,
+	'userName': userName,
+	'userPwd': phoneCode,
+//	'tel': $("#session_phone").val(),
+	'phoneCode': userPwd
+	
+})
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 
@@ -649,6 +687,15 @@ var sendLogin = (code, mobile, validate_token) => fetch('/v1/login/app_mobile', 
 	code,
 	mobile,
 	validate_token
+}, 'POST');
+/**
+ * 手机号登录
+ */
+
+var sendRegister = (code, mobile, validate_token) => fetch('/v1/registerUser/app_mobile', {
+	code,
+	mobile,
+	validate_token,
 }, 'POST');
 
 

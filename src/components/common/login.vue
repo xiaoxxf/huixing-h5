@@ -212,7 +212,7 @@
 	}
 
     .loginContainer{
-        padding-top: 1.6rem;
+        /*padding-top: 1.6rem;*/
         p, span, input{
             font-family: Helvetica Neue,Tahoma,Arial;
         }

@@ -228,14 +228,14 @@
 	    	return{
 	        homepage:'我的主页',
 	        currentPage: 1,
-					pageSize: 12,
-					type: '',
-					personDataList: [],
-					loginUser: {},
-					user_id: '',
-					showLoading: true, //显示加载动画
-					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
-					touchend: false, //没有更多数据
+			pageSize: 12,
+			type: '',
+			personDataList: [],
+			loginUser: {},
+			user_id: '',
+			showLoading: true, //显示加载动画
+			preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
+			touchend: false, //没有更多数据
 
 	      }
       },

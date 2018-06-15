@@ -1,10 +1,10 @@
 <template>
     <header id='head_top'>
-         <router-link :to="userInfo? '/mine':'/login'" v-if='signinUp' class="head_login">
-            <!--<svg class="user_avatar">
+         <router-link :to="userInfo? '/mine':'/loginAndSignUp'" v-if='signinUp' class="head_login">
+            <svg class="user_avatar" v-if='userInfo'>
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
-            </svg>-->
-            <span class="user_status">注/登</span>
+            </svg>
+            <span class="user_status" v-else>注/登</span>
             <!-- <span class="login_span user_default" v-else>登录|注册</span> -->
 
              <!-- <svg class="user_avatar" v-else>
