@@ -31,8 +31,8 @@
     export default {
         data(){
             return {
-              title: '登录',
-              goTo: '去注册',
+              title: '注册',
+              goTo: '去登录',
               login: false,
             }
         },

@@ -1,7 +1,7 @@
 <template>
     <div>
 		<head-top goBack='true' :headTitle='msiteTitle'>
-			<button type="button" name="button" slot="search" class="postButton" @click="postArticle()">发布文章</button>
+			<button type="button" name="button" slot="search" class="postButton" @click="postArticle()">发布</button>
 		</head-top>
 		<div class="editor">
 		<div class="coin_pic_name_wrap">

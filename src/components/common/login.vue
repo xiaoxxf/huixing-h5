@@ -1,7 +1,5 @@
 <template>
     <div class="loginContainer">
-
-
         <form class="loginForm" v-if="loginWay">
             <section class="input_container phone_number">
                 <input type="text" placeholder="账号密码随便输入" name="phone" maxlength="11" v-model="phoneNumber">
@@ -212,7 +210,8 @@
 	}
 
     .loginContainer{
-        /*padding-top: 1.6rem;*/
+    	background:white;
+        padding-top: 0.8rem;
         p, span, input{
             font-family: Helvetica Neue,Tahoma,Arial;
         }
@@ -348,6 +347,6 @@
     }
     .login_box{
     	background-color: white;
-    	height: 15rem;
+    	height: 18rem;
     }
 </style>
