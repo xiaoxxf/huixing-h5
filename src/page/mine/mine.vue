@@ -12,7 +12,7 @@
     			<div class="person_introduce_detail">
     				<img :src="this.loginUser.userPic" class="person_icon"/>
     				<div class="person_name_introduce">
-    					<a href="" class="person_name">{{this.loginUser.realName}}</a>
+    					<a href="" class="person_name">{{this.loginUser.realName}}{{this.userInfo.realName}}</a>
     					<p class="person_introduce">简介：{{this.loginUser.personIntro}}</p>
     				</div>
     			</div>
@@ -258,7 +258,9 @@
 			mixins: [loadMore],
 
 			computed: {
-
+				...mapState([
+						'userInfo'
+				]),
 			},
 			methods: {
 				initData(){

@@ -32,6 +32,8 @@ const sendTopicArticle = r =>  require.ensure([], () => r(require('../page/sendT
 const sendTopicArticleDetail = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticleDetail')), 'sendTopicArticleDetail')
 //注册
 const register = r =>  require.ensure([], () => r(require('../page/register/register')), 'register')
+// 登录
+const loginAndSignup = r => require.ensure([], () => r(require('../page/loginAndSignup/loginAndSignup')), 'loginAndSignup')
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -39,7 +41,6 @@ const project = r => require.ensure([], () => r(require('../page/project/project
 //const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
 const search = r => require.ensure([], () => r(require('../page/search/search')), 'search')
 const shop = r => require.ensure([], () => r(require('../page/shop/shop')), 'shop')
-const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const profile = r => require.ensure([], () => r(require('../page/profile/profile')), 'profile')
 const forget = r => require.ensure([], () => r(require('../page/forget/forget')), 'forget')
 const order = r => require.ensure([], () => r(require('../page/order/order')), 'order')
@@ -247,8 +248,8 @@ export default [{
         },
         //登录注册页
         {
-            path: '/login',
-            component: login
+            path: '/loginAndSignup',
+            component: loginAndSignup
         },
         //注册
         {

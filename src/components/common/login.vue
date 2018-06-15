@@ -1,17 +1,7 @@
 <template>
     <div class="loginContainer">
-        <head-top :head-title="loginWay? '登录':'密码登录'" goBack="true">
-            <!--<div slot="changeLogin" class="change_login" @click="changeLoginWay">{{loginWay? "密码登录":"短信登录"}}</div>--> 
-   			<!--<span class="go_login">去登录</span>-->
-   			<router-link :to="'/register/register'" class="go_register" slot="search">
-	    		<!--<svg class="head_search_icon">
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-				</svg>-->
-				<span class="go_register_btn">去注册</span>
-	  		</router-link>
-   			
-        </head-top>
-        
+
+
         <form class="loginForm" v-if="loginWay">
             <section class="input_container phone_number">
                 <input type="text" placeholder="账号密码随便输入" name="phone" maxlength="11" v-model="phoneNumber">
@@ -21,7 +11,7 @@
             <section class="input_container">
                 <input type="text" placeholder="验证码" name="mobileCode" maxlength="6" v-model="mobileCode">
             </section>
-		
+
         </form>
         <form class="loginForm" v-else>
         	<!--logo-->
@@ -68,7 +58,6 @@
 </template>
 
 <script>
-    import headTop from '../../components/header/head'
     import alertTip from '../../components/common/alertTip'
     import {localapi, proapi, imgBaseUrl} from 'src/config/env'
     import {mapState, mapMutations} from 'vuex'
@@ -96,7 +85,6 @@
             this.getCaptchaCode();
         },
         components: {
-            headTop,
             alertTip,
         },
         computed: {
@@ -222,7 +210,7 @@
     		color: #3b95e9;
 		}
 	}
-	
+
     .loginContainer{
         padding-top: 1.6rem;
         p, span, input{
@@ -261,7 +249,7 @@
                 background-color: #4cd964;
             }
         }
-     
+
         .phone_number{
             padding: .3rem .8rem;
         }
