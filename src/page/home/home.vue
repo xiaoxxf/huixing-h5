@@ -1,14 +1,15 @@
 <template>
     <div>
     	<head-top signin-up='1' :class="topicBarFixed == true ? 'headFadeOut' :''">
-			<router-link :to="'/search/geohash'" slot="search" class="msite_title">
+			<!-- <router-link :to="'/search/geohash'" slot="search" class="msite_title">
 					<span class="title_text ellipsis">
 						<svg class="head_search_icon">
 							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
 						</svg>
             {{msiteTitle}}
 				  </span>
-			</router-link>
+			</router-link> -->
+
     	</head-top>
 		<!-- <nav class="msite_nav">
 			<div class="swiper-container" v-if="fakeBanner.length">

@@ -4,7 +4,7 @@
             <svg class="user_avatar" v-if='userInfo'>
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
             </svg>
-            <span class="user_status" v-else>注/登</span>
+            <span class="user_status" v-else>登录</span>
             <!-- <span class="login_span user_default" v-else>登录|注册</span> -->
 
              <!-- <svg class="user_avatar" v-else>

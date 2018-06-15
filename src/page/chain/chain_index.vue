@@ -40,7 +40,7 @@
       <loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
     </transition> -->
 
-	  <!-- <span class="fake_container"></span> -->
+	  <span class="fake_container"></span>
   	<foot-guide></foot-guide>
   </div>
 </template>
@@ -193,7 +193,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../style/mixin';
-
+  .fake_container{
+    display: block;
+    width: 100%;
+    height: 2rem;
+  }
   // 头部
   .link_search{
 		right: .8rem;

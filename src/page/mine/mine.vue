@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div  >
     	<head-top goBack='true' :headTitle='homepage'>
     		<router-link :to="'mine_setting'" class="link_search" slot="search">
 	    		<svg class="head_search_icon">
@@ -211,10 +211,10 @@
 				<loading v-show="showLoading"></loading>
 			</transition>
 
-			<transition name="loading">
+			<!-- <transition name="loading">
 				<loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
-			</transition>
-
+			</transition> -->
+			<span class="fake_container"></span>
     	<foot-guide></foot-guide>
 	</div>
 </template>
@@ -286,7 +286,9 @@
 
 				// 加载全部/文章/长评、短评
 				getDynamicData(){
-					this.touchend = true; //重置没有更多数据的flag
+					this.touchend = false; //重置没有更多数据的flag
+					this.preventRepeatReuqest = false;
+
 					this.currentPage = 1; //重置加载起始页
 					this.personDataList = [];
 					this.showLoading = true;
@@ -309,6 +311,7 @@
 
 				// 加载更多
 				loaderMore(){
+					//
 					if (this.touchend || this.preventRepeatReuqest) {
 						return
 					}
@@ -316,14 +319,16 @@
 					this.preventRepeatReuqest = true;
 					this.currentPage++;
 					getUserDynamic(this.currentPage,this.pageSize,this.user_id,this.type).then(res => {
-						this.personDataList = res.data.datas;
+						this.additional_data = res.data.datas;
 						// 去除HTML标签
-						for (var i = 0; i < this.personDataList.length; i++) {
-							if(this.personDataList[i].type == 4 || this.personDataList[i].type == 2){
-								this.personDataList[i].textContent = this.personDataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+						for (var i = 0; i < this.additional_data.length; i++) {
+							if(this.additional_data[i].type == 4 || this.additional_data[i].type == 2){
+								this.additional_data[i].textContent = this.additional_data[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
 							}
 						}
-						if (res.data.datas.length < this.pageSize) {
+						 // this.personDataList = [];
+						this.personDataList = [...this.personDataList, ...this.additional_data]
+						if (this.additional_data.length < this.pageSize) {
 								this.touchend = true;
 						}
 					}).catch(err => {
