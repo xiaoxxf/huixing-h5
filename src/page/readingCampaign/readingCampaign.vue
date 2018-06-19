@@ -26,16 +26,28 @@
 						<span class="team_header_name">广州站</span>
 					</div>
 					<div class="team_content">
-						<img src="../../images/activity.png" class="team_content_icon" />
+						<img src="../../images/elmlogo.jpeg" class="team_content_icon" />
 						<div class="team_content_detail">
-							
+							<p class="team_content_title">as队</p>
+							<p class="team_content_include">已收录12篇</p>
 						</div>
+						<span class="team_content_send">投稿</span>
 					</div>
-					<div class="team_content_send_article"></div>
 				</div>
 				<!--深圳队-->
 				<div class="team_sz">
-					
+					<div class="team_header">
+						<img src="../../images/elmlogo.jpeg" class="team_header_icon" />
+						<span class="team_header_name">深圳站</span>
+					</div>
+					<div class="team_content">
+						<img src="../../images/elmlogo.jpeg" class="team_content_icon" />
+						<div class="team_content_detail">
+							<p class="team_content_title">as队</p>
+							<p class="team_content_include">已收录12篇</p>
+						</div>
+						<span class="team_content_send">投稿</span>
+					</div>
 				</div>
 			</div>
 			
@@ -46,6 +58,7 @@
 <script>
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
+import {readingCampaign} from 'src/service/getData'
 export default {
 	  data(){
         return {
@@ -56,7 +69,7 @@ export default {
     },
 
     mounted(){
-//    this.initData()
+      this.initData()
     },
   	components: {
   	    headTop,
@@ -67,14 +80,15 @@ export default {
 
     },
     methods: {
-//  	initData(){
-//      getNewsIndex(this.currentPage,this.pageSize).then(res => {
-//        this.news_list = res.data.datas;
-//      }).catch(res => {
-//        console.log('获取列表数据错误:' + err);
-//      })
-//    },
-     
+  	initData(){
+      readingCampaign(this.currentPage,this.pageSize,this.creator).then(res => {
+        this.news_list = res.data.datas;
+        console.log(this.news_list);
+      }).catch(res => {
+        console.log('获取列表数据错误:' + err);
+      })
+    },
+ 
     },
  
     watch: {
@@ -115,14 +129,14 @@ export default {
 		font-size: 0.6rem;
 		padding: 1rem 0.6rem;
 	}
+	/*广州站*/
 	.team_gz{
-		display: flex;
-	    background-color: #9999992b;
-	    padding: 0.3rem;	
 	}
 	.team_header{
-		flex: 1;		
-				
+	    background-color: #9999992b;
+	    padding: 0.3rem;
+	    display: flex;
+	    
 	}
 	.team_header img{
 		width: 2rem;
@@ -130,10 +144,39 @@ export default {
 	    border-radius: 1rem;		
 				
 	}
+	.team_header_name{
+		margin: 0.6rem;
+    	font-size: 0.7rem;
+	}
 	.team_content{
+		background-color: #9999992b;
+	    padding: 0.3rem;
+	    display: flex;
+	    margin-top: 0.5rem;
+	    display: flex;
+	}
+	.team_content img{
+		width: 2rem;
+	    height: 2rem;
+	    border-radius: 0.2rem;
+	}
+	.team_content_detail{
+		margin-left: 0.6rem;
 		flex: 1;
+	}
+	.team_content_send{
+		margin-top: 0.6rem;
+	    border: solid 0.01rem #007fcc;
+	    padding: 0.1rem 0.2rem;
+	    height: 1rem;
+	    color: #007fcc;
 	}
 	.team_content_send_article{
 		flex: 1;
 	}
+	/*深圳站*/
+	.team_sz{
+		margin-top: 1rem;
+	}
+	
 </style>
