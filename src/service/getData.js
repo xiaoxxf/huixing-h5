@@ -288,6 +288,14 @@ export const readingCampaign = (currentPage,pageSize,creator) => axios.get('topi
 		'creator': creator
 	}
 })
+//深圳
+export const getSZreadingCampaign = (currentPage,pageSize,creator) => axios.get('topic/seachTopic',{
+	params:{
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'creator': creator
+	}
+})
 
 
 /**   --------------------------------------    分割线  -------------------------------------              **/

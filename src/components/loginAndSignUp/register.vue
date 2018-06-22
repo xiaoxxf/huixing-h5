@@ -111,13 +111,25 @@
 			//发送验证码
 			getRegisterCode(){
 //				console.log(this.phoneNum)
+				if(this.hasSendCode){
+					return
+				}
 				this.hasSendCode = true;
 				sendRegisterCode(this.phoneNum).then(res => {
 					// 开始倒计时
-					this.getCode = 60;
-					setInterval( () => {
-						this.getCodeCount()
-					},1000)
+					if(res != null && res.code == 0 ){
+						this.getCode = 3;
+						this.time=setInterval( () => {
+							this.getCodeCount()
+						},1000)
+					}
+					else{
+						this.showAlert = true;
+              			this.alertText = res.data.msg;
+//						console.log(res.data.msg)
+						
+					}
+
 				}).catch(err => {
 					console.log('发送验证码错误:' + err)
 				})
@@ -130,17 +142,21 @@
 				else if(this.getCode == 0){
 					this.getCode = '重新发送验证码'
 					this.hasSendCode = false;
+					clearInterval(this.time);
 				}
+				else{
+					this.showAlert = true
+					this.alertText = '发送次数过于频繁'
+				}
+				
 			},
 
 			signUp(){
-
-
 				if(this.userAccount && this.phoneNum && this.codeNumber &&
 					this.passWord && this.checkPhoneNum == 0 && this.checkPhoneValid)
 				{
 					sendRegisterInfo(this.userAccount, this.phoneNum, this.codeNumber, this.passWord).then(res => {
-            this.mobileLogin();
+            		this.mobileLogin();
 					}).catch(err => {
 						console.log('注册错误:' + err)
 					}).finally( () => {
