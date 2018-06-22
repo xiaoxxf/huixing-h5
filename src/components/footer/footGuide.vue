@@ -115,11 +115,11 @@
     	</svg>
          <section @click = "gotoAddress({path: '/home'})" class="guide_item">
         	 <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('home') !== -1? '#homeActive' : '#home'"></use></svg>
-            <span>新闻</span>
+            <span>首页</span>
         </section>
          <section @click = "gotoAddress({path: '/boradcast'})" class="guide_item">
         	 <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('boradcast') !== -1? '#boradcastActive' : '#boradcast'"></use></svg>
-            <span>广播</span>
+            <span>关注</span>
         </section>
          <section @click = "gotoAddress({path: '/article'})" class="guide_item">
         	 <!--<svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>-->

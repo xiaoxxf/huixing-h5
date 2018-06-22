@@ -279,6 +279,17 @@ export const sendRegisterInfo = (realName,userName,phoneCode,userPwd) => axios.p
 
 })
 
+//读书活动
+//var uri = 'topic/seachTopic?currentPage=' + subject_page + '&pageSize=5&creator=db2bc250-1b48-4add-b0c4-bc849bf79723'
+export const readingCampaign = (currentPage,pageSize,creator) => axios.get('topic/seachTopic',{
+	params:{
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'creator': creator
+	}
+})
+
+
 /**   --------------------------------------    分割线  -------------------------------------              **/
 
 // 原项目
