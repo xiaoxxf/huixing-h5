@@ -34,6 +34,8 @@ import {postArticle} from 'src/service/getData'
 import {getStore, setStore, removeStore} from 'src/config/mUtils'
 import alertTip from '../../components/common/alertTip'
 
+let interval;
+
 export default {
 
 	data(){
@@ -50,6 +52,10 @@ export default {
 
 	},
 	created(){
+		setInterval(function() {
+			//document.body.scrollTop = document.body.scrollHeight;
+	}, 300);
+   
 	},
   mounted(){
 
@@ -77,9 +83,15 @@ export default {
     },
     focus: function () {
       this.$refs.editor.focus()
+			interval = setInterval(function () {
+            scrollToEnd();
+        }, 500)
     },
 
-
+		scrollToEnd: function(){
+			  // document.body.scrollTop = document.body.scrollHeight;
+        document.body.scrollTop = (parseInt(document.body.scrollHeight.split("px")[0])-50)+'px';
+		},
     postArticle: function(){
       var user_id = getStore('user_id');
       if (!user_id) {
@@ -224,4 +236,7 @@ export default {
 	border-bottom: 0;
 	margin-bottom: 0.3rem;
   }
+	.vue-html5-editor .content {
+		    margin-bottom: 3rem;
+	}
 </style>
