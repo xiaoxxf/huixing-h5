@@ -39,6 +39,9 @@ const loginAndSignup = r => require.ensure([], () => r(require('../page/loginAnd
 const forget = r => require.ensure([], () => r(require('../page/forget/forget')), 'forget')
 const search = r => require.ensure([], () => r(require('../page/search/search')), 'search')
 
+//读书活动
+
+const readingCampaign = r => require.ensure([], () => r(require('../page/readingCampaign/readingCampaign')), 'readingCampaign')
 /**   --------------------------------------    分割线  -------------------------------------              **/
 // const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
 // const project = r => require.ensure([], () => r(require('../page/project/project')), 'project')
@@ -179,6 +182,10 @@ export default [{
         {
             path: '/loginAndSignup',
             component: loginAndSignup
+        },
+        {
+            path: '/readingCampaign',
+            component: readingCampaign
         },
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
