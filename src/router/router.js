@@ -28,6 +28,8 @@ const newsDetail = r => require.ensure([], () => r(require('../page/news/newsDet
 const comment = r =>  require.ensure([], () => r(require('../page/comment/comment')), 'comment')
 //文章投稿到专题
 const sendTopicArticle = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticle')), 'sendTopicArticle')
+//我的文章投稿到读书活动
+const mineArticle = r =>  require.ensure([], () => r(require('../page/article/mineArticle')), 'mineArticle')
 //管理专题查看全部
 const sendTopicArticleDetail = r =>  require.ensure([], () => r(require('../page/sendTopicArticle/sendTopicArticleDetail')), 'sendTopicArticleDetail')
 //注册
@@ -117,6 +119,11 @@ export default [{
         	path:'/sendTopicArticle/sendTopicArticle/:commentId/:topicIdList',
         	name:'sendTopicArticle',
         	component:sendTopicArticle
+        },
+        //我的文章投稿到读书活动
+        {
+        	path:'/article/mineArticle/',
+        	component:mineArticle
         },
         //我管理的专题查看全部
 

@@ -4,6 +4,8 @@
 		<section class="reading_campaign">
 			
 			<div class="reading_campaign_banner">
+				<!--<img src="../../images/activity.png" alt="" />-->
+            	<img src="../../../static/loading.png"  />
 				
 			</div>
 			<div class="reading_campaign_introduce">
@@ -20,18 +22,23 @@
 			</div>
 			<div class="reading_campaign_team">
 				<!--广州队-->
-				<div class="team_gz">
+				<div class="team_gz"  >
 					<div class="team_header">
 						<img src="../../images/elmlogo.jpeg" class="team_header_icon" />
 						<span class="team_header_name">广州站</span>
 					</div>
-					<div class="team_content">
-						<img src="../../images/elmlogo.jpeg" class="team_content_icon" />
+					<div class="team_content" v-for="(item, index) in newsList" :key="index" >
+						<img :src="item.topicPic" class="team_content_icon" />
 						<div class="team_content_detail">
-							<p class="team_content_title">as队</p>
-							<p class="team_content_include">已收录12篇</p>
+							<p class="team_content_title">{{item.topic}}</p>
+							<p class="team_content_include">已收录{{item.counts}}篇</p>
 						</div>
-						<span class="team_content_send">投稿</span>
+
+
+          				<router-link :to="'/article/mineArticle'" class="team_content_send">
+								投稿
+						</router-link>
+								
 					</div>
 				</div>
 				<!--深圳队-->
@@ -40,11 +47,11 @@
 						<img src="../../images/elmlogo.jpeg" class="team_header_icon" />
 						<span class="team_header_name">深圳站</span>
 					</div>
-					<div class="team_content">
-						<img src="../../images/elmlogo.jpeg" class="team_content_icon" />
+					<div class="team_content" v-for="(item, index) in getSZnewsList" :key="index">
+						<img :src="item.topicPic" class="team_content_icon" />
 						<div class="team_content_detail">
-							<p class="team_content_title">as队</p>
-							<p class="team_content_include">已收录12篇</p>
+							<p class="team_content_title">{{item.topic}}</p>
+							<p class="team_content_include">已收录{{item.counts}}篇</p>
 						</div>
 						<span class="team_content_send">投稿</span>
 					</div>
@@ -58,18 +65,23 @@
 <script>
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-import {readingCampaign} from 'src/service/getData'
+import {readingCampaign,getSZreadingCampaign} from 'src/service/getData'
 export default {
 	  data(){
         return {
         profiletitle: '读书活动',
         currentPage: 1,
         pageSize: 24,
+        newsList:[],
+        getSZnewsList:[],
+        creator:'c8ed1e11-4603-495f-a57a-2b74e2b12018',
+        szcreator:'db2bc250-1b48-4add-b0c4-bc849bf79723',
         }
     },
 
     mounted(){
-      this.initData()
+      this.initData(),
+      this.getSZinitData()
     },
   	components: {
   	    headTop,
@@ -80,19 +92,30 @@ export default {
 
     },
     methods: {
-  	initData(){
-      readingCampaign(this.currentPage,this.pageSize,this.creator).then(res => {
-        this.news_list = res.data.datas;
-        console.log(this.news_list);
-      }).catch(res => {
-        console.log('获取列表数据错误:' + err);
-      })
-    },
+	  	initData(){
+	      readingCampaign(this.currentPage,this.pageSize,this.creator).then(res => {
+	        this.newsList = res.data.datas;
+	      }).catch(res => {
+	        console.log('获取列表数据错误:' + err);
+	      })
+	    },
+	    //深圳站数据
+	    async getSZinitData(){
+	    getSZreadingCampaign(this.currentPage,this.pageSize,this.szcreator).then(res => {
+	        this.getSZnewsList = res.data.datas;
+	        console.log(this.getSZnewsList);
+	      }).catch(res => {
+	        console.log('获取列表数据错误:' + err);
+	      })
+	    },
  
     },
  
     watch: {
 
+    },
+    computed:{
+    	
     }
 }
 
@@ -105,6 +128,8 @@ export default {
 	/*banner*/
 	.reading_campaign_banner{
 		padding: 0rem 0.6rem;
+		border: solid 1px gainsboro;
+		
 		
 	}
 	/*白皮书*/
@@ -149,7 +174,8 @@ export default {
     	font-size: 0.7rem;
 	}
 	.team_content{
-		background-color: #9999992b;
+		/*background-color: #9999992b;*/
+		border: solid 1px #9999992b;
 	    padding: 0.3rem;
 	    display: flex;
 	    margin-top: 0.5rem;

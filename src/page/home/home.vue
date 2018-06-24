@@ -11,21 +11,21 @@
 			</router-link> -->
 
     	</head-top>
-		<!-- <nav class="msite_nav">
+		<nav class="msite_nav">
 			<div class="swiper-container" v-if="fakeBanner.length">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
-						<router-link :to="{path: '/food'}" class="link_to_food">
+						<router-link :to="{path: item.route}" class="link_to_food">
 							<figure>
-								<img :src="item" />
+								<img :src="item.pic" />
 							</figure>
 						</router-link>
 					</div>
 				</div>
 				<div class="swiper-pagination"></div>
 			</div>
-			<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
-		</nav> -->
+			<!--<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>-->
+		</nav> 
 		<section class="change_link_nav">
 				<div class="sort_type_wrap">
           <router-link :to="'/chain/chain_index'">
@@ -116,8 +116,16 @@ export default {
         //获取导航食品类型列表
        	msiteFoodTypes().then(res => {
        		this.fakeBanner = [
-					'http://www.huixing.io/img/reading-banner.png',
-					'http://www.huixing.io/img/reading-banner.png']
+	       		{
+	       			'pic': 'http://www.huixing.io/img/reading-banner.png',
+	       			'route': '/readingCampaign'
+	       		},
+	       		{
+	       			'pic': 'http://www.huixing.io/img/reading-banner-2.png',
+	       			'route': '/readingCampaign'
+	       		}
+			]
+       		console.log(this.fakeBanner)
         }).then(() => {
 			//初始化swiper
 				new Swiper('.swiper-container', {
@@ -252,7 +260,7 @@ export default {
 	}
 
 	.change_link_nav{
-    margin-top: 2rem;
+    /*margin-top: 2rem;*/
 		display: flex;
         background-color: #fff;
         padding: .3rem 0;
