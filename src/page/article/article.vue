@@ -104,7 +104,6 @@ export default {
 
     closeTip: function(){
       this.showAlert = false;
-
     }
   },
 
