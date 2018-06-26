@@ -5,7 +5,7 @@
 			
 			<div class="reading_campaign_banner">
 				<!--<img src="../../images/activity.png" alt="" />-->
-            	<img src="../../../static/loading.png"  />
+            	<!--<img src="../../../static/banner.png"  />-->
 				
 			</div>
 			<div class="reading_campaign_introduce">
@@ -33,12 +33,9 @@
 							<p class="team_content_title">{{item.topic}}</p>
 							<p class="team_content_include">已收录{{item.counts}}篇</p>
 						</div>
-
-
-          				<router-link :to="'/article/mineArticle'" class="team_content_send">
+          				<router-link :to="{ name: 'mineArticle', params: { topicId: item.id } }" class="team_content_send">
 								投稿
 						</router-link>
-								
 					</div>
 				</div>
 				<!--深圳队-->
@@ -53,7 +50,10 @@
 							<p class="team_content_title">{{item.topic}}</p>
 							<p class="team_content_include">已收录{{item.counts}}篇</p>
 						</div>
-						<span class="team_content_send">投稿</span>
+						<!--<span class="team_content_send">投稿</span>-->
+						<router-link :to="{ name: 'mineArticle', params: { topicId: item.id } }" class="team_content_send">
+								投稿
+						</router-link>
 					</div>
 				</div>
 			</div>
@@ -102,7 +102,7 @@ export default {
 	    //深圳站数据
 	    async getSZinitData(){
 	    getSZreadingCampaign(this.currentPage,this.pageSize,this.szcreator).then(res => {
-	        this.getSZnewsList = res.data.datas;
+	        this.getSZnewsList = res.data.datas.splice(0,3);
 	        console.log(this.getSZnewsList);
 	      }).catch(res => {
 	        console.log('获取列表数据错误:' + err);

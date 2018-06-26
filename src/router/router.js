@@ -122,7 +122,8 @@ export default [{
         },
         //我的文章投稿到读书活动
         {
-        	path:'/article/mineArticle/',
+        	path:'/article/mineArticle/:topicId',
+        	name: 'mineArticle',
         	component:mineArticle
         },
         //我管理的专题查看全部

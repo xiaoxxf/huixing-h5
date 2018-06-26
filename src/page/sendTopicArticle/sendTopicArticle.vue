@@ -163,10 +163,10 @@ export default {
   send(topic){
 		this.creator = getStore('user_id');
 		var passWord = JSON.parse(getStore('user_info')).userPwd;
-    postSendArticle(this.creator,passWord,topic.id,this.reviewId).then(res => {
+    	postSendArticle(this.creator,passWord,topic.id,this.reviewId).then(res => {
         	// this.sendArticleList = res.data.datas;
-					topic.counts++;
-					this.topiclist.push(topic.id.toString());
+			topic.counts++;
+			this.topiclist.push(topic.id.toString());
     	}).catch(err => {
         console.log('投稿错误:' + err);
       });
