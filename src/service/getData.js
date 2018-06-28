@@ -280,6 +280,7 @@ export const sendRegisterInfo = (realName,userName,phoneCode,userPwd) => axios.p
 })
 
 //读书活动
+//广州站
 //var uri = 'topic/seachTopic?currentPage=' + subject_page + '&pageSize=5&creator=db2bc250-1b48-4add-b0c4-bc849bf79723'
 export const readingCampaign = (currentPage,pageSize,creator) => axios.get('topic/seachTopic',{
 	params:{
@@ -288,7 +289,7 @@ export const readingCampaign = (currentPage,pageSize,creator) => axios.get('topi
 		'creator': creator
 	}
 })
-//深圳
+//深圳站
 export const getSZreadingCampaign = (currentPage,pageSize,creator) => axios.get('topic/seachTopic',{
 	params:{
 		'currentPage': currentPage,
@@ -297,6 +298,29 @@ export const getSZreadingCampaign = (currentPage,pageSize,creator) => axios.get(
 	}
 })
 
+
+//投稿-加载我的文章
+export const getMyArticle = (currentPage,pageSize,creator,type) => axios.get('blockchain/quaryReviewByUser',{
+	params:{
+		'currentPage': currentPage,
+		'pageSize': pageSize,
+		'creator': creator,
+		'type':type
+	}
+})
+//var uri = 'topic/submission?creator=' + userId + '&password=' + userinfo.userPwd
+           //+ '&topicId=' + topicId + '&reviewId=' + reviewId
+
+
+//投稿-是否已经投稿
+export const sendArticleOrNot = (creator,password,topicId,reviewId) => axios.get('topic/submission',{
+	params:{
+		'creator': creator,
+		'password': password,
+		'topicId': topicId,
+		'reviewId':reviewId
+	}
+})
 
 /**   --------------------------------------    分割线  -------------------------------------              **/
 
