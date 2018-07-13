@@ -1,198 +1,287 @@
 <template>
-    <div>
-    	<head-top signin-up='1' :class="topicBarFixed == true ? 'headFadeOut' :''">
-			<!-- <router-link :to="'/search/geohash'" slot="search" class="msite_title">
-					<span class="title_text ellipsis">
-						<svg class="head_search_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
-						</svg>
-            {{msiteTitle}}
-				  </span>
-			</router-link> -->
+	<div v-load-more="loaderMore">
 
-    	</head-top>
-		<nav class="msite_nav">
-			<div class="swiper-container" v-if="fakeBanner.length">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide food_types_container" v-for="(item, index) in fakeBanner" :key="index">
-						<router-link :to="{path: item.route}" class="link_to_food">
-							<figure>
-								<img :src="item.pic" />
-							</figure>
+    <!--切换项-->
+		<section class="broadcast_wrapper">
+			<div class="broadcast_wrapper_top">
+				<ul class="broadcast_wrapper_top_list">
+					<li :class="{attention_icon: like == ''}" @click='changeLike(0)'>关注</li>
+					<li :class="{attention_icon: like == 1}" @click='changeLike(1)'>推荐</li>
+				</ul>
+			</div>
+		</section>
+
+		<!--所有动态-->
+		<section class="all_dynamic"  v-for="(item, index) in dataList" :key="index" >
+	    <!-- 短评 -->
+
+			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
+				<div class="broadcast_wrapper_bottom_list">
+					<div class="bottom_list_user_info">
+						<img :src="item.userPic" class="user_icon"  v-if='item.userPic'/>
+						<svg class="normal_user" v-else>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+						</svg>
+						<div class="user_name_time">
+							<p class="user_name">{{item.realName}}</p>
+							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
+						</div>
+						<!-- <span class="user_attention_btn">关注</span> -->
+						<!--<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>-->
+
+					</div>
+					<div class="botton_list_user_content">
+						<p class="user_content_info">
+							{{item.textTitle}}
+						</p>
+					</div>
+					<div class="bottom_list_user_comment">
+		        	<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+								<img :src="item.projectLogo" class="comment_user_icon"/>
+		        	</router-link>
+						<div class="user_comment_info">
+							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+								<p class="comment_title">{{item.projectBigName}}</p>
+							</router-link>
+							<p class="comment_score">{{countScore(item.score)}} <span class="comment_score_num">{{item.score}}</span></p>
+						</div>
+					</div>
+					<div class="bottom_list_user_flow">
+						<div class="flow_heart_icon">
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
+							{{item.likes}}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!--长评-->
+			<section class="write_comment" v-if='item.type == 2'>
+				<div class="write_comment_list">
+					<div class="write_comment_list_info">
+						<img :src="item.userPic" class="comment_list_user_icon"  v-if='item.userPic'/>
+						<svg class="normal_user" v-else>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+						</svg>
+						<div class="comment_user_name_time">
+							<p class="comment_user_name">{{item.realName}}</p>
+							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
+						</div>
+						<!-- <span class="comment_user_attention_btn">关注</span> -->
+						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
+					</div>
+					<div class="comment_botton_list_user_content">
+						<p class="comment_user_content_info">写了
+							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+								{{item.projectBigName}}
+							</router-link>
+							的点评
+						</p>
+					</div>
+					<div class="comment_bottom_list_user_comment">
+						<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+							<img :src="item.projectLogo" class="comments_user_icon"/>
+						</router-link>
+						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+							<div class="write_user_comment_info">
+								<p class="write_comment_title">{{item.textTitle}}</p>
+								<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
+							</div>
 						</router-link>
 					</div>
-				</div>
-				<div class="swiper-pagination"></div>
-			</div>
-			<!--<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>-->
-		</nav> 
-		<section class="change_link_nav">
-				<div class="sort_type_wrap">
-          <router-link :to="'/chain/chain_index'">
-					<span class="sort_type">
-						<svg class="sort_type_icon">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#sort'"></use>
-						</svg>
-						找项目
-					</span>
-          </router-link>
-				</div>
-				<div>
-          <router-link :to=" '/codeRank/codeRankIndex' ">
-            <span class="code_rank">
-  						<svg class="sort_type_icon">
-  							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#rank'"></use>
-  						</svg>
-  						代码榜
-  					</span>
-          </router-link>
-
-				</div>
-		</section>
-		<div id="topic_nav_wrapper">
-			<nav class="search_nav_wrapper" :class="topicBarFixed == true ? 'isFixed' :''">
-				<div class="search_topic_wrapper">
-					<div class="type_list_container" id="wrapper_menu"  ref="searchWrapper" >
-						<ul class="article_type_wrap" ref="warpperMune">
-							<li v-for="(item, index) in searchTopic" :key="index" :class="{topic_active: item.id == topicActive}" :data-topicid="item.id" @click.stop.prevent="changeActice(item.id)">{{item.topic}}</li>
-						</ul>
+					<div class="write_bottom_list_user_flow">
+						<!-- <div class="write_flow_send_icon">
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
+						</div> -->
+						<div class="write_flow_comment_icon">
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>
+							{{item.review}}
+						</div>
+						<div class="write_flow_heart_icon">
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
+							{{item.likes}}
+						</div>
 					</div>
 				</div>
-			</nav>
-				<topic-list v-if="hasTopicData" :topicActive="topicActive" :topicBarFixed="topicBarFixed"></topic-list>
-		</div>
+			</section>
 
+			<!--发表文章-->
+			<section class="publish_article" v-if='item.type == 4'>
+				<div class="publish_article_list">
+					<div class="publish_article_list_info">
+						<img :src="item.userPic" class="publish_article_user_icon" v-if='item.userPic'/>
+						<svg class="normal_user" v-else>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+						</svg>
+						<div class="publish_article_name_time">
+							<p class="publish_article_name">{{item.realName}}</p>
+							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
+						</div>
+						<!-- <span class="publish_article_attention_btn">关注</span> -->
+						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
+					</div>
+					<div class="publish_article_botton_list_user_content">
+						<p class="publish_article_content_info">发表了文章
+						</p>
+					</div>
+					<div class="publish_article_bottom_list_user_comment">
+						<!-- <img src="../../images/fenxiang.png" class="publish_article_icon"/> -->
+						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+							<div class="publish_article_info">
+								<p class="publish_article_title">{{item.textTitle}}</p>
+								<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
+							</div>
+						</router-link>
+					</div>
+					<div class="publish_article_bottom_list_user_flow">
+						<div class="publish_article_flow_send_icon">
+							<span>
+								<svg data-v-17048857="" class="sort_type_icon">
+									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use>
+								</svg>
+							</span>
+							{{item.review}}
+						</div>
+						<!-- <div class="publish_article_flow_comment_icon">
+							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
+						</div> -->
+						<div class="publish_article_flow_heart_icon">
+							<span>
+								<svg data-v-17048857="" class="sort_type_icon">
+									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart">
+									</use>
+								</svg>
+							</span>
+							{{item.likes}}
+						</div>
+					</div>
+				</div>
+			</section>
 
-		<span class="fake_container"></span>
-    	<foot-guide></foot-guide>
-    </div>
+		</section>
+		<loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
+    <foot-guide></foot-guide>
+	</div>
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
-import {mapState, mapActions} from 'vuex'
+	import headTop from 'src/components/header/head'
+	import footGuide from 'src/components/footer/footGuide'
+	import loadingMore from 'src/components/common/loadingMore'
+	import {getBoradcastData} from 'src/service/getData'
+	import {getStore, setStore, removeStore} from 'src/config/mUtils'
+	import {loadMore} from 'src/components/common/mixin'
 
-// import {imgBaseUrl} from 'src/config/env'
-import headTop from 'src/components/header/head'
-import footGuide from 'src/components/footer/footGuide'
-import topicList from 'src/components/common/topiclist'
-import {loadMore} from 'src/components/common/mixin'
-import {msiteAddress, msiteFoodTypes, searchTopic, queryArticle} from 'src/service/getData'
-import 'src/plugins/swiper.min.js'
-import 'src/style/swiper.min.css'
-import BScroll from 'better-scroll'
-export default {
-	data(){
-        return {
-        	geohash: '', // city页面传递过来的地址geohash
-            msiteTitle: '搜索彗星内容', // msite页面头部标题
-			imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
-			fakeBanner:[], //首页banner图
-			searchTopic:[],
-			showBanner: true, //是否显示banner
-			topicActive:'',//热门选择栏目
-			topicScroll: null, //栏目Scroll
-			topicActiveData:[],//选择栏目数据
-			topicActiveScroll: null, //选择栏目文章Scroll
-			currentPage:1,
-			pageSize:6,
-			preventRepeatRequest:false,// 防止多次触发数据请求
-			hasTopicData:false,
-			topicBarFixed:false,
-        }
-    },
-    async beforeMount(){
-
-	},
-	created(){
-	},
-	destroyed () {
-		window.removeEventListener('scroll', this.handleScroll)
-	},
-    mounted(){
-		window.addEventListener('scroll', this.handleScroll)
-		this.initData();
-		this.windowHeight = window.innerHeight;
-        //获取导航食品类型列表
-       	msiteFoodTypes().then(res => {
-       		this.fakeBanner = [
-	       		{
-	       			'pic': 'http://www.huixing.io/img/reading-banner.png',
-	       			'route': '/readingCampaign'
-	       		},
-	       		{
-	       			'pic': 'http://www.huixing.io/img/reading-banner-2.png',
-	       			'route': '/readingCampaign'
-	       		}
-			]
-       		console.log(this.fakeBanner)
-        }).then(() => {
-			//初始化swiper
-				new Swiper('.swiper-container', {
-					pagination: '.swiper-pagination',
-					loop: true,
-					autoplay: 2000,
-				});
-		})
-	},
-	mixins: [loadMore],
-    components: {
-    	headTop,
-    	topicList,
-    	footGuide,
-    },
-    computed: {
-      ...mapState([
-          'userInfo'
-      ]),
-    },
-    methods: {
-    	...mapMutations([
-    		'RECORD_ADDRESS', 'SAVE_GEOHASH'
-		]),
-		async initData(){
-			this.searchTopic = await searchTopic();
-			this.topicActive = this.searchTopic[0].id;
-			this.hasTopicData = true;
-			const remWidth = window.screen.width/320*21;
-			let wrapperW = this.searchTopic.length*remWidth*3.6
-			this.$refs.warpperMune.style.width=wrapperW+'px';
-			this.$nextTick(()=>{
-				if (!this.topicScroll) {
-					this.topicScroll=new BScroll(this.$refs.searchWrapper, {
-						startX:0,
-						click:true,
-						scrollX:true,
-						scrollY:false,
-						eventPassthrough:'vertical'
-					})
-				}else{
-					this.topicScroll.refresh();
+    export default {
+			data(){
+				return{
+					msiteTitle: '搜索彗星内容', // msite页面头部标题
+					topicBarFixed:false,
+					dataList: [],
+					currentPage: 1,
+					pageSize: 12,
+					like: '',
+					loginUser: '',
+					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
+					touchend: false, //没有更多数据
+					loadingMoreShow: false
 				}
-			});
-			//this.topicActiveData = await queryArticle(this.topicActive,this.currentPage,this.pageSize);
-		},
-		changeActice(id){
+			},
 
-			this.topicActive = id;
-			this.currentPage = 0;
-		},
-		handleScroll () {
-			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-			var offsetTop = document.querySelector('#topic_nav_wrapper').offsetTop - document.querySelector('#head_top').offsetHeight;
-			if (scrollTop > offsetTop) {
-				this.topicBarFixed = true
-			} else {
-				this.topicBarFixed = false
+			created(){
+
+			},
+
+			mounted(){
+				this.$nextTick(()=>{
+					this.initData();
+
+				});
+			},
+
+			components: {
+				headTop,
+				footGuide,
+				loadingMore
+			},
+			mixins: [loadMore],
+			computed: {
+
+			},
+
+			methods: {
+				initData(){
+					this.touchend = false; // 重置 没有更多数据 的标志
+					this.preventRepeatReuqest = false, //重置 到达底部加载数据，防止重复加载
+					this.loginUser = getStore('user_id');
+					this.currentPage = 1;
+					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
+						// this.dataList = res.data.datas;
+						// 去除HTML标签
+						for (var i = 0; i < res.data.datas.length; i++) {
+              //只显示文章
+							if(res.data.datas[i].type == 4){
+								res.data.datas[i].textContent = res.data.datas[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+                this.dataList.push(res.data.datas[i]);
+              }
+
+						}
+//						console.log(this.dataList)
+					}).catch(err => {
+						console.log('获取列表数据错误:' + err)
+					})
+				},
+				 // 计算评分星星
+			    countScore: function(rate){
+			      var start = 5 - rate;
+			      var end = 10 - rate;
+			      return '★★★★★☆☆☆☆☆'.slice(start,end);
+			    },
+				// 加载关注or全部
+				changeLike(e){
+					if (e) {
+						this.like = 1
+					}else{
+						this.like = ''
+					}
+				},
+
+				// 加载更多
+				loaderMore(){
+					if (this.preventRepeatReuqest || this.touchend) {
+						return
+					}
+					this.loadingMoreShow = true;
+					this.preventRepeatReuqest = true;
+					this.currentPage ++;
+					getBoradcastData(this.currentPage,this.pageSize,this.like,this.loginUser).then(res => {
+						var temp_list = res.data.datas;
+						// 去除HTML标签
+						for (var i = 0; i < temp_list.length; i++) {
+							temp_list[i].textContent = temp_list[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
+						}
+						this.dataList = [...this.dataList,...temp_list,];
+						if (temp_list.length < this.pageSize) {
+							this.touchend = true;
+						}
+					}).catch(err => {
+						console.log('获取列表数据错误:' + err)
+					}).finally( () => {
+						this.preventRepeatReuqest = false;
+						this.loadingMoreShow = false;
+
+					})
+				}
+			},
+
+			watch: {
+				like:function(value){
+					this.dataList = []
+					this.initData()
+				}
 			}
-		},
-	},
-    watch: {
-		//topicActive 改变时则出发栏目文章查找方法
-		topicActive:function(value){
-		}
+
     }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -239,109 +328,457 @@ export default {
 			@include wh(100%, 100%);
 		}
 	}
-	.food_types_container{
-		display:flex;
-		flex-wrap: wrap;
-		.link_to_food{
-			width: 100%;
-			padding-top: 0.4rem;
-			@include fj(center);
-			figure{
-				img{
-					@include wh(100%, 8rem);
-					@include borderRadius(0.3rem);
+	/*关注*/
+	.broadcast_wrapper{
+      text-align: center;
+	    background-color: white;
+	    padding: .1rem 0;
+		  .broadcast_wrapper_top{
+        padding-top: 0.4rem;
+		    font-size: .75rem;
+		    border-bottom: solid 1px gainsboro;
+			    .broadcast_wrapper_top_list{
+					display: inline-flex;
 				}
-				figcaption{
-					text-align: center;
-					@include sc(0.55rem, #666);
+				.broadcast_wrapper_top_list li{
+					margin-left: 0.5rem;
+					padding: 0.2rem 0.5rem;
+          text-align: center;
+				}
+				.attention_icon{
+					color: #007fcc;
+			    	border-bottom: solid 1px #007fcc;
+			    	.attention_item{
+			    		color: #007fcc;
+			    	}
 				}
 			}
-		}
+
+
 	}
 
-	.change_link_nav{
-    /*margin-top: 2rem;*/
+	.normal_user{
+		float: left;
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 1rem;
+	}
+
+	/*导航栏分离*/
+	.all_dynamic{
+		.broadcast_wrapper_bottom{
+		.broadcast_wrapper_bottom_list{
+				background-color: white;
+				font-size: .65rem;
+				padding: 0rem 0.6rem;
+					.bottom_list_user_info{
+						padding: 0.6rem 0rem;
+						.user_icon{
+							float: left;
+					    width: 1.5rem;
+					    height: 1.5rem;
+					    border-radius: 1rem;
+						}
+
+						.user_name_time{
+							width: 30%;
+					    	margin-left: 2rem;
+						    	.user_name{
+								}
+								.user_time{
+									color: #999;
+							    	font-size: 0.5rem;
+							    	margin-top: 0.1rem
+								}
+						}
+						.user_attention_btn{
+						    /*margin-right: 1.5rem;*/
+						    float: right;
+						    margin-top: -1.4rem;
+						    border: solid 1px #2196F3;
+						    color: #2196F3;
+						    padding: 0.1rem;
+						    border-radius: 0.1rem;
+						    font-size: 0.5rem;
+
+						}
+						.send_icon{
+							float: right;
+    						margin-top: -1.2rem;
+						}
+
+					}
+					.botton_list_user_content{
+							.user_content_info{
+								color: #999;
+						}
+					}
+					.bottom_list_user_comment{
+						/*margin-top: 0.4rem;*/
+						margin: 0.4rem 0rem;
+					    background-color: #f1f5f7;
+					    padding: 0.5rem;
+						border-radius: 0.1rem;
+						.comment_user_icon{
+							float: left;
+						    width: 1.5rem;
+						    height: 1.5rem;
+						    border-radius: 1rem;
+						}
+						.user_comment_info{
+							width: 80%;
+					    	margin-left: 2rem;
+					    	.comment_title{
+								color: #999;
+							}
+							.comment_score{
+								color: #2196F3;
+								.comment_score_num{
+									color: #999;
+									margin-left: 0.2rem;
+								}
+							}
+						}
+					}
+					.bottom_list_user_flow{
+						border-bottom: solid 1px gainsboro;
+						text-align: right;
+						.flow_comment_icon{
+							padding-left: 1.2rem;
+						}
+						.flow_heart_icon{
+							display: none;
+							/*padding-left: 2rem;*/
+						}
+					}
+
+			}
+	}
+	/*关注底部转发评论点赞*/
+	.flow_send_icon,.flow_comment_icon,.flow_heart_icon{
+		width: 32%;
+		display: inline-flex;
+		padding: 0.5rem 0rem;
+		color: #999;
+	}
+
+	.sort_type_icon{
+		width: 0.8rem;
+	    height: 0.8rem;
+	    vertical-align: top;
+	    margin-right: 0.2rem;
+	}
+
+
+
+	/*长评*/
+	.write_comment{
+		.write_comment_list{
+			background-color: white;
+			font-size: .65rem;
+			padding: 0rem 0.6rem;
+			.write_comment_list_info{
+				padding: 0.6rem 0rem;
+				.comment_list_user_icon{
+					float: left;
+				    width: 1.5rem;
+				    height: 1.5rem;
+				    border-radius: 1rem;
+				}
+				.comment_user_name_time{
+					width: 30%;
+			    	margin-left: 2rem;
+			    		.comment_user_name{
+							/*display: inline;*/
+						}
+						.comment_user_time{
+							color: #999;
+					    	font-size: 0.5rem;
+					    	margin-top: 0.1rem;
+						}
+				}
+				.comment_user_attention_btn{
+					float: right;
+				    margin-top: -1.4rem;
+				    border: solid 1px #2196F3;
+				    color: #2196F3;
+				    padding: 0.1rem;
+				    border-radius: 0.1rem;
+			    	font-size: 0.5rem;
+
+				}
+				.send_icon{
+					float: right;
+					margin-top: -1.2rem;
+				}
+
+			}
+			.comment_botton_list_user_content {
+				.comment_user_content_info{
+					/*padding: 0rem 0.6rem;*/
+				}
+
+			}
+			.comment_bottom_list_user_comment{
+				margin-top: 0.4rem;
+			    background-color: #f1f5f7;
+			    padding: 0.5rem;
+				border-radius: 0.1rem;
+
+			}
+
+		}
+	}
+	/*点评写评论项目图片*/
+	.comments_user_icon{
+		float: right;
+	    width: 1.5rem;
+	    height: 1.5rem;
+	    border-radius: 1rem;
+	    margin-top: 1.8rem;
+	}
+	.write_user_comment_info{
+		width: 80%;
+		.write_comment_title{
+			font-weight: 600;
+		}
+		.write_comment_score{
+			color: #999;
+			font-size: 0.61rem;
+			margin-top: 0.2rem;
+		}
+	}
+	/*点评底部转发评论点赞*/
+	.write_bottom_list_user_flow{
+		border-bottom: solid 1px gainsboro;
 		display: flex;
-        background-color: #fff;
-        padding: .3rem 0;
-        div{
-            flex: 1;
-            text-align: center;
-            span{
-				display: inline-block;
-                @include sc(.65rem, #646c88);
-                padding: .2rem .1rem;
-				border-bottom: 0.12rem solid #fff;
-				width: 100%;
-			}
-			.sort_type{
-				border-right:0.025rem  solid #ebebeb;
-			}
-            .activity_show{
-                color: #3190e8;
-                border-color: #3190e8;
-            }
-			.sort_type_icon{
-				width: 0.8rem;
-				height: 0.8rem;
-				vertical-align: top;
-				margin-right: 0.2rem;
-			}
-        }
+		padding: 0.5rem 0rem;
+
 	}
-	.isFixed{
-		position:fixed;
-		-webkit-transform: translateZ(0);
-		top:1.95rem;
-		z-index:999;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-		margin-top: 0 !important;
-		transform: translate3d(0, -2rem, 0);
+	/*.write_flow_send_icon,.write_flow_comment_icon,.write_flow_heart_icon{
+		display: flex;
+		padding: 0.5rem 0rem;
+		color: #999;
+	}*/
+	.write_flow_comment_icon{
+		text-align: center;
+		flex: 1;
+		color: #999;
 	}
-	.headFadeOut{
-		transform: translate3d(0, -2rem, 0);
+	.write_flow_heart_icon{
+		text-align: center;
+		flex: 1;
+		color: #999;
 	}
-	.search_nav_wrapper{
-		transition: all 1s;
-		padding: 0.4rem 0.4rem 0 0.4rem;
-		background-color: #fff;
-		margin-top: 0.4rem;
-		.search_topic_wrapper{
-			position: relative;
-			height: 100%;
-			overflow: hidden;
-			border-bottom:0.025rem solid $bc;
-			.type_list_container{
-				.article_type_wrap{
-					display: flex;
-						li{
-							font-size: .65rem;
-							margin-right: 1rem;
-							padding-bottom: .3rem;
-							text-align: left;
+	.write_sort_type_icon{
+		width: 0.8rem;
+	    height: 0.8rem;
+	    vertical-align: top;
+	    margin-right: 0.2rem;
+	}
+	/*写短评*/
+	.short_comment{
+		background-color: white;
+	    font-size: .65rem;
+	    padding: 0rem 0.6rem;
+	    .short_comment_list_info{
+	    	padding: 0.6rem 0rem;
+	    	.short_comment_list_user_icon{
+	    		float: left;
+			    width: 1.5rem;
+			    height: 1.5rem;
+			    border-radius: 1rem;
+	    	}
+	    	.short_comment_user_name{
+    			margin-left: 2rem;
+	    	}
+	    	.short_comment_time{
+	    		color: #999;
+    			font-size: 0.1rem;
+	    		width: 30%;
+    			margin-left: 2rem;
+	    	}
+
+	    }
+	}
+	.short_comment_content{
+
+	   }
+	.short_bottom_list_user_flow{
+    	border-bottom: solid 1px gainsboro;
+    }
+	.short_flow_send_icon,
+	.short_flow_comment_icon,
+	.short_flow_heart_icon{
+		width: 32%;
+		display: inline-flex;
+		padding: 0.5rem 0rem;
+		color: #999;
+	}
+	.short_flow_comment_icon{
+		padding-left: 1.2rem;
+	}
+	.short_flow_heart_icon{
+		padding-left: 2rem;
+	}
+	.short_sort_type_icon{
+		width: 0.8rem;
+	    height: 0.8rem;
+	    vertical-align: top;
+	    margin-right: 0.2rem;
+	}
+
+	/*点评写评论项目图片*/
+	.send_comments_user_icon{
+		float: right;
+	    width: 1.5rem;
+	    height: 1.5rem;
+	    border-radius: 1rem;
+	    position: relative;
+	    right: .6rem;
+	    top: 1rem;
+	    margin-left: 1rem;
+	}
+	.send_user_comment_info{
+		width: 100%;
+	    background-color: white;
+	    padding: 0.4rem 0.3rem;
+	    /*margin: 0.4rem 0rem;*/
+	    border-radius: 0.1rem;
+	}
+	/*点评底部转发评论点赞*/
+	.send_bottom_list_user_flow{
+		border-bottom: solid 1px gainsboro;
+
+	}
+	.send_flow_send_icon,.send_flow_comment_icon,.send_flow_heart_icon{
+		width: 32%;
+		display: inline-flex;
+		padding: 0.5rem 0rem;
+		color: #999;
+	}
+	.send_flow_comment_icon{
+		padding-left: 1.2rem;
+	}
+	.send_flow_heart_icon{
+		padding-left: 2rem;
+	}
+	.send_sort_type_icon{
+		width: 0.8rem;
+	    height: 0.8rem;
+	    vertical-align: top;
+	    margin-right: 0.2rem;
+	}
+
+	 /*发表文章*/
+	.publish_article{
+		.publish_article_list{
+			background-color: white;
+			font-size: .65rem;
+			padding: 0rem 0.6rem;
+			/*margin-bottom: 3rem;*/
+			.publish_article_list_info{
+				padding: 0.6rem 0rem;
+				.publish_article_user_icon{
+					float: left;
+				    width: 1.5rem;
+				    height: 1.5rem;
+				    border-radius: 1rem;
+				}
+				.publish_article_name_time{
+					width: 60%;
+			    	margin-left: 2rem;
+			    		.publish_article_name{
+							font-weight: 600;
+							color: #333;
 						}
-						.topic_active{
-							color: #1267a6;
-							border-bottom: 2px solid #1267a6;
+						.publish_article_time{
+							color: #999;
+					    	font-size: 0.5rem;
+					    	margin-top: 0.1rem;
 						}
 				}
+				.publish_article_attention_btn{
+					float: right;
+				    margin-top: -1.4rem;
+				    border: solid 1px #2196F3;
+				    color: #2196F3;
+				    padding: 0.1rem;
+				    border-radius: 0.1rem;
+			    	font-size: 0.5rem;
+
+				}
+				.send_icon{
+					float: right;
+					margin-top: -1.2rem;
+				}
+
 			}
+			.publish_article_botton_list_user_content {
+				.publish_article_content_info{
+					/*padding: 0rem 0.6rem;*/
+					color: #999;
+				}
+
+			}
+			.publish_article_bottom_list_user_comment{
+				margin-top: 0.4rem;
+			    background-color: #f1f5f7;
+			    padding: 0.5rem;
+				border-radius: 0.1rem;
+				.publish_article_info{
+					.publish_article_title{
+						font-weight: 600;
+    					line-height: 1rem;
+					}
+					.publish_article_score{
+						color: #999;
+    					line-height: 1rem;
+    					font-size: 0.61rem;
+    					margin-top: 0.2rem;
+					}
+				}
+			}
+
 		}
+	}
+	/*点评写评论项目图片*/
+	.publish_article_icon{
+		float: right;
+	    width: 1.5rem;
+	    height: 1.5rem;
+	    border-radius: 1rem;
+	}
+	.publish_article_comment_info{
+		width: 80%;
+	}
+	/*点评底部转发评论点赞*/
+	.publish_article_bottom_list_user_flow{
+		border-bottom: solid 1px gainsboro;
+		display: flex;
 
 	}
-	.fake_container{
-		display: block;
-		width: 100%;
-		height: 2rem;
+	.publish_article_flow_send_icon,
+	.publish_article_flow_comment_icon,
+	.publish_article_flow_heart_icon{
+		/*width: 32%;*/
+		flex:1 ;
+		text-align: center;
+		padding: 0.5rem 0rem;
+		color: #999;
 	}
-
-	.fade-enter-active, .fade-leave-active {
-		transition: all 1s;
-		transition: opacity .5s;
-    }
-    .fade-enter, .fade-leave-active {
-        transform: translate3d(0, -3rem, 0);
-  		opacity: 0;
-    }
+	.publish_article_flow_comment_icon{
+		padding-left: 1.2rem;
+	}
+	.publish_article_flow_heart_icon{
+		/*padding-left: 2rem;*/
+	}
+	.publish_article_sort_type_icon{
+		width: 0.8rem;
+	    height: 0.8rem;
+	    vertical-align: top;
+	    margin-right: 0.2rem;
+	}
+	}
 
 </style>

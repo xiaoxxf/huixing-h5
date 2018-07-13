@@ -1,18 +1,12 @@
 <template>
     <header id='head_top'>
-        <router-link :to="userInfo? '/mine':'/loginAndSignUp'" v-if='signinUp' class="head_login">
+        <!-- <router-link :to="userInfo? '/mine':'/loginAndSignUp'" v-if='signinUp' class="head_login">
             <svg class="user_avatar" v-if='userInfo'>
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
             </svg>
             <span class="user_status" v-else>登录</span>
-            <!-- <span class="login_span user_default" v-else>登录|注册</span> -->
 
-             <!-- <svg class="user_avatar" v-else>
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
-            </svg> -->
-        </router-link>
-        <slot name='logo'></slot>
-        <slot name='search'></slot>
+        </router-link> -->
         <section class="head_goback" v-if="goBack" @click="$router.go(-1)">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <polyline points="12,18 4,9 12,0" style="fill:none;stroke:rgb(0,0,0);stroke-width:2"/>
@@ -21,8 +15,9 @@
         <section class="title_head ellipsis" v-if="headTitle">
             <span class="title_text">{{headTitle}}</span>
         </section>
+        <slot name='logo'></slot>
+        <slot name='search'></slot>
         <slot name='menu'></slot>
-
         <slot name="edit"></slot>
         <slot name="msite-title"></slot>
         <slot name="changecity"></slot>
