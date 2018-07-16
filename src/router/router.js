@@ -44,6 +44,12 @@ const search = r => require.ensure([], () => r(require('../page/search/search'))
 //读书活动
 
 const readingCampaign = r => require.ensure([], () => r(require('../page/readingCampaign/readingCampaign')), 'readingCampaign')
+//我的(h5+app)
+const mine_homepage = r => require.ensure([], () => r(require('../page/mine_homepage/mine_homepage')), 'mine_homepage')
+//我的主页(h5+app)
+const mine_app = r => require.ensure([], () => r(require('../page/mine_homepage/mine_app')), 'mine_app')
+//设置
+const setting = r =>require.ensure([],() => r(require('../page/setting/setting')),'setting')
 
 export default [{
     path: '/',
@@ -157,6 +163,21 @@ export default [{
         {
             path: '/forget',
             component: forget
+        },
+        //我的主页(app+h5)
+        {
+        	path:'/mine_homepage',
+        	component:mine_homepage
+        },
+        //我的(app+h5)
+         {
+        	path:'/mine_app',
+        	component:mine_app
+        },
+        //设置
+        {
+        	path:'/setting',
+        	component:setting
         },
 
 
