@@ -12,153 +12,156 @@
 		</section>
 
 		<!--所有动态-->
-		<section class="all_dynamic"  v-for="(item, index) in dataList" :key="index" >
-	    <!-- 短评 -->
+    <section style="margin-top: 2rem">
+      <section class="all_dynamic"  v-for="(item, index) in dataList" :key="index">
+  	    <!-- 短评 -->
 
-			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
-				<div class="broadcast_wrapper_bottom_list">
-					<div class="bottom_list_user_info">
-						<img :src="item.userPic" class="user_icon"  v-if='item.userPic'/>
-						<svg class="normal_user" v-else>
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
-						</svg>
-						<div class="user_name_time">
-							<p class="user_name">{{item.realName}}</p>
-							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
-						</div>
-						<!-- <span class="user_attention_btn">关注</span> -->
-						<!--<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>-->
+  			<section class="broadcast_wrapper_bottom" v-if='item.type == 1'>
+  				<div class="broadcast_wrapper_bottom_list">
+  					<div class="bottom_list_user_info">
+  						<img :src="item.userPic" class="user_icon"  v-if='item.userPic'/>
+  						<svg class="normal_user" v-else>
+  							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+  						</svg>
+  						<div class="user_name_time">
+  							<p class="user_name">{{item.realName}}</p>
+  							<p class="user_time">{{item.createTime.split(" ")[0]}}</p>
+  						</div>
+  						<!-- <span class="user_attention_btn">关注</span> -->
+  						<!--<span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span>-->
 
-					</div>
-					<div class="botton_list_user_content">
-						<p class="user_content_info">
-							{{item.textTitle}}
-						</p>
-					</div>
-					<div class="bottom_list_user_comment">
-		        	<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
-								<img :src="item.projectLogo" class="comment_user_icon"/>
-		        	</router-link>
-						<div class="user_comment_info">
-							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
-								<p class="comment_title">{{item.projectBigName}}</p>
-							</router-link>
-							<p class="comment_score">{{countScore(item.score)}} <span class="comment_score_num">{{item.score}}</span></p>
-						</div>
-					</div>
-					<div class="bottom_list_user_flow">
-						<div class="flow_heart_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
-							{{item.likes}}
-						</div>
-					</div>
-				</div>
-			</section>
+  					</div>
+  					<div class="botton_list_user_content">
+  						<p class="user_content_info">
+  							{{item.textTitle}}
+  						</p>
+  					</div>
+  					<div class="bottom_list_user_comment">
+  		        	<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+  								<img :src="item.projectLogo" class="comment_user_icon"/>
+  		        	</router-link>
+  						<div class="user_comment_info">
+  							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+  								<p class="comment_title">{{item.projectBigName}}</p>
+  							</router-link>
+  							<p class="comment_score">{{countScore(item.score)}} <span class="comment_score_num">{{item.score}}</span></p>
+  						</div>
+  					</div>
+  					<div class="bottom_list_user_flow">
+  						<div class="flow_heart_icon">
+  							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
+  							{{item.likes}}
+  						</div>
+  					</div>
+  				</div>
+  			</section>
 
-			<!--长评-->
-			<section class="write_comment" v-if='item.type == 2'>
-				<div class="write_comment_list">
-					<div class="write_comment_list_info">
-						<img :src="item.userPic" class="comment_list_user_icon"  v-if='item.userPic'/>
-						<svg class="normal_user" v-else>
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
-						</svg>
-						<div class="comment_user_name_time">
-							<p class="comment_user_name">{{item.realName}}</p>
-							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
-						</div>
-						<!-- <span class="comment_user_attention_btn">关注</span> -->
-						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
-					</div>
-					<div class="comment_botton_list_user_content">
-						<p class="comment_user_content_info">写了
-							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
-								{{item.projectBigName}}
-							</router-link>
-							的点评
-						</p>
-					</div>
-					<div class="comment_bottom_list_user_comment">
-						<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
-							<img :src="item.projectLogo" class="comments_user_icon"/>
-						</router-link>
-						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
-							<div class="write_user_comment_info">
-								<p class="write_comment_title">{{item.textTitle}}</p>
-								<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
-							</div>
-						</router-link>
-					</div>
-					<div class="write_bottom_list_user_flow">
-						<!-- <div class="write_flow_send_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div> -->
-						<div class="write_flow_comment_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>
-							{{item.review}}
-						</div>
-						<div class="write_flow_heart_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
-							{{item.likes}}
-						</div>
-					</div>
-				</div>
-			</section>
+  			<!--长评-->
+  			<section class="write_comment" v-if='item.type == 2'>
+  				<div class="write_comment_list">
+  					<div class="write_comment_list_info">
+  						<img :src="item.userPic" class="comment_list_user_icon"  v-if='item.userPic'/>
+  						<svg class="normal_user" v-else>
+  							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+  						</svg>
+  						<div class="comment_user_name_time">
+  							<p class="comment_user_name">{{item.realName}}</p>
+  							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
+  						</div>
+  						<!-- <span class="comment_user_attention_btn">关注</span> -->
+  						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
+  					</div>
+  					<div class="comment_botton_list_user_content">
+  						<p class="comment_user_content_info">写了
+  							<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+  								{{item.projectBigName}}
+  							</router-link>
+  							的点评
+  						</p>
+  					</div>
+  					<div class="comment_bottom_list_user_comment">
+  						<router-link :to="{ name: 'chainDetail', params: {projectId: item.projectId} }">
+  							<img :src="item.projectLogo" class="comments_user_icon"/>
+  						</router-link>
+  						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+  							<div class="write_user_comment_info">
+  								<p class="write_comment_title">{{item.textTitle}}</p>
+  								<p class="write_comment_score">{{item.textContent.substr(0,70)}}...</p>
+  							</div>
+  						</router-link>
+  					</div>
+  					<div class="write_bottom_list_user_flow">
+  						<!-- <div class="write_flow_send_icon">
+  							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
+  						</div> -->
+  						<div class="write_flow_comment_icon">
+  							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>
+  							{{item.review}}
+  						</div>
+  						<div class="write_flow_heart_icon">
+  							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart"></use></svg></span>
+  							{{item.likes}}
+  						</div>
+  					</div>
+  				</div>
+  			</section>
 
-			<!--发表文章-->
-			<section class="publish_article" v-if='item.type == 4'>
-				<div class="publish_article_list">
-					<div class="publish_article_list_info">
-						<img :src="item.userPic" class="publish_article_user_icon" v-if='item.userPic'/>
-						<svg class="normal_user" v-else>
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
-						</svg>
-						<div class="publish_article_name_time">
-							<p class="publish_article_name">{{item.realName}}</p>
-							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
-						</div>
-						<!-- <span class="publish_article_attention_btn">关注</span> -->
-						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
-					</div>
-					<div class="publish_article_botton_list_user_content">
-						<p class="publish_article_content_info">发表了文章
-						</p>
-					</div>
-					<div class="publish_article_bottom_list_user_comment">
-						<!-- <img src="../../images/fenxiang.png" class="publish_article_icon"/> -->
-						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
-							<div class="publish_article_info">
-								<p class="publish_article_title">{{item.textTitle}}</p>
-								<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
-							</div>
-						</router-link>
-					</div>
-					<div class="publish_article_bottom_list_user_flow">
-						<div class="publish_article_flow_send_icon">
-							<span>
-								<svg data-v-17048857="" class="sort_type_icon">
-									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use>
-								</svg>
-							</span>
-							{{item.review}}
-						</div>
-						<!-- <div class="publish_article_flow_comment_icon">
-							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
-						</div> -->
-						<div class="publish_article_flow_heart_icon">
-							<span>
-								<svg data-v-17048857="" class="sort_type_icon">
-									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart">
-									</use>
-								</svg>
-							</span>
-							{{item.likes}}
-						</div>
-					</div>
-				</div>
-			</section>
+  			<!--发表文章-->
+  			<section class="publish_article" v-if='item.type == 4'>
+  				<div class="publish_article_list">
+  					<div class="publish_article_list_info">
+  						<img :src="item.userPic" class="publish_article_user_icon" v-if='item.userPic'/>
+  						<svg class="normal_user" v-else>
+  							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+  						</svg>
+  						<div class="publish_article_name_time">
+  							<p class="publish_article_name">{{item.realName}}</p>
+  							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
+  						</div>
+  						<!-- <span class="publish_article_attention_btn">关注</span> -->
+  						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
+  					</div>
+  					<div class="publish_article_botton_list_user_content">
+  						<p class="publish_article_content_info">发表了文章
+  						</p>
+  					</div>
+  					<div class="publish_article_bottom_list_user_comment">
+  						<!-- <img src="../../images/fenxiang.png" class="publish_article_icon"/> -->
+  						<router-link :to="{ name: 'comment', params: {commentId: item.reviewId} }">
+  							<div class="publish_article_info">
+  								<p class="publish_article_title">{{item.textTitle}}</p>
+  								<p class="publish_article_score">{{item.textContent.substr(0,70)}}...</p>
+  							</div>
+  						</router-link>
+  					</div>
+  					<div class="publish_article_bottom_list_user_flow">
+  						<div class="publish_article_flow_send_icon">
+  							<span>
+  								<svg data-v-17048857="" class="sort_type_icon">
+  									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use>
+  								</svg>
+  							</span>
+  							{{item.review}}
+  						</div>
+  						<!-- <div class="publish_article_flow_comment_icon">
+  							<span><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#comment"></use></svg></span>123
+  						</div> -->
+  						<div class="publish_article_flow_heart_icon">
+  							<span>
+  								<svg data-v-17048857="" class="sort_type_icon">
+  									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart">
+  									</use>
+  								</svg>
+  							</span>
+  							{{item.likes}}
+  						</div>
+  					</div>
+  				</div>
+  			</section>
 
-		</section>
+  		</section>
+    </section>
+
 		<loading-more :loadingMoreShow='loadingMoreShow'></loading-more>
     <foot-guide></foot-guide>
 	</div>
@@ -175,8 +178,6 @@
     export default {
 			data(){
 				return{
-					msiteTitle: '搜索彗星内容', // msite页面头部标题
-					topicBarFixed:false,
 					dataList: [],
 					currentPage: 1,
 					pageSize: 12,
@@ -184,7 +185,7 @@
 					loginUser: '',
 					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
 					touchend: false, //没有更多数据
-					loadingMoreShow: false
+					loadingMoreShow: false,
 				}
 			},
 
@@ -330,9 +331,13 @@
 	}
 	/*关注*/
 	.broadcast_wrapper{
+      // margin-bottom: 1.2rem;
       text-align: center;
 	    background-color: white;
 	    padding: .1rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
 		  .broadcast_wrapper_top{
         padding-top: 0.4rem;
 		    font-size: .75rem;
@@ -366,6 +371,7 @@
 
 	/*导航栏分离*/
 	.all_dynamic{
+    margin-top: 0.4rem;
 		.broadcast_wrapper_bottom{
 		.broadcast_wrapper_bottom_list{
 				background-color: white;
@@ -762,19 +768,19 @@
 	.publish_article_flow_comment_icon,
 	.publish_article_flow_heart_icon{
 		/*width: 32%;*/
-		flex:1 ;
-		text-align: center;
-		padding: 0.5rem 0rem;
+		// flex:1 ;
+		// text-align: center;
+		padding: 0.5rem 0.5rem;
 		color: #999;
 	}
 	.publish_article_flow_comment_icon{
-		padding-left: 1.2rem;
+		// padding-left: 1.2rem;
 	}
 	.publish_article_flow_heart_icon{
 		/*padding-left: 2rem;*/
 	}
 	.publish_article_sort_type_icon{
-		width: 0.8rem;
+		  width: 0.8rem;
 	    height: 0.8rem;
 	    vertical-align: top;
 	    margin-right: 0.2rem;
