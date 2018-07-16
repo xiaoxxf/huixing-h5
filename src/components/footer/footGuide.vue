@@ -117,19 +117,19 @@
         	 <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('home') !== -1? '#homeActive' : '#home'"></use></svg>
             <span>首页</span>
         </section>
-         <section @click = "gotoAddress({path: '/boradcast'})" class="guide_item">
+         <!-- <section @click = "gotoAddress({path: '/boradcast'})" class="guide_item">
         	 <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('boradcast') !== -1? '#boradcastActive' : '#boradcast'"></use></svg>
             <span>关注</span>
-        </section>
+        </section> -->
          <section @click = "gotoAddress({path: '/article'})" class="guide_item">
         	 <!--<svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('article') !== -1? '#articleActive' : '#article'"></use></svg>-->
             	<img src="../../../static/navAdd.png" class="navbottom_add" />
             <!--<span>发帖</span>-->
         </section>
-        <section @click = "gotoAddress({path: '/news/newsIndex'})" class="guide_item">
+        <!-- <section @click = "gotoAddress({path: '/news/newsIndex'})" class="guide_item">
           <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('/news/newsIndex') !== -1? '#articleActive' : '#article'"></use></svg>
            <span>播报</span>
-       </section>
+       </section> -->
         <section @click = "userInfo ? gotoAddress('/mine') : gotoAddress('/loginAndSignUp')" class="guide_item">
         	<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('mine') !== -1? '#mineActive' : '#mine'"></use>

@@ -3,33 +3,19 @@
     <head-top goBack='true' :headTitle='title'>
 			<!--<router-link to='/search/geohash' class="link_search" slot="search">-->
 			<section class="link_search" slot="search">
-				<svg class="head_search_icon" @click="show()">
+				<!-- <svg class="head_search_icon" @click="show()">
 					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#send_article'"></use>
-				</svg>
+				</svg> -->
 
-				<router-link :to="{ name: 'sendTopicArticle', params: {commentId: commentInfo.reviewId, topicIdList: topiclist} }"
+				<!-- <router-link :to="{ name: 'sendTopicArticle', params: {commentId: commentInfo.reviewId, topicIdList: topiclist} }"
 											slot="search" class="msite_title">
-				<!--<router-link :to="'/sendTopicArticle/sendTopicArticle'" >-->
 					<section class="send_page" v-show="detailShow">
 						<span>投稿</span>
 					</section>
-				</router-link>
+				</router-link> -->
 
 			</section>
    </head-top>
-
-		<section @click="hideSend()">
-			<!-- 文章作者信息 -->
-    <section class="creator_info" >
-      <img :src="this.commentInfo.userPic" alt="" v-if='this.commentInfo.userPic'>
-      <svg class="normal_user" v-else>
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
-      </svg>
-      <div class="">
-        <p class="creator_name">{{commentInfo.realName}}</p>
-        <p class="create_time">{{commentInfo.createTime}}</p>
-      </div>
-    </section>
 
     <!-- 文章标题 -->
     <section class="comment_title" >
@@ -40,6 +26,25 @@
     <section class="comment_content"  v-html='this.commentInfo.textContent' >
       <!-- {{this.commentInfo.textContent}} -->
     </section>
+
+
+    <!-- 文章作者信息 -->
+    <section class="creator_info" >
+        <p class="slogan">关注作者，看TA更多动态</p>
+        <div class="user_info">
+          <div class="user_icon">
+            <img :src="this.commentInfo.userPic" alt="" v-if='this.commentInfo.userPic'>
+            <svg class="normal_user" v-else>
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#normal_user'"></use>
+            </svg>
+          </div>
+          <div class="userinfo_msg">
+            <p class="creator_name">{{commentInfo.realName}}</p>
+            <!-- <p class="create_time">{{commentInfo.createTime}}</p> -->
+          </div>
+        </div>
+    </section>
+
 
     <!-- 评论列表 -->
     <section >
@@ -53,7 +58,7 @@
     <span class="fake_container"></span>
   	<!-- <foot-guide></foot-guide> -->
 
-		</section>
+
 
   </div>
 </template>
@@ -110,9 +115,6 @@ export default {
         this.title = this.commentInfo.textTitle
         this.commentInfo.createTime = this.commentInfo.createTime.split(' ')[0];
         // 文章已投稿过的专题
-
-
-
         for(var i = 0; i < this.commentInfo.topiclist.length; i++){
         	this.topiclist += (this.commentInfo.topiclist[i].id + ',')
         }
@@ -125,19 +127,7 @@ export default {
       })
 
     },
-    //右上角投稿点击显示影藏
-    show() {
-    	if(this.commentInfo.creator == this.creator){
-      this.detailShow = !this.detailShow;         //show方法
-      }
 
-    },
-
-    hideSend(){
-    	if(this.detailShow){
-    		this.detailShow = !this.detailShow;         //show方法
-    	}
-    }
   },
   watch: {
 
@@ -187,20 +177,28 @@ export default {
 
   // 作者信息
   .creator_info{
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: row;
     padding: 0.8rem;
-    img{
-      border-radius: 4rem;
-      @include wh(2.4rem,2.4rem);
+    .slogan{
+      font-size: 0.7rem;
+      padding: 0.3rem;
+      color: #6d6d6d;
+      text-align: center;
+      background: #eeeeee;
     }
-    svg{
-      border-radius: 4rem;
-      @include wh(2.4rem,2.4rem);
-    }
-    div{
-      margin-left: 0.8rem;
+    .user_info{
+      border: 1px solid #6d6d6d;
+      display: flex;
+      flex-direction: row;
+      .user_icon{
+        img{
+          border-radius: 4rem;
+          @include wh(2.4rem,2.4rem);
+        }
+        svg{
+          border-radius: 4rem;
+          @include wh(2.4rem,2.4rem);
+        }
+      }
       .creator_name{
         color: #373737;
         font-size: 1.0rem;
@@ -216,8 +214,9 @@ export default {
 
   // 文章标题
   .comment_title{
-    padding: 0 0.8rem 0.8rem 0.8rem;
+    padding: 1.0rem 0.8rem 0.8rem 0.8rem;
     font-weight: bold;
+    margin-top: 2.0rem;
   }
 
   // 文章内容

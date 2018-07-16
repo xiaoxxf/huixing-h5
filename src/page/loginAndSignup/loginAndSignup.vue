@@ -9,7 +9,7 @@
   					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#search'"></use>
   				</svg>-->
 			     <span class="go_register_btn" @click='changeWay()'>{{this.goTo}}</span>
-	  	   </div>
+	  	  </div>
 
         </head-top>
 
