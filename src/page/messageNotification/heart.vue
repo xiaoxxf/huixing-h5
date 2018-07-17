@@ -11,7 +11,11 @@
     			<p class="user_name">{{item.realName}}关注了你</p>
     			<!--<p class="user_time">{{item.personIntro}}</p>-->
     		</div>
-    		<span class="user_attwntion">关注</span>
+    		<span class="user_attwntion" @click="followPeople(item.id)" :data-id='item.id'>关注</span>
+    		<!--<span class="user_attwntion" @click="followPeople(item.id)" :data-id='item.id'>取消关注</span>-->
+    		
+    		<!--获取id-->
+    		<span class="getId" >{{item.id}}</span>
     	</section>
 	</div>
 
@@ -21,7 +25,7 @@
 <script>
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
-import {messageAttention} from 'src/service/getData'
+import {messageAttention,messageAttentionPeople,messageCheckoutAttentionPeople} from 'src/service/getData'
 import {getStore, setStore, removeStore} from 'src/config/mUtils'
 import {mapState, mapActions} from 'vuex'
 	export default {
@@ -30,8 +34,8 @@ import {mapState, mapActions} from 'vuex'
         	heartTitle: '新关注',
         	currentPage:1,
         	pageSize:12,
+        	attentionId:'', //用户id
         	userId:'',
-        	userPwd:'',
         	heartList:[]
         }
     },
@@ -57,12 +61,36 @@ import {mapState, mapActions} from 'vuex'
 			this.userId = getStore('user_id');
 			this.passWord = JSON.parse(getStore('user_info')).userPwd;
 	    	messageAttention(this.currentPage,this.pageSize,this.userId,this.passWord,1).then(res => {
-	    		debugger
 		        this.heartList = res.data.datas;
 		    }).catch(res => {
 		        console.log('获取列表数据错误:' + err);
 	      	})
 	    },
+	    //检查是否关注过
+//	    followPeopleOrNot(){
+//	    	this.creator = getStore('user_id');//登录用户
+//			this.password = JSON.parse(getStore('user_info')).userPwd;
+//		   this.attentionId=e;//(查看用户);
+//		   messageCheckoutAttentionPeople(this.attentionId,this.creator,this.password,1).then(res => {
+//	    		debugger
+//		        this.followOrNotList = res.data.msg;
+//		    }).catch(res => {
+//		        console.log('获取列表数据错误:' + err);
+//	      	})
+//	    }
+	    
+		//关注
+		followPeople(e){
+			this.creator = getStore('user_id');//登录用户
+			this.password = JSON.parse(getStore('user_info')).userPwd;
+		   this.attentionId=e;//(查看用户);
+		   messageAttentionPeople(this.attentionId,this.creator,this.password,1).then(res => {
+	    		debugger
+		        this.followList = res.data.msg;
+		    }).catch(res => {
+		        console.log('获取列表数据错误:' + err);
+	      	})
+		}
 	    
     },
  
@@ -77,6 +105,9 @@ import {mapState, mapActions} from 'vuex'
 
 <style lang="scss">
 	@import 'src/style/mixin';
+	.getId{
+		display: none;
+	}
 	.heart_top{
 		margin-top: 2rem;
 
@@ -117,3 +148,8 @@ import {mapState, mapActions} from 'vuex'
 		}
 	}
 </style>
+
+<!--If follow == 1
+ 	{{aa}}
+else follow == 0
+	{{bb}}-->

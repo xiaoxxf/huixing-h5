@@ -4,8 +4,8 @@
 	    <section class="like-top"></section>
 	    <section class="like_content" v-for="(item, index) in likeList">
 	    	<div class="like_left">
-		    	<svg class="normal_user" >
-					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#send_article'"></use>
+		    	<svg class="normal_user">
+					<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#message_like'"></use>
 				</svg>
 	    	</div>
 	    	<div class="like_right">
@@ -13,7 +13,7 @@
 	    		<p><span class="user_time">{{item.createTime}}</span></p>
 	    	</div>
 	    </section>
-	    <
+	    
     </div>
 </template>
 
@@ -100,9 +100,13 @@ import {mapState, mapActions} from 'vuex'
 			.article{
 				margin-left: 0.3rem;
 				color:#007fcc;
+				line-height: 1rem;
 			}
 			.user_time{
 				margin-right: 0.3rem;
+			    font-size: 0.5rem;
+			    margin-top: 0.3rem;
+			    display: block;
 			}
 		}
 	}

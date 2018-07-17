@@ -8,7 +8,7 @@
 	    			<p class="user_name">{{item.realName}}</p>
 	    			<p class="user_time">{{item.createTime}}</p>
 	    			<div class="comment_article_title">
-			    		评论了你的文章{{item.title}}
+			    		评论了你的文章 <span class="article">{{'《'+ item.title +'》'}}</span>
 			    	</div>
 			    	<div class="comment_content">
 			    		{{item.content}}
@@ -16,8 +16,6 @@
 	    		</div>
 	    		<span class="comment">回复</span>
 	    	</div>
-	    	
-	    	
 	    </section>
     </div>
 </template>
@@ -28,6 +26,7 @@ import footGuide from 'src/components/footer/footGuide'
 import {messageComment} from 'src/service/getData'
 import {getStore, setStore, removeStore} from 'src/config/mUtils'
 import {mapState, mapActions} from 'vuex'
+import dialogBar from './dialog.vue'
 	export default {
 	  data(){
         return {
@@ -48,6 +47,8 @@ import {mapState, mapActions} from 'vuex'
   	components: {
   	    headTop,
   	    footGuide,
+    	'dialog-bar': dialogBar,
+  	    
   	},
 
     computed: {
@@ -112,6 +113,10 @@ import {mapState, mapActions} from 'vuex'
 		}
 		.comment_article_title{
 			padding: 0.5rem 0rem;
+			.article{
+				margin-left: .5rem;
+				color: #007fcc;
+			}
 		}
 		.comment_content{
 			background-color: #f4f4f4;

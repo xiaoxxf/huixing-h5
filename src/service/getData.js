@@ -353,4 +353,27 @@ export const messageAttention = (currentPage,pageSize,creator,password,type) => 
 		'type':type
 	}
 })
+// 关注/取消关注
+export const messageCheckoutAttentionPeople = (attentionId,creator,password,type) => axios.get('attention/checkAttent',{
+	params:{
+		'attentionId':attentionId,
+		'creator': creator,
+		'password':password,
+		'type':type,
+	}
+})
+//关注人
+export const messageAttentionPeople = (attentionId,creator,password,type) => axios.get('attention/attent',{
+	params:{
+		'attentionId':attentionId,
+		'creator': creator,
+		'password':password,
+		'type':type,
+	}
+})
+
+//var uri = 'attention/attent?attentionId=' + userid_search + '&creator=' + userId + '&password='
+//	 					+ userinfo.userPwd + '&type=1';
+	 					
+	 					
 /**   --------------------------------------    分割线  -------------------------------------              **/
