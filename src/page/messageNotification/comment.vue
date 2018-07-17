@@ -23,7 +23,7 @@
 </template>
 
 <script>
-	import headTop from 'src/components/header/head'
+import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/footGuide'
 import {messageComment} from 'src/service/getData'
 import {getStore, setStore, removeStore} from 'src/config/mUtils'
@@ -59,6 +59,7 @@ import {mapState, mapActions} from 'vuex'
 			this.creator = getStore('user_id');
 			this.passWord = JSON.parse(getStore('user_info')).userPwd;
 	    	messageComment(this.creator,this.passWord,this.currentPage,this.pageSize,2).then(res => {
+	    		debugger
 		        this.commentList = res.data.datas;
 		    }).catch(res => {
 		        console.log('获取列表数据错误:' + err);

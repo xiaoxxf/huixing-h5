@@ -53,7 +53,8 @@ const like = r => require.ensure([], () => r(require('../page/messageNotificatio
 const heart = r => require.ensure([], () => r(require('../page/messageNotification/heart')), 'heart')
 //评论
 const messageComment = r => require.ensure([], () => r(require('../page/messageNotification/comment')), 'comment')
-
+//弹窗
+const dialog = r => require.ensure([], () => r(require('../page/messageNotification/dialog')), 'dialog')
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -186,7 +187,10 @@ export default [{
         	path: '/messageNotification/comment',
             component: messageComment
         },
-
+		{
+        	path: '/messageNotification/dialog',
+            component: dialog
+        },
 
     ]
 }]

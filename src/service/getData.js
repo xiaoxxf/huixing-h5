@@ -322,39 +322,35 @@ export const sendArticleOrNot = (creator,password,topicId,reviewId) => axios.get
 	}
 })
 
-//首页-消息-点赞
+//消息-获赞
 export const messageLike = (creator,passWord,currentPage,pageSize,type) => axios.get('news/getMessage',{
 	params:{
 		'userId': creator,
 		'userPwd': passWord,
-		'currentPage': currentPage,
-		'pageSize':pageSize,
+		'currentPage':currentPage,
+		'pageSize': pageSize,
 		'type':type
 	}
 })
-
-//首页-消息-评论
+//消息-评论
 export const messageComment = (creator,passWord,currentPage,pageSize,type) => axios.get('news/getMessage',{
 	params:{
 		'userId': creator,
 		'userPwd': passWord,
-		'currentPage': currentPage,
-		'pageSize':pageSize,
+		'currentPage':currentPage,
+		'pageSize': pageSize,
 		'type':type
 	}
 })
-//首页-消息-新关注
 
-export const messageAttention = (currentPage,pageSize,userId,passWord,type) => axios.get('attention/quaryAttentionData',{
+//消息-新关注
+export const messageAttention = (currentPage,pageSize,creator,password,type) => axios.get('attention/quaryAttentionData',{
 	params:{
-		
-		'currentPage': currentPage,
-		'pageSize':pageSize,
-		'creator':userId,
-		'password':passWord,
+		'currentPage':currentPage,
+		'pageSize': pageSize,
+		'creator':creator,
+		'password':password,
 		'type':type
 	}
 })
-
-
 /**   --------------------------------------    分割线  -------------------------------------              **/
