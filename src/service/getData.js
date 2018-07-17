@@ -322,4 +322,58 @@ export const sendArticleOrNot = (creator,password,topicId,reviewId) => axios.get
 	}
 })
 
+//消息-获赞
+export const messageLike = (creator,passWord,currentPage,pageSize,type) => axios.get('news/getMessage',{
+	params:{
+		'userId': creator,
+		'userPwd': passWord,
+		'currentPage':currentPage,
+		'pageSize': pageSize,
+		'type':type
+	}
+})
+//消息-评论
+export const messageComment = (creator,passWord,currentPage,pageSize,type) => axios.get('news/getMessage',{
+	params:{
+		'userId': creator,
+		'userPwd': passWord,
+		'currentPage':currentPage,
+		'pageSize': pageSize,
+		'type':type
+	}
+})
+
+//消息-新关注
+export const messageAttention = (currentPage,pageSize,creator,password,type) => axios.get('attention/quaryAttentionData',{
+	params:{
+		'currentPage':currentPage,
+		'pageSize': pageSize,
+		'creator':creator,
+		'password':password,
+		'type':type
+	}
+})
+// 关注/取消关注
+export const messageCheckoutAttentionPeople = (attentionId,creator,password,type) => axios.get('attention/checkAttent',{
+	params:{
+		'attentionId':attentionId,
+		'creator': creator,
+		'password':password,
+		'type':type,
+	}
+})
+//关注人
+export const messageAttentionPeople = (attentionId,creator,password,type) => axios.get('attention/attent',{
+	params:{
+		'attentionId':attentionId,
+		'creator': creator,
+		'password':password,
+		'type':type,
+	}
+})
+
+//var uri = 'attention/attent?attentionId=' + userid_search + '&creator=' + userId + '&password='
+//	 					+ userinfo.userPwd + '&type=1';
+	 					
+	 					
 /**   --------------------------------------    分割线  -------------------------------------              **/

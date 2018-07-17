@@ -51,6 +51,16 @@ const mine_app = r => require.ensure([], () => r(require('../page/mine_homepage/
 //设置
 const setting = r =>require.ensure([],() => r(require('../page/setting/setting')),'setting')
 
+//消息
+const messageNotification = r => require.ensure([], () => r(require('../page/messageNotification/messageNotification')), 'messageNotification')
+//获赞
+const like = r => require.ensure([], () => r(require('../page/messageNotification/like')), 'like')
+//新关注
+const heart = r => require.ensure([], () => r(require('../page/messageNotification/heart')), 'heart')
+//评论
+const messageComment = r => require.ensure([], () => r(require('../page/messageNotification/comment')), 'comment')
+//弹窗
+const dialog = r => require.ensure([], () => r(require('../page/messageNotification/dialog')), 'dialog')
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -164,7 +174,8 @@ export default [{
             path: '/forget',
             component: forget
         },
-        //我的主页(app+h5)
+
+      //我的主页(app+h5)
         {
         	path:'/mine_homepage',
         	component:mine_homepage
@@ -180,6 +191,29 @@ export default [{
         	component:setting
         },
 
+        //消息
+        {
+            path: '/messageNotification',
+            component: messageNotification
+        },
+        //获赞
+        {
+            path: '/messageNotification/like',
+            component: like
+        },
+        
+        {
+        	path: '/messageNotification/heart',
+            component: heart
+        },
+		{
+        	path: '/messageNotification/comment',
+            component: messageComment
+        },
+		{
+        	path: '/messageNotification/dialog',
+            component: dialog
+        },
 
     ]
 }]
