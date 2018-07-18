@@ -130,7 +130,7 @@
           <svg class="icon_style icon-newspaper"><use xmlns:xlink="http://www.w3.org/1999/xlink"  :xlink:href="$route.path.indexOf('/news/newsIndex') !== -1? '#articleActive' : '#article'"></use></svg>
            <span>播报</span>
        </section> -->
-        <section @click = "userInfo ? gotoAddress('/mine') : gotoAddress('/loginAndSignUp')" class="guide_item">
+        <section @click = "userInfo ? gotoAddress('/mine_app') : gotoAddress('/loginAndSignUp')" class="guide_item">
         	<svg class="icon_style">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="$route.path.indexOf('mine') !== -1? '#mineActive' : '#mine'"></use>
             </svg>

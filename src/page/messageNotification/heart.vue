@@ -4,8 +4,9 @@
     	<section class="heart_top"></section>
     	<section class="heart_content" v-for="(item, index) in heartList">
     		<span class="user_icon">
-    			<img :src='item.userPic'  @error="imgError(item)"/>
-    			<!--<v-else="img src='../../images/default.png'" />-->
+    			<!--<img :src='item.userPic' v-if='item.userPic' />-->
+    			<img v-if='item.userPic' :src='item.userPic' />
+				<img v-else src="../../images/default.png" />
     		</span>
     		<div class="user_info">
     			<p class="user_name">{{item.realName}}关注了你</p>
@@ -52,9 +53,9 @@ import {mapState, mapActions} from 'vuex'
     computed: {
 
     },
-    imgError(item){
-    	item.img = require("../../images/default.png");
-    },
+//  imgError(item){
+//  	item.img = require("../../images/default.png");
+//  },
     methods: {
     	//加载我的文章
 	  	initData(){

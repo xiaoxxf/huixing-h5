@@ -1,12 +1,17 @@
 <template>
 	<div v-load-more="loaderMore">
-
+    	
     <!--切换项-->
 		<section class="broadcast_wrapper">
 			<div class="broadcast_wrapper_top">
 				<ul class="broadcast_wrapper_top_list">
 					<li :class="{attention_icon: like == ''}" @click='changeLike(0)'>关注</li>
 					<li :class="{attention_icon: like == 1}" @click='changeLike(1)'>推荐</li>
+					<router-link :to="'/messageNotification'">
+			    		<svg class="head_edit_icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#message_annouce'"></use>
+						</svg>
+					</router-link>
 				</ul>
 			</div>
 		</section>
@@ -66,7 +71,7 @@
   						</svg>
   						<div class="comment_user_name_time">
   							<p class="comment_user_name">{{item.realName}}</p>
-  							<p class="comment_user_time">{{item.createTime.split(" ")[0]}}</p>
+  							<p class="comment_user_time">{{formatMsgTime(item.createTime)}}</p>
   						</div>
   						<!-- <span class="comment_user_attention_btn">关注</span> -->
   						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
@@ -116,13 +121,14 @@
   						</svg>
   						<div class="publish_article_name_time">
   							<p class="publish_article_name">{{item.realName}}</p>
-  							<p class="publish_article_time">{{item.createTime.split(" ")[0]}}</p>
+  							<p class="publish_article_time">{{getDateDiff(item.createTime) }}</p>
   						</div>
   						<!-- <span class="publish_article_attention_btn">关注</span> -->
   						<!-- <span class="send_icon"><svg data-v-17048857="" class="sort_type_icon"><use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sendKit"></use></svg></span> -->
   					</div>
   					<div class="publish_article_botton_list_user_content">
-  						<p class="publish_article_content_info">发表了文章
+  						<p class="publish_article_content_icon">
+  							<img src="../../images/elmlogo.jpeg" />
   						</p>
   					</div>
   					<div class="publish_article_bottom_list_user_comment">
@@ -149,11 +155,16 @@
   						<div class="publish_article_flow_heart_icon">
   							<span>
   								<svg data-v-17048857="" class="sort_type_icon">
-  									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#heart">
+  									<use data-v-17048857="" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#message_like">
   									</use>
   								</svg>
   							</span>
   							{{item.likes}}
+  						</div>
+  						
+  						<div class="hui_coin">
+  							<img src="../../images/huiCoin.png" alt="" />
+  							<span class="hui_num">10</span>
   						</div>
   					</div>
   				</div>
@@ -186,6 +197,7 @@
 					preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
 					touchend: false, //没有更多数据
 					loadingMoreShow: false,
+					timespan:'', //时间戳
 				}
 			},
 
@@ -208,6 +220,7 @@
 			mixins: [loadMore],
 			computed: {
 
+				
 			},
 
 			methods: {
@@ -272,7 +285,51 @@
 						this.loadingMoreShow = false;
 
 					})
+				},
+
+				//时间戳转化
+				getDateDiff(dateTimeStamp){
+				  var result;
+				  dateTimeStamp = new Date(dateTimeStamp);
+				    var minute = 1000 * 60;
+				    var hour = minute * 60;
+				    var day = hour * 24;
+				    var halfamonth = day * 15;
+				    var month = day * 30;
+				    var now = new Date().getTime();
+				    var diffValue = now - dateTimeStamp;
+				    if(diffValue < 0){
+				    return;
+				  }
+				    var monthC =diffValue/month;
+				    var weekC =diffValue/(7*day);
+				    var dayC =diffValue/day;
+				    var hourC =diffValue/hour;
+				    var minC =diffValue/minute;
+				    if(monthC>=1){
+				    if(monthC<=12)
+				          result="" + parseInt(monthC) + "月前";
+				    else{
+				      result="" + parseInt(monthC/12) + "年前";
+				    }
+				    }
+				    else if(weekC>=1){
+				        result="" + parseInt(weekC) + "周前";
+				    }
+				    else if(dayC>=1){
+				        result=""+ parseInt(dayC) +"天前";
+				    }
+				    else if(hourC>=1){
+				        result=""+ parseInt(hourC) +"小时前";
+				    }
+				    else if(minC>=1){
+				        result=""+ parseInt(minC) +"分钟前";
+				    }else{
+				    result="刚刚";
+				  }
+				    return result;
 				}
+				
 			},
 
 			watch: {
@@ -344,11 +401,17 @@
 		    border-bottom: solid 1px gainsboro;
 			    .broadcast_wrapper_top_list{
 					display: inline-flex;
+					.head_edit_icon{
+						@include wh(.8rem,.8rem);
+						    position: absolute;
+						    right: .8rem;
+						    margin-top: .2rem;
+					}
 				}
 				.broadcast_wrapper_top_list li{
 					margin-left: 0.5rem;
 					padding: 0.2rem 0.5rem;
-          text-align: center;
+         			 text-align: center;
 				}
 				.attention_icon{
 					color: #007fcc;
@@ -721,16 +784,20 @@
 
 			}
 			.publish_article_botton_list_user_content {
-				.publish_article_content_info{
-					/*padding: 0rem 0.6rem;*/
+				.publish_article_content_icon{
 					color: #999;
+					img{
+						width: 100%;
+						height: 8rem;
+						border-radius: 0.1rem;
+					}
 				}
 
 			}
 			.publish_article_bottom_list_user_comment{
 				margin-top: 0.4rem;
-			    background-color: #f1f5f7;
-			    padding: 0.5rem;
+			    /*background-color: #f1f5f7;
+			    padding: 0.5rem;*/
 				border-radius: 0.1rem;
 				.publish_article_info{
 					.publish_article_title{
@@ -738,10 +805,11 @@
     					line-height: 1rem;
 					}
 					.publish_article_score{
-						color: #999;
+						color: #666;
     					line-height: 1rem;
     					font-size: 0.61rem;
     					margin-top: 0.2rem;
+    					margin-bottom: 0.8rem;
 					}
 				}
 			}
@@ -761,6 +829,7 @@
 	/*点评底部转发评论点赞*/
 	.publish_article_bottom_list_user_flow{
 		border-bottom: solid 1px gainsboro;
+		border-top: solid 0.01rem gainsboro;
 		display: flex;
 
 	}
@@ -778,6 +847,26 @@
 	}
 	.publish_article_flow_heart_icon{
 		/*padding-left: 2rem;*/
+	}
+	.hui_coin{
+		width:.8rem;
+		height:.8rem ;
+	    position: absolute;
+	    right: 2.5rem;
+	    margin-top: 0.5rem;
+	    display: flex;
+		img{
+			width:.8rem;
+			height:.8rem ;
+			display: inline-block;
+			flex: 1;
+		}
+		.hui_num{
+			display: inline-block;
+			margin-left: .2rem;
+			flex: 1;
+			color: #999;
+		}
 	}
 	.publish_article_sort_type_icon{
 		  width: 0.8rem;

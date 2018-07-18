@@ -179,7 +179,8 @@ export const getBoradcastData = (currentPage,pageSize,like,loginUser) => axios.g
 		'currentPage': currentPage,
 		'pageSize': pageSize,
 		'like': like,
-		'loginUser': loginUser
+		'loginUser': loginUser,
+		'type': 4
 	}
 })
 
@@ -370,6 +371,18 @@ export const messageAttentionPeople = (attentionId,creator,password,type) => axi
 		'password':password,
 		'type':type,
 	}
+})
+
+//个人中心
+
+export const personCenter = () => axios.get('news/poperty',{
+	headers: {
+        token: getStore('user_id'),
+       	userPwd:JSON.parse(getStore('user_info')).userPwd,
+    },
+//	params:{
+//		userId: getStore('user_id')
+//	}
 })
 
 //var uri = 'attention/attent?attentionId=' + userid_search + '&creator=' + userId + '&password='

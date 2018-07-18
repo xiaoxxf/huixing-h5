@@ -8,7 +8,7 @@
 					<svg class="normal_user" >
 						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#message_like'"></use>
 					</svg>
-					<span class="icon_right_text">获奖</span>
+					<span class="icon_right_text">获赞</span>
 				</div>
 			</router-link>
 			<!--评论或@-->
@@ -24,7 +24,7 @@
 			<router-link to="/messageNotification/heart"> 
 				<div class="message_new_attention">
 					<svg class="normal_user" >
-						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#message_heart'"></use>
+						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#heart'"></use>
 					</svg>
 					<span class="icon_right_text">新关注</span>
 				</div>

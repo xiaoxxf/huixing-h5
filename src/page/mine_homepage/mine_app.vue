@@ -16,8 +16,8 @@
     				<img :src="loginUser.userPic" class="person_icon"/>
     				<div class="person_name_introduce">
     					<a href="" class="person_name">{{loginUser.realName}}</a>
-    					<span class="grade">LV:</span>
-    					<p class="person_introduce">体力值：</p>
+    					<span class="grade">LV:<span class="grade_num">{{personList.rating}}</span></span>
+    					<p class="person_introduce">体力值：{{personList.grade + '/100'}}</p>
     				</div>
     			</div>
     			<div class="person_introduce_bottom_detail">
@@ -36,13 +36,15 @@
     				
     			</div>
     			<!--钱包-->
-				<div class="my_wallet">
-					<svg class="head_wallet_icon">
-						<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#wallet_icon'"></use>
-					</svg>
-					<span class="wallet">钱包</span>
-					<span class="right_wallet">&rsaquo;</span>
-				</div>    			
+    			<router-link :to="'/wallet/wallet'">
+					<div class="my_wallet">
+						<svg class="head_wallet_icon">
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" :xlink:href="'#wallet_icon'"></use>
+						</svg>
+						<span class="wallet">钱包</span>
+						<span class="right_wallet">&rsaquo;</span>
+					</div>  
+				</router-link>
     			<!--我的赞-->
     			<div class="my_like">
     				<svg class="head_like_icon">
@@ -74,7 +76,7 @@
 	import {mapState, mapActions} from 'vuex'
 	import headTop from 'src/components/header/head'
 	import footGuide from 'src/components/footer/footGuide'
-	import {getUserDynamic,getBoradcastData,getUser} from 'src/service/getData'
+	import {getUserDynamic,getBoradcastData,getUser,personCenter} from 'src/service/getData'
 	import {getStore, setStore, removeStore} from 'src/config/mUtils'
 //	import {loadMore} from 'src/components/common/mixin'
 	import loading from 'src/components/common/loading'
@@ -90,6 +92,7 @@
 			personDataList: [],
 			loginUser: {},
 			user_id: '',
+			personList:[]
 			
 	      }
       },
@@ -99,6 +102,7 @@
 			mounted(){
 				this.$nextTick(()=>{
 					this.initData();
+					this.personCenterData();
 				});
 
 			},
@@ -124,8 +128,14 @@
 					});
 
 				},
+				
 
-			
+				personCenterData(){
+					personCenter().then(res => {
+						this.personList = res.data.datas;
+						
+					});
+				},
 			
 			},
 			watch: {
@@ -224,6 +234,10 @@
 					    line-height: .8rem;
 					    background-color: #1a68a4;
 					    border-radius: 0.1rem;
+					    .grade_num{
+					    	margin-left: 0.3rem;
+					    	color: white;
+					    }
 					}
 					.person_introduce{
 						color: #999;

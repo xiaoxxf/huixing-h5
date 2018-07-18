@@ -45,7 +45,7 @@ const search = r => require.ensure([], () => r(require('../page/search/search'))
 
 const readingCampaign = r => require.ensure([], () => r(require('../page/readingCampaign/readingCampaign')), 'readingCampaign')
 //我的(h5+app)
-const mine_homepage = r => require.ensure([], () => r(require('../page/mine_homepage/mine_homepage')), 'mine_homepage')
+const mine_homepage = r => require.ensure([], () => r(require('../page/homePage/mine_homepage')), 'mine_homepage')
 //我的主页(h5+app)
 const mine_app = r => require.ensure([], () => r(require('../page/mine_homepage/mine_app')), 'mine_app')
 //设置
@@ -61,6 +61,9 @@ const heart = r => require.ensure([], () => r(require('../page/messageNotificati
 const messageComment = r => require.ensure([], () => r(require('../page/messageNotification/comment')), 'comment')
 //弹窗
 const dialog = r => require.ensure([], () => r(require('../page/messageNotification/dialog')), 'dialog')
+//钱包
+const wallet = r => require.ensure([], () => r(require('../page/wallet/wallet')), 'wallet')
+
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -177,7 +180,7 @@ export default [{
 
       //我的主页(app+h5)
         {
-        	path:'/mine_homepage',
+        	path:'/homePage/mine_homepage',
         	component:mine_homepage
         },
         //我的(app+h5)
@@ -214,6 +217,13 @@ export default [{
         	path: '/messageNotification/dialog',
             component: dialog
         },
+        //钱包
+        {
+        	path: '/wallet/wallet',
+            component: wallet
+        },
+        
+        
 
     ]
 }]

@@ -9,14 +9,15 @@
 
 //let baseUrl = '//127.0.0.1:7001';
 let baseUrl = "//backend.blockcomet.com";
+//let baseUrl = "//test.blockcomet.com";
 // let baseUrl = '//10.0.0.78:8080'
-
 //let baseUrl = ''
 let routerMode = 'hash';
 let imgBaseUrl = '';
 
 
 if (process.env.NODE_ENV == 'development') {
+//	baseUrl = "//testapi.blockcomet.com"
     imgBaseUrl = '/img/';
 
 }else if(process.env.NODE_ENV == 'production'){
