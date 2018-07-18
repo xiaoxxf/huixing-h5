@@ -380,13 +380,9 @@ export const personCenter = () => axios.get('news/poperty',{
         token: getStore('user_id'),
        	userPwd:JSON.parse(getStore('user_info')).userPwd,
     },
-//	params:{
-//		userId: getStore('user_id')
-//	}
+
 })
 
-//var uri = 'attention/attent?attentionId=' + userid_search + '&creator=' + userId + '&password='
-//	 					+ userinfo.userPwd + '&type=1';
-	 					
+					
 	 					
 /**   --------------------------------------    分割线  -------------------------------------              **/

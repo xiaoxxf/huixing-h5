@@ -64,6 +64,8 @@ const dialog = r => require.ensure([], () => r(require('../page/messageNotificat
 //钱包
 const wallet = r => require.ensure([], () => r(require('../page/wallet/wallet')), 'wallet')
 
+
+
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -222,7 +224,7 @@ export default [{
         	path: '/wallet/wallet',
             component: wallet
         },
-        
+       
         
 
     ]

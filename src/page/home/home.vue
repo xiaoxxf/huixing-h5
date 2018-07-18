@@ -236,7 +236,7 @@
               //只显示文章
 							if(res.data.datas[i].type == 4){
 								res.data.datas[i].textContent = res.data.datas[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
-                this.dataList.push(res.data.datas[i]);
+               					this.dataList.push(res.data.datas[i]);
               }
 
 						}

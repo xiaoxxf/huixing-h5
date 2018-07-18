@@ -182,7 +182,7 @@ export default {
       font-size: 0.7rem;
       padding: 0.3rem;
       color: #6d6d6d;
-      text-align: center;
+      text-align: left;
       background: #eeeeee;
     }
     .user_info{
@@ -192,12 +192,21 @@ export default {
       .user_icon{
         img{
           border-radius: 4rem;
-          @include wh(2.4rem,2.4rem);
+          @include wh(2rem,2rem);
+			    padding: 0.3rem;
+			    margin-top: .3rem;
         }
         svg{
           border-radius: 4rem;
           @include wh(2.4rem,2.4rem);
         }
+      }
+      .userinfo_msg{
+      	padding-top: 1rem;
+    		margin-left: .3rem;
+    		p{
+    			font-size: .8rem;
+    		}
       }
       .creator_name{
         color: #373737;
