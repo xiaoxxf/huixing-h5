@@ -61,6 +61,11 @@ const heart = r => require.ensure([], () => r(require('../page/messageNotificati
 const messageComment = r => require.ensure([], () => r(require('../page/messageNotification/comment')), 'comment')
 //弹窗
 const dialog = r => require.ensure([], () => r(require('../page/messageNotification/dialog')), 'dialog')
+//注册
+const register = r => require.ensure([], () => r(require('../page/register/register')), 'register')
+//下载app
+const downloadApp = r => require.ensure([], () => r(require('../page/downloadApp/downloadApp')), 'downloadApp')
+
 export default [{
     path: '/',
     component: App, //顶层路由，对应index.html
@@ -214,6 +219,16 @@ export default [{
         	path: '/messageNotification/dialog',
             component: dialog
         },
+        {
+        	path:'/register/register',
+        	component:register
+        	
+        },
+        {
+        	path:'/downloadApp/downloadApp',
+        	component:downloadApp
+        }
+        
 
     ]
 }]
