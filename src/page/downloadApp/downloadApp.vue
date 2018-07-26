@@ -54,50 +54,13 @@
 				
 	    },
 	
-			methods: {
-//				initData(){
-//					// debugger
-//					// this.loginUser = this.userInfo;
-//					this.user_id = getStore('user_id');
-//					this.getDynamicData();
-//					// // 获取用户信息
-//					getUser().then(res => {
-//						this.loginUser = res.data.datas
-//					});
-//
-//				},
-//
-//				getDynamicData(){
-//					this.touchend = false; //重置没有更多数据的flag
-//					this.preventRepeatReuqest = false;
-//
-//					this.currentPage = 1; //重置加载起始页
-//					this.personDataList = [];
-//					this.showLoading = true;
-//					getUserDynamic(this.currentPage,this.pageSize,this.user_id,this.type).then(res => {
-//						this.personDataList = res.data.datas;
-//						// 去除HTML标签
-//						for (var i = 0; i < this.personDataList.length; i++) {
-//							if(this.personDataList[i].type == 4 || this.personDataList[i].type == 2){
-//								this.personDataList[i].textContent = this.personDataList[i].textContent.replace(/<\/?[^>]*>/g, '').replace(/[|]*\n/, '').replace(/&npsp;/ig, '');
-//							}
-//						}
-//					}).catch(err => {
-//						console.log('获取列表数据错误:' + err)
-//					}).finally( () => {
-//						this.showLoading = false;
-//					})
-//				}
+		methods: {
 
 
-
-				
-				
-
-			},
-			watch: {
-				
-			}
+		},
+		watch: {
+			
+		}
 
     }
 </script>
